@@ -3,8 +3,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import API from "../../Api/api";
 import toast from "react-hot-toast";
 
-
 const AIConfigDashboard = () => {
+
   const queryClient = useQueryClient();
 
   const [editedConfig, setEditedConfig] = useState(null);

@@ -16,6 +16,56 @@ body {
   --font-display: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: -200% -200%;
+  }
+  100% {
+    background-position: 200% 200%;
+  }
+}
+
+@keyframes pulseSoft {
+  0%, 100% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Premium shimmer */
+.animate-shimmer {
+  background-image: linear-gradient(
+    120deg,
+    #e5e7eb 20%,
+    #f9fafb 35%,
+    #e5e7eb 50%,
+    #f3f4f6 65%,
+    #e5e7eb 80%
+  );
+  background-size: 250% 250%;
+  animation: shimmer 1.6s ease-in-out infinite,
+             pulseSoft 2.5s ease-in-out infinite;
+}
+
+/* Fade-in wrapper */
+.skeleton-fade {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+
 
 
 

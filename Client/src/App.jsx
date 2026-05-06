@@ -21,53 +21,79 @@ const Terms = lazy(() => import("./Pages/Terms.jsx"))
 
 function HomeSkeleton() {
   return (
-    <div className="min-h-screen w-full animate-pulse bg-white">
-
-      <div className="border-b border-gray-50 bg-white">
+    <div className="min-h-screen w-full bg-white">
+      
+      {/* Navbar */}
+      <div className="border-b border-gray-100">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-       
-          <div className="h-8 w-32 rounded bg-gray-300" />
           
+          <div className="h-8 w-32 rounded-md bg-gray-200 animate-shimmer" />
           
           <div className="flex items-center gap-3">
-            <div className="h-10 w-32 rounded-full bg-gray-300" />
-            <div className="h-10 w-28 rounded-full bg-gray-300" />
+            <div className="h-10 w-28 rounded-full bg-gray-200 animate-shimmer" />
+            <div className="h-10 w-32 rounded-full bg-gray-200 animate-shimmer" />
           </div>
         </div>
       </div>
 
-     
+      {/* Hero Section */}
       <div className="mx-auto flex max-w-4xl flex-col items-center px-6 py-20 text-center">
-      
-        <div className="mb-8 h-12 w-64 rounded-full bg-gray-300" />
         
-      
-        <div className="mb-4 h-14 w-full max-w-2xl rounded-lg bg-gray-300" />
-        <div className="mb-6 h-14 w-3/4 rounded-lg bg-gray-300" />
+        <div className="mb-8 h-10 w-56 rounded-full bg-gray-200 animate-shimmer" />
         
-      
-        <div className="h-5 w-96 rounded bg-gray-80" />
+        <div className="mb-4 h-14 w-full max-w-2xl rounded-lg bg-gray-200 animate-shimmer" />
+        <div className="mb-6 h-14 w-3/4 rounded-lg bg-gray-200 animate-shimmer" />
+        
+        <div className="h-5 w-80 rounded bg-gray-200 animate-shimmer" />
       </div>
 
-     
-      <div className="mx-auto max-w-5xl px-6 pb-20">
-   
-        <div className="mx-auto mb-8 h-14 w-full max-w-2xl rounded-full bg-gray-300" />
+      {/* Search + Tags */}
+      <div className="mx-auto max-w-5xl px-6 pb-16">
         
-      
+        <div className="mx-auto mb-8 h-14 w-full max-w-2xl rounded-full bg-gray-200 animate-shimmer" />
+        
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <div className="h-10 w-16 rounded-full bg-gray-300" /> 
-          <div className="h-10 w-28 rounded-full bg-gray-300" />
-          <div className="h-10 w-24 rounded-full bg-gray-300" />
-          <div className="h-10 w-24 rounded-full bg-gray-300" />
-          <div className="h-10 w-24 rounded-full bg-gray-300" />
-          <div className="h-10 w-36 rounded-full bg-gray-300" />
-          <div className="h-10 w-36 rounded-full bg-gray-300" />
+          {[...Array(7)].map((_, i) => (
+            <div
+              key={i}
+              className="h-10 w-24 rounded-full bg-gray-200 animate-shimmer"
+              style={{ animationDelay: `${i * 0.1}s` }}
+            />
+          ))}
         </div>
+      </div>
+
+      {/* Blog Cards */}
+      <div className="mx-auto max-w-6xl px-6 pb-20 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        
+        {[...Array(6)].map((_, i) => (
+          <div key={i} className="space-y-4">
+            
+            {/* Image */}
+            <div
+              className="h-48 w-full rounded-xl bg-gray-200 animate-shimmer"
+              style={{ animationDelay: `${i * 0.1}s` }}
+            />
+            
+            {/* Title */}
+            <div className="h-6 w-3/4 rounded bg-gray-200 animate-shimmer" />
+            
+            {/* Description */}
+            <div className="h-4 w-full rounded bg-gray-200 animate-shimmer" />
+            <div className="h-4 w-5/6 rounded bg-gray-200 animate-shimmer" />
+            
+            {/* Author */}
+            <div className="flex items-center gap-3 mt-2">
+              <div className="h-8 w-8 rounded-full bg-gray-200 animate-shimmer" />
+              <div className="h-4 w-24 rounded bg-gray-200 animate-shimmer" />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
+
 
 function App() {
 

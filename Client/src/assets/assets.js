@@ -23,41 +23,36 @@ import Postify from "./Postify.webp"
 
 import Mail from './Mail.jpg'
 
+import chatGpt from './chatgpt.png'
+import Meta from './meta.png'
+import copilot from './copilot.png'
+import claude from './claude.png'
+
 
 export const assets = {
-
-
-
+    
     add_icon,
-
     upload_area,
     user_icon,
-
     comment_icon,
     tick_icon,
     star_icon,
     home_icon,
-
     list_icon,
-
     dashboard_icon_1,
     dashboard_icon_2,
     dashboard_icon_3,
     dashboard_icon_4,
-
-
     google,
-
     AI,
     setting,
-
     Postify,
     BackGround,
-
-    Mail
-
-
-
+    Mail,
+    chatGpt,
+    Meta,
+    claude,
+    copilot
 
 }
 
