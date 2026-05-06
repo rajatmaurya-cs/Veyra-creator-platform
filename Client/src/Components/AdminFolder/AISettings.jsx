@@ -104,10 +104,52 @@ const AIConfigDashboard = () => {
   };
 
  
-if (configLoading ||!editedConfig) {
+if (configLoading || editedConfig) {
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-white">
-      <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-100 border-t-blue-600" />
+    <div className="p-4 sm:p-8 skeleton-fade">
+      
+      {/* Header */}
+      <div className="mb-10 max-w-5xl">
+        <div className="h-8 w-64 rounded-md animate-shimmer mb-3" />
+        <div className="h-4 w-96 rounded-md animate-shimmer" />
+      </div>
+
+      {/* Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl">
+        
+        {/* Card */}
+        {[1,2,3,4].map((_, i) => (
+          <div
+            key={i}
+            className="bg-white border border-gray-100 p-8 rounded-xl shadow-sm"
+          >
+            {/* Top Row */}
+            <div className="flex justify-between items-start mb-6">
+              
+              {/* Icon */}
+              <div className="w-12 h-12 rounded-2xl animate-shimmer" />
+
+              {/* Right Value / Toggle */}
+              <div className="flex flex-col items-end gap-2">
+                <div className="h-10 w-16 rounded-md animate-shimmer" />
+                <div className="h-3 w-12 rounded-md animate-shimmer" />
+              </div>
+            </div>
+
+            {/* Title */}
+            <div className="h-5 w-40 rounded-md animate-shimmer mb-3" />
+
+            {/* Description */}
+            <div className="space-y-2 mb-6">
+              <div className="h-3 w-full rounded-md animate-shimmer" />
+              <div className="h-3 w-5/6 rounded-md animate-shimmer" />
+            </div>
+
+            {/* Slider / Toggle placeholder */}
+            <div className="h-2 w-full rounded-full animate-shimmer" />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
