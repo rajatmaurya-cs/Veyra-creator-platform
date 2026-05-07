@@ -187,7 +187,7 @@ const DashBoard = () => {
                       <img src={assets.dashboard_icon_1} className="w-7 h-7 object-contain opacity-70 group-hover:opacity-100" alt="" />
                     </div>
                     <div>
-                      <p className="text-3xl font-black text-gray-900 tracking-tight">{stats?.totalBlogs ?? 0}</p>
+                      <p className="text-3xl font-black text-gray-900 tracking-tight">{stats?.totalBlogs}</p>
                       <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mt-1">Total Stories</p>
                     </div>
                   </div>
@@ -199,7 +199,7 @@ const DashBoard = () => {
                       <img src={assets.dashboard_icon_2} className="w-7 h-7 object-contain opacity-70 group-hover:opacity-100" alt="" />
                     </div>
                     <div>
-                      <p className="text-3xl font-black text-gray-900 tracking-tight">{stats?.totalComments ?? 0}</p>
+                      <p className="text-3xl font-black text-gray-900 tracking-tight">{stats?.totalComments}</p>
                       <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mt-1">Discussions</p>
                     </div>
                   </div>
@@ -211,7 +211,7 @@ const DashBoard = () => {
                       <img src={assets.dashboard_icon_3} className="w-7 h-7 object-contain opacity-70 group-hover:opacity-100" alt="" />
                     </div>
                     <div>
-                      <p className="text-3xl font-black text-gray-900 tracking-tight">{stats?.draftBlogs ?? 0}</p>
+                      <p className="text-3xl font-black text-gray-900 tracking-tight">{stats?.draftBlogs}</p>
                       <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mt-1">In Draft</p>
                     </div>
                   </div>
