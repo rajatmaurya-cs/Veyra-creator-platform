@@ -13,7 +13,7 @@ import Config from "../Models/Config.js";
 export const addComment = async (req, res) => {
   try {
 
-    console.log("Entered in addComment Backend ⛳️");
+    // console.log("Entered in addComment Backend ⛳️");
 
     // if (!req.user) {
     //   return res.status(401).json({

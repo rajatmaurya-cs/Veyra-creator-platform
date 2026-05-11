@@ -87,7 +87,8 @@ app.use("/api/blog",(req,res,next)=>{
 
 app.use("/api/comment", commentRouter);
 
-app.use("/api/ai", authMiddleware, AiRouter);
+// app.use("/api/ai", authMiddleware, AiRouter);
+app.use("/api/ai", AiRouter);
 
 app.use("/api/ai/config", authMiddleware,configRoutes);
 

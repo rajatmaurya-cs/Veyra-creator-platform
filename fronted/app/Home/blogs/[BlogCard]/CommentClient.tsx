@@ -29,7 +29,7 @@ const CommentClient = ({ comments }: Props) => {
             key={comment._id}
             className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition"
           >
-            {/* User Info */}
+           
             <div className="flex items-center gap-3 mb-3">
               <img
                 src={comment.createdBy.avatar}

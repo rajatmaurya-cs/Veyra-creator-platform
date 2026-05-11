@@ -3,7 +3,7 @@ import upload from '../Middleware/Multer.js'
 import authMiddleware from "../Middleware/authMiddleware.js"
 import adminMiddleware from "../Middleware/adminMiddleware.js"
 
-import  {addBlog , getallblog ,getblogbyid , deleteBlog , toggleblogpublish , GenerateReport ,allBlogAdmin} from '../controller/BlogController.js'
+import  {addBlog , getallblog ,getblogbyid , deleteBlog , toggleblogpublish , GenerateReport ,BlogAdmin} from '../controller/BlogController.js'
 import {getDashboardStats} from '../controller/Dashboard.js'
 const blogRouter = express.Router();
 
@@ -17,7 +17,8 @@ blogRouter.get('/allblog',getallblog)
 
 
 /* ================= GetAllBlogs for Admin ================= */
-blogRouter.get('/admin/blogs' , authMiddleware ,allBlogAdmin)
+// blogRouter.get('/admin/blogs' , authMiddleware ,BlogAdmin)
+blogRouter.get('/admin/blogs' ,BlogAdmin)
 
 
 
@@ -40,7 +41,8 @@ blogRouter.post('/Report', authMiddleware ,adminMiddleware, GenerateReport)
 
 /* ================= Blog Dashboard =================  */
 
-blogRouter.get('/BlogDashBoard', authMiddleware ,getDashboardStats)
+// blogRouter.get('/BlogDashBoard', authMiddleware ,getDashboardStats)
+blogRouter.get('/BlogDashBoard',getDashboardStats)
 
 
 

@@ -170,7 +170,7 @@ export const getallblog = async (req, res) => {
 
 
 
-export const allBlogAdmin = async (req, res) => {
+export const BlogAdmin = async (req, res) => {
 
   const page = parseInt(req.query.page, 10) || 1;
 
@@ -185,7 +185,7 @@ export const allBlogAdmin = async (req, res) => {
   const total = await Blog.countDocuments(filter);
 
   const blogs = await Blog.find(filter)
-    .select("-content -aiAnalysis -subTitle")
+    .select("title")
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
