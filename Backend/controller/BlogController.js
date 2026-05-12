@@ -253,10 +253,15 @@ export const deleteBlog = async (req, res) => {
         message: "Please Login"
       })
     }
+
     const { blogId } = req.body;
+
+    // console.log("The blogId: ",blogId)
 
 
     const blog = await Blog.findByIdAndDelete(blogId);
+
+    console.log("The blog that has to be delete",blog)
 
     if (!blog) {
       return res.status(404).json({
@@ -264,6 +269,8 @@ export const deleteBlog = async (req, res) => {
         message: "Blog not found"
       });
     }
+
+    console.log("Blog delted successfully")
 
     res.status(200).json({
       success: true,

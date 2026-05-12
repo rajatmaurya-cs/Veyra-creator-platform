@@ -19,7 +19,7 @@ import google from './Google.png'
 import AI from './Ai.png'
 import setting from './setting.png'
 
-import Postify from "./Postify.webp"
+import Postify from "./LogoPostify.png"
 
 import Mail from './Mail.jpg'
 

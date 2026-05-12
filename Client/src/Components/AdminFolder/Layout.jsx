@@ -49,11 +49,11 @@ const Layout = () => {
               {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
             <img
-              src={assets.Postify}
-              alt="logo"
-              className="object-contain cursor-pointer h-7 sm:h-9 hover:opacity-80 transition-opacity"
-              onClick={() => navigate("/")}
-            />
+          src={assets.Postify}
+          alt="Postify"
+          className="h-12 w-auto object-contain lg:h-26 mt-5 cursor-pointer"
+          onClick={()=>navigate('/')}
+        />
           </div>
 
           <button
