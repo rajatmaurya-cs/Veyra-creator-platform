@@ -13,7 +13,7 @@ import Config from "../Models/Config.js";
 export const addComment = async (req, res) => {
   try {
 
-    console.log("Entered in addComment Backend");
+   
 
     if (!req.user) {
       return res.status(401).json({
@@ -62,6 +62,7 @@ export const addComment = async (req, res) => {
     let riskLevel = spamFilter(content);
 
     if (riskLevel !== "HIGH_RISK") {
+
       const config = await Config.findOne();
 
       if (config?.aiEnabled) {
@@ -101,9 +102,7 @@ export const addComment = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: isApproved
-        ? "Comment published successfully"
-        : "Comment added and sent for moderation",
+      message: isApproved,
       riskLevel,
       comment,
     });

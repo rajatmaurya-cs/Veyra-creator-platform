@@ -68,7 +68,9 @@ const WholeBlog = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      toast.success(data.message || "Comment added");
+      if(data.message)toast.success(data.message || "Comment added");
+      else if (!data.message)toast.error("Your comment violated our community guidelines and has been sent for moderation"
+  );
       setComment("");
 
       queryClient.invalidateQueries({ queryKey: ["comments", blogId] });
@@ -378,7 +380,7 @@ useEffect(() => {
                           </span>
                           <span className="hidden sm:inline text-gray-300">•</span>
                           <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">
-                            {Moment(c.createdAt).fromNow()}
+                            {Math.round(blog.aiAnalysis.avgSentenceLength)}
                           </span>
                         </div>
                         <p className="text-gray-600 text-base leading-relaxed">{c.content}</p>
