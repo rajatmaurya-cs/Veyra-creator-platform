@@ -102,59 +102,59 @@ const Page = () => {
   }
 
   const deleteMutation = useMutation({
-  mutationFn: async (blogId: string) => {
+    mutationFn: async (blogId: string) => {
 
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/blog/delete-blog`,
-      {
-        method: "POST",
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/blog/delete-blog`,
+        {
+          method: "POST",
 
-        headers: {
-          "Content-Type": "application/json",
-        },
+          headers: {
+            "Content-Type": "application/json",
+          },
 
-        body: JSON.stringify({ blogId }),
+          body: JSON.stringify({ blogId }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok || !data?.success) {
+        throw new Error(data?.message || "Failed to delete blog");
       }
-    );
 
-    const data = await res.json();
+      return data;
+    },
 
-    if (!res.ok || !data?.success) {
-      throw new Error(data?.message || "Failed to delete blog");
-    }
-
-    return data;
-  },
-
-  onMutate: () => {
-    toast.loading("Deleting blog...", {
-      id: "delete",
-    });
-  },
-
-  onSuccess: (data) => {
-    toast.success(data.message || "Deleted!", {
-      id: "delete",
-    });
-
-    queryClient.invalidateQueries({
-      queryKey: ["blogs"],
-    });
-  },
-
-  onError: (err: any) => {
-    toast.error(
-      err?.message || "Failed to delete blog",
-      {
+    onMutate: () => {
+      toast.loading("Deleting blog...", {
         id: "delete",
-      }
-    );
-  },
-});
+      });
+    },
 
-const handledelete = (blogId:string)=>{
-deleteMutation.mutate(blogId)
-}
+    onSuccess: (data) => {
+      toast.success(data.message || "Deleted!", {
+        id: "delete",
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["blogs"],
+      });
+    },
+
+    onError: (err: any) => {
+      toast.error(
+        err?.message || "Failed to delete blog",
+        {
+          id: "delete",
+        }
+      );
+    },
+  });
+
+  const handledelete = (blogId: string) => {
+    deleteMutation.mutate(blogId)
+  }
 
 
   if (isLoading) {
@@ -190,16 +190,16 @@ deleteMutation.mutate(blogId)
         <div className='mb-12 flex flex-col gap-5 md:flex-row md:items-center md:justify-between'>
 
           <div>
-            <h1 className='text-4xl font-black tracking-tight'>
+
+            <h1 className='text-4xl font-semibold tracking-[-0.03em] text-zinc-100'>
               Publications
             </h1>
 
-            <p className='mt-2 text-sm text-zinc-500'>
+            <p className='mt-3 text-[15px] font-normal leading-7 text-zinc-500'>
               Manage published and draft blogs with moderation controls
             </p>
+
           </div>
-
-
 
         </div>
 
@@ -223,9 +223,11 @@ deleteMutation.mutate(blogId)
 
                 {/* HOVER GLOW */}
                 <div className='absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100'>
+
                   <div className='absolute -left-10 top-0 h-40 w-40 rounded-full bg-blue-500/10 blur-3xl' />
 
                   <div className='absolute bottom-0 right-0 h-40 w-40 rounded-full bg-purple-500/10 blur-3xl' />
+
                 </div>
 
                 <div className='relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between'>
@@ -234,11 +236,10 @@ deleteMutation.mutate(blogId)
                   <div className='flex-1'>
 
                     {/* STATUS */}
-                    <div className='mb-4 flex flex-wrap items-center gap-3'>
+                    <div className='mb-5 flex flex-wrap items-center gap-3'>
 
                       <span
-                        className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-bold tracking-[0.15em]
-                        ${blog.isPublished
+                        className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-medium tracking-wide ${blog.isPublished
                             ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-400"
                             : "border-amber-500/20 bg-amber-500/10 text-amber-400"
                           }`}
@@ -252,29 +253,30 @@ deleteMutation.mutate(blogId)
                         />
 
                         {blog.isPublished ? "PUBLISHED" : "DRAFT"}
+
                       </span>
 
                     </div>
 
                     {/* TITLE */}
-                    <h2 className='mb-3 text-3xl font-black tracking-tight text-white transition-colors duration-300 group-hover:text-blue-400'>
+                    <h2 className='mb-3 text-2xl md:text-[28px] font-semibold leading-tight tracking-[-0.025em] text-zinc-100 transition-colors duration-300 group-hover:text-blue-400'>
                       {blog.title}
                     </h2>
 
                     {/* SUBTITLE */}
-                    <p className='max-w-3xl text-sm leading-relaxed text-zinc-400'>
+                    <p className='max-w-3xl text-[15px] leading-7 font-normal text-zinc-400'>
                       {blog.subTitle}
                     </p>
 
                     {/* META */}
-                    <div className='mt-6 flex flex-wrap items-center gap-6'>
+                    <div className='mt-7 flex flex-wrap items-center gap-5'>
 
                       {/* DATE */}
                       <div className='flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900/70 px-3 py-2'>
 
                         <CalendarDays className='h-4 w-4 text-zinc-500' />
 
-                        <span className='text-sm font-medium text-zinc-300'>
+                        <span className='text-sm font-medium tracking-wide text-zinc-300'>
                           {blog.createdAt
                             ? new Date(blog.createdAt).toLocaleDateString(
                               "en-US",
@@ -292,18 +294,20 @@ deleteMutation.mutate(blogId)
                       {/* MODERATOR */}
                       <div className='flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900/70 px-3 py-2'>
 
-                        <div className='flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-sm font-bold text-white shadow-lg'>
-                          <UserRound/>
+                        <div className='flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-sm font-semibold text-white shadow-lg'>
+                          <UserRound className='h-4 w-4' />
                         </div>
 
                         <div className='flex flex-col leading-tight'>
-                          <span className='text-[11px] uppercase tracking-wider text-zinc-500'>
+
+                          <span className='text-[10px] font-medium uppercase tracking-[0.18em] text-zinc-500'>
                             Moderated By
                           </span>
 
-                          <span className='text-sm font-semibold text-zinc-200 break-words'>
+                          <span className='text-sm font-medium text-zinc-200 break-words'>
                             {blog.moderatedBy?.fullName || "System"}
                           </span>
+
                         </div>
 
                         <ShieldCheck className='h-4 w-4 text-emerald-400' />
@@ -311,51 +315,63 @@ deleteMutation.mutate(blogId)
                       </div>
 
                     </div>
+
                   </div>
+
+
 
                   {/* BUTTONS */}
                   <div className='flex items-center gap-3'>
 
                     <button
-                      disabled={
-                        toggleMutation.isPending &&
-                        deletingBlog === blog._id
-                      }
+                      disabled={toggleMutation.isPending && deletingBlog === blog._id}
                       onClick={() => handletoggle(blog._id)}
-                      className={`group/button relative overflow-hidden rounded-2xl px-6 py-3.5 text-sm font-bold text-white shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 ${blog.isPublished
+                      className={`group/button relative overflow-hidden rounded-2xl px-6 py-3.5 text-sm font-semibold tracking-wide text-white shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 ${blog.isPublished
                           ? "bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700"
                           : "bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700"
                         }`}
                     >
-
-                      <span className="relative z-10 flex items-center gap-2">
-
-                        {toggleMutation.isPending &&
-                          deletingBlog === blog._id ? (
+                      <span className='relative z-10 flex items-center gap-2'>
+                        {toggleMutation.isPending && deletingBlog === blog._id ? (
                           <>
-                            <Loader2 className="h-4 w-4 animate-spin" />
+                            <Loader2 className='h-4 w-4 animate-spin' />
                             Updating...
                           </>
                         ) : blog.isPublished ? (
                           <>
-                            <EyeOff className="h-4 w-4" />
+                            <EyeOff className='h-4 w-4' />
                             Unpublish
                           </>
                         ) : (
                           <>
-                            <Eye className="h-4 w-4" />
+                            <Eye className='h-4 w-4' />
                             Publish
                           </>
                         )}
                       </span>
-
-                      <div className="absolute inset-0 translate-y-full bg-white/10 transition-transform duration-300 group-hover/button:translate-y-0" />
+                      <div className='absolute inset-0 translate-y-full bg-white/10 transition-transform duration-300 group-hover/button:translate-y-0' />
                     </button>
 
-                    <button onClick={()=>handledelete(blog._id)}
-                      className='rounded-2xl bg-gradient-to-r from-red-500 to-rose-600 px-5 py-3 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-red-600 hover:to-rose-700 active:scale-95'
+                    {/* DELETE ICON - ENHANCED */}
+                    <button
+                      onClick={() => handledelete(blog._id)}
+                      disabled={toggleMutation.isPending && deletingBlog === blog._id}
+                      className='group/delete relative flex h-12 w-12 items-center justify-center rounded-2xl border border-2 border-red-800 bg-zinc-900/70 text-zinc-400 transition-all duration-300 hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-400 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50'
+                      aria-label='Delete blog'
                     >
-                      Delete
+                      <svg
+                        className="h-5 w-5 transition-transform duration-300 group-hover/delete:scale-110"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                      </svg>
                     </button>
 
                   </div>
@@ -375,7 +391,7 @@ deleteMutation.mutate(blogId)
             <button
               onClick={() => fetchNextPage()}
               disabled={isFetchingNextPage}
-              className='group relative overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-900 px-7 py-3 font-semibold text-white shadow-xl transition-all duration-300 hover:border-zinc-500 hover:bg-zinc-800 disabled:opacity-50'
+              className='group relative overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-900 px-7 py-3 text-sm font-medium tracking-wide text-white shadow-xl transition-all duration-300 hover:border-zinc-500 hover:bg-zinc-800 disabled:opacity-50'
             >
 
               <span className='relative z-10'>
@@ -388,6 +404,7 @@ deleteMutation.mutate(blogId)
         )}
 
       </div>
+
     </div>
   )
 }

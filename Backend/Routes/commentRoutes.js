@@ -20,11 +20,15 @@ commentRouter.get('/comments' , getAllComments)
 
 
 /* ================= toggleComments ================= */
-commentRouter.post('/toggle-comment' , authMiddleware , adminMiddleware , toggleComment )
+// commentRouter.post('/toggle-comment' , authMiddleware , adminMiddleware , toggleComment )
+
+commentRouter.post('/toggle-comment' , toggleComment )
 
 
 /* ================= removeComment ================= */
-commentRouter.post('/removecomment' , authMiddleware , adminMiddleware , removecomment)
+// commentRouter.post('/removecomment' , authMiddleware , adminMiddleware , removecomment)
+
+commentRouter.post('/removecomment' , removecomment)
 
 
 export default commentRouter;

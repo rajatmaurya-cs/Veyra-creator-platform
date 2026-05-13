@@ -227,12 +227,12 @@ export const getCommentsByBlogId = async (req, res) => {
   export const toggleComment = async (req, res) => {
     try {
 
-      if (!req.user) {
-        return res.status(404).json({
-          success: false,
-          message: "Please Login to Post Comment"
-        })
-      }
+      // if (!req.user) {
+      //   return res.status(404).json({
+      //     success: false,
+      //     message: "Please Login to Post Comment"
+      //   })
+      // }
 
 
       const { commentId } = req.body;
@@ -250,7 +250,7 @@ export const getCommentsByBlogId = async (req, res) => {
 
 
       comment.isApproved = !comment.isApproved;
-      comment.moderatedBy = req.user.id
+      // comment.moderatedBy = req.user.id
       comment.moderatedAt = Date.now()
 
       await comment.save();
@@ -277,16 +277,17 @@ export const getCommentsByBlogId = async (req, res) => {
   export const removecomment = async (req, res) => {
     try {
 
-      if (!req.user) {
-        return res.status(404).json({
-          success: false,
-          message: "Please Login to Post Comment"
-        })
-      }
+      // if (!req.user) {
+      //   return res.status(404).json({
+      //     success: false,
+      //     message: "Please Login to Post Comment"
+      //   })
+      // }
 
 
 
       const { commentId } = req.body;
+      
       const comment = await Comment.findByIdAndDelete(commentId)
 
       if (!comment) {

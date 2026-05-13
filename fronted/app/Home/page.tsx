@@ -9,13 +9,9 @@ const page = () => {
   return (
     <div>
 
-      
-
         <Navbar/>
 
         <Header/>
-
-        <Main/>
         
         <Footer/>
       

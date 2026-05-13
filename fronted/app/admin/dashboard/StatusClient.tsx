@@ -124,7 +124,7 @@ const StatusClient = () => {
             className={`group relative overflow-hidden rounded-[30px] border bg-gradient-to-b ${item.glow} ${item.border} bg-zinc-900/90 p-6 shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:border-zinc-700 hover:shadow-black/50`}
           >
 
-            {/* HOVER GLOW */}
+      
             <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
               <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-white/5 blur-3xl" />
             </div>
@@ -139,7 +139,7 @@ const StatusClient = () => {
                     {item.title}
                   </p>
 
-                  <h1 className="mt-4 text-5xl font-black tracking-tight text-white">
+                  <h1 className="mt-4 text-5xl font-semibold tracking-[-0.03em] text-zinc-100">
                     {item.value}
                   </h1>
                 </div>
@@ -151,7 +151,7 @@ const StatusClient = () => {
 
               </div>
 
-            
+
 
             </div>
           </div>

@@ -21,13 +21,7 @@ const BlogCard = async ({ params }: BlogCardProps) => {
 
   return (
 
-    <div className="space-y-8">  
-
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold">Blog Post</h1>
-
-      </div>
-
+    <div className="">  
 
       <Suspense fallback={<BlogSkeleton />}>
         <Blogserver Id={id} />

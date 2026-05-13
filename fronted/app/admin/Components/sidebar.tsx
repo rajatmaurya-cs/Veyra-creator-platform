@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import {
   Home,
@@ -55,19 +56,17 @@ const Sidebar = () => {
 
         <div className="flex items-center gap-3">
 
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg shadow-blue-500/20">
-            <BookCheck className="h-6 w-6 text-white" />
-          </div>
-
-          <div>
-            <h1 className="text-2xl font-black tracking-tight">
-              Postify
-            </h1>
-
-            <p className="text-xs font-medium text-zinc-500">
-              AI Blogging Platform
-            </p>
-          </div>
+          <Link  href={'/'}>
+           
+                <Image
+                          src={'/LogoPostify.png'}
+                          alt="Logo"
+                          width={120}
+                          height={30}
+                          className="h-12 w-auto object-contain lg:h-25"
+                           priority
+                        /> 
+          </Link>
 
         </div>
 

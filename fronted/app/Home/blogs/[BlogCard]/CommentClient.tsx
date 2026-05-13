@@ -1,3 +1,5 @@
+import Moment from "moment";
+
 type CreatedBy = {
   _id: string;
   fullName: string;
@@ -10,6 +12,7 @@ type Comment = {
   content: string;
   blogId: string;
   createdBy: CreatedBy;
+  createdAt: string;
 };
 
 type Props = {
@@ -18,8 +21,8 @@ type Props = {
 
 const CommentClient = ({ comments }: Props) => {
   return (
-    <section className="mt-10">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+    <section className="bg-zinc-950 p-6 rounded-xl">
+      <h2 className="text-2xl font-bold text-zinc-100 mb-6">
         Comments ({comments.length})
       </h2>
 
@@ -27,28 +30,27 @@ const CommentClient = ({ comments }: Props) => {
         {comments.map((comment) => (
           <div
             key={comment._id}
-            className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition"
+            className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 shadow-sm hover:border-zinc-700 hover:bg-zinc-900/80 transition"
           >
-           
             <div className="flex items-center gap-3 mb-3">
               <img
                 src={comment.createdBy.avatar}
                 alt={comment.createdBy.fullName}
-                className="w-11 h-11 rounded-full object-cover border"
+                className="w-11 h-11 rounded-full object-cover border border-zinc-700"
               />
 
               <div>
-                <h3 className="font-semibold text-gray-800">
+                <h3 className="font-semibold text-zinc-100">
                   {comment.createdBy.fullName}
                 </h3>
-                <p className="text-sm text-gray-500">
-                  {comment.createdBy.email}
+                <p className="text-sm text-zinc-400">
+                  {Moment(comment.createdAt).fromNow()}
                 </p>
               </div>
             </div>
 
             {/* Comment Content */}
-            <p className="text-gray-700 leading-relaxed text-[15px]">
+            <p className="text-zinc-300 leading-relaxed text-">
               {comment.content}
             </p>
           </div>

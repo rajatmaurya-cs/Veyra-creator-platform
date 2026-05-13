@@ -24,6 +24,8 @@ async function fetchBlogs({ category = "All", search = "", page = 1, limit = 3, 
     next: { revalidate: 60 },
   });
 
+  console.log("The fetched wholeblog is:",res)
+
   if (!res.ok) {
     throw new Error("Failed to fetch blogs");
   }
