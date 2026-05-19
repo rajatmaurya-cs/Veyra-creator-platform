@@ -13,9 +13,9 @@ const Page = () => {
         <StatusServer />
       </Suspense>
 
-      <Suspense fallback={<p>Loading Blogs...</p>}>
-        <BlogServer />
-      </Suspense>
+       <Suspense fallback={<p>Loading Blogs...</p>}>
+         <BlogServer />
+       </Suspense>
 
      
     </div>

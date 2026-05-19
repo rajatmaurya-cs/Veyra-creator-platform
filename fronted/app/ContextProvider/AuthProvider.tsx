@@ -5,6 +5,7 @@ import {
   useState,
   useContext,
   useCallback,
+  useEffect,
 } from "react";
 
 // ---------------- TYPE ----------------
@@ -22,9 +23,9 @@ type AuthContextType = {
   loggedIn: boolean;
   setLoggedIn: (value: boolean) => void;
   user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
   refreshAccessToken: () => Promise<boolean>;
 };
-
 // ---------------- CONTEXT ----------------
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -39,6 +40,7 @@ export function AuthProvider({
   children: React.ReactNode;
 }) {
   const [loggedIn, setLoggedIn] = useState(false);
+
   const [user, setUser] = useState<User | null>(null);
 
   const refreshAccessToken = useCallback(async (): Promise<boolean> => {
@@ -46,6 +48,8 @@ export function AuthProvider({
 
     refreshPromiseRef = (async (): Promise<boolean> => {
       try {
+        console.log("Refreshing access token");
+
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/auth/refreshtoken`,
           {
@@ -64,8 +68,15 @@ export function AuthProvider({
 
         setUser(null);
         setLoggedIn(false);
-        return false;
 
+        return false;
+      } catch (error) {
+        console.log(error);
+
+        setUser(null);
+        setLoggedIn(false);
+
+        return false;
       } finally {
         refreshPromiseRef = null;
       }
@@ -74,6 +85,13 @@ export function AuthProvider({
     return refreshPromiseRef;
   }, []);
 
+  // ✅ THIS FIXES PAGE RELOAD ISSUE
+ useEffect(() => {
+  if (!user) {
+    refreshAccessToken();
+  }
+}, [user]);
+
   return (
     <AuthContext.Provider
       value={{
@@ -81,6 +99,7 @@ export function AuthProvider({
         setLoggedIn,
         user,
         refreshAccessToken,
+        setUser
       }}
     >
       {children}

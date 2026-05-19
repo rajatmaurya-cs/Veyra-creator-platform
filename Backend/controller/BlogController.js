@@ -41,10 +41,6 @@ export const addBlog = async (req, res) => {
     } = blogData;
 
 
-
-
-
-
     if (!title || !content || !category) {
       return res.status(400).json({
         success: false,
@@ -101,9 +97,6 @@ export const addBlog = async (req, res) => {
     });
   }
 };
-
-
-
 
 
 
@@ -165,33 +158,31 @@ export const getallblog = async (req, res) => {
 
 
 
-
-
-
-
-
 export const BlogAdmin = async (req, res) => {
 
+  console.log("BlogbyAdmin: ",req.user.name)
+  
   const page = parseInt(req.query.page, 10) || 1;
 
   const limit = parseInt(req.query.limit, 10) || 10;
 
   const skip = (page - 1) * limit;
 
-  const filter = {};
-
-
+  // FETCH ONLY CURRENT USER BLOGS
+  const filter = {
+    createdBy: req.user.id,
+  };
 
   const total = await Blog.countDocuments(filter);
 
   const blogs = await Blog.find(filter)
-    .select("title isPublished subTitle createdAt")
+    .select("-content -aiAnalysis -subTitle")
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
     .populate("moderatedBy", "fullName")
+    .populate("createdBy", "fullName email")
     .lean();
-
 
   const hasMore = skip + blogs.length < total;
 
@@ -205,10 +196,6 @@ export const BlogAdmin = async (req, res) => {
     total,
   });
 };
-
-
-
-
 
 
 

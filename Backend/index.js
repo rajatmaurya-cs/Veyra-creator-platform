@@ -84,17 +84,25 @@ app.use("/api/auth", (req,res,next)=>{
 
 app.use("/api/blog",(req,res,next)=>{ 
 
-  console.log("Entered in /api/blog on Index.js");
+  // console.log("METHOD:", req.method, "URL:", req.originalUrl);
+  
+  // console.log("Accesstoken from index.js .api/blog ✅",req.cookies.accessToken)
   
   next()
   
 },blogRouter);
 
-app.use("/api/comment", commentRouter);
+app.use("/api/comment",(req,res,next)=>{
+
+  console.log("Request goes from /api/comment of index.js")
+  next();
+
+},commentRouter);
 
 // app.use("/api/ai", authMiddleware, AiRouter);
 app.use("/api/ai",(req,res , next)=>{
 
+  
   console.log("Request Goes to /api/ai")
 
   next()

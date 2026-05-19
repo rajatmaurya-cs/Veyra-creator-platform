@@ -9,8 +9,6 @@ import { AuthContext } from "@/app/ContextProvider/AuthProvider";
 
 
 
-
-
 // ---------------- TYPES ----------------
 
 type User = {
@@ -31,7 +29,7 @@ type LoginResponse = {
 
 export default function LoginPage() {
 
-  const {loggedIn , setLoggedIn} = useContext(AuthContext)
+  const { loggedIn, setLoggedIn ,user,setUser} = useContext(AuthContext)
 
   const router = useRouter();
 
@@ -41,46 +39,62 @@ export default function LoginPage() {
 
   // ---------------- LOGIN API ----------------
 
- const loginMutation = useMutation<LoginResponse,Error,{ email: string; password: string }>({
-  
-  mutationFn: async ({ email, password }) => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
+  const loginMutation = useMutation<LoginResponse, Error, { email: string; password: string }>({
+
+    mutationFn: async ({ email, password }) => {
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
+
+      const data: LoginResponse = await res.json();
+
+      // console.log("The user on Fronted ",data.user)
+
+      if (!res.ok || !data?.success) {
+        throw new Error("Login failed");
       }
-    );
 
-    const data: LoginResponse = await res.json();
+      return data;
+    },
 
-    if (!res.ok || !data?.success) {
-      throw new Error("Login failed");
-    }
+    onSuccess: (data) => {
 
-    return data;
-  },
+      console.log("The user on Fronted ",data.user)
 
-  onSuccess: (data) => {
+      setLoggedIn(true)
 
-    setLoggedIn(true)
+      setUser(data.user)
 
-    toast.success("Login successful");
+      console.log("The name of user is: ",data.user.name)
 
-    if (data.user.role === "ADMIN") {
-      router.push("/admin");
-    } else {
-      router.push("/");
-    }
-  },
+      console.log("FULL USER OBJECT:", user);
 
-  onError: (err) => {
-    toast.error(err.message || "Something went wrong");
-  },
-});
+      toast.success("Login successful");
+
+      if (data.user.role === "ADMIN") {
+
+        router.replace("/admin");
+
+      } else {
+
+        router.replace("/");
+        
+      }
+    },
+
+    onError: (err) => {
+      toast.error(err.message || "Something went wrong");
+    },
+  });
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

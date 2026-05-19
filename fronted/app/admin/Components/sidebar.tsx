@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+
+import {AuthContext} from '../../ContextProvider/AuthProvider'
 import {
   Home,
   SquarePlus,
@@ -11,6 +13,7 @@ import {
 } from 'lucide-react'
 
 import clsx from 'clsx'
+import { useContext } from 'react'
 
 type NavItem = {
   label: string
@@ -45,6 +48,10 @@ const navItems: NavItem[] = [
 ]
 
 const Sidebar = () => {
+
+  const {user} = useContext(AuthContext)
+
+  
 
   const pathname = usePathname()
 
@@ -162,35 +169,42 @@ const Sidebar = () => {
       </nav>
 
       {/* FOOTER */}
-      <div className="mt-auto">
+     <div className="mt-auto">
+  <div className="rounded-3xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-zinc-950 p-5 shadow-xl">
 
-        <div className="rounded-3xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-zinc-950 p-5 shadow-xl">
+    <div className="mb-4 flex items-center gap-3">
 
-          <div className="mb-4 flex items-center gap-3">
-
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-sm font-bold text-white">
-              P
-            </div>
-
-            <div>
-              <h3 className="text-sm font-semibold text-white">
-                Postify Admin
-              </h3>
-
-              <p className="text-xs text-zinc-500">
-                Manage your platform
-              </p>
-            </div>
-
+      {/* Avatar */}
+      <div className="h-11 w-11 rounded-full p-[2px] bg-white/80">
+        {user?.avatar ? (
+          <Image
+            src={user.avatar}
+            alt="Profile"
+            width={44}
+            height={44}
+            className="h-full w-full rounded-full object-cover"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-sm font-bold text-white">
+            {user?.name?.charAt(0)}
           </div>
-
-          <div className="h-[5px] overflow-hidden rounded-full bg-zinc-800">
-            <div className="h-full w-[78%] rounded-full bg-gradient-to-r from-blue-500 to-purple-600" />
-          </div>
-
-        </div>
-
+        )}
       </div>
+
+      {/* Text */}
+      <div>
+        <h3 className="text-sm font-semibold text-white">
+          {user?.fullName}
+        </h3>
+        <p className="text-xs text-zinc-500">
+          Manage your platform
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</div>
 
     </aside>
   )

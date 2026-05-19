@@ -85,14 +85,14 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
   try {
 
-   console.log("Local Login 1")
+    console.log("Local Login 1")
 
     let { email, password } = req.body;
 
-    console.log("The data we recieved: ",email)
+    console.log("The data we recieved: ", email)
 
     console.log("Local Login 2")
-    
+
     email = email.toLowerCase().trim();
 
 
@@ -168,6 +168,22 @@ export const login = async (req, res) => {
       maxAge: 15 * 60 * 1000, // 15 min
     });
 
+    // res.cookie("refreshToken", refreshToken, {
+    //   httpOnly: true,
+    //   secure: false,
+    //   sameSite: "lax",
+    //   path: "/",
+    //   maxAge: 7 * 24 * 60 * 60 * 1000,
+    // });
+
+    // res.cookie("accessToken",accessToken, {
+    //   httpOnly: true,
+    //   secure: false,
+    //   sameSite: "lax",
+    //   path: "/",
+    //   maxAge: 15 * 60 * 1000,
+    // });
+
     return res.status(200).json({
       success: true,
 
@@ -183,6 +199,7 @@ export const login = async (req, res) => {
 
 
   } catch (error) {
+    console.log("The error is Login: ",error)
     return res.json({
       success: false,
       message: error.message,
@@ -199,7 +216,7 @@ export const googleLogin = async (req, res) => {
 
     const { code } = req.body;
 
-  
+
 
     console.log("The code is : ", code)
 
@@ -225,10 +242,6 @@ export const googleLogin = async (req, res) => {
       }
     );
 
-    
-
-
-
     const {
       id: googleId,
 
@@ -236,11 +249,6 @@ export const googleLogin = async (req, res) => {
       name: fullName,
       picture,
     } = userRes.data;
-
-
-
-
-
 
 
     let user = await User.findOne({
@@ -278,21 +286,38 @@ export const googleLogin = async (req, res) => {
     await RefreshToken.create({ userId: user._id, token: hashToken(refreshToken) });
 
 
-    res.cookie("refreshToken", refreshToken, {
+    // res.cookie("refreshToken", refreshToken, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: "Lax",
+    //   path: "/",
+    //   maxAge: 7 * 24 * 60 * 60 * 1000,
+    // });
+
+
+    // res.cookie("accessToken", accessToken, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: "Lax",
+    //   path: "/",
+    //   maxAge: 15 * 60 * 1000, // 15 min
+    // });
+
+
+    res.cookie("refreshToken", newrefreshToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "Lax",
+      secure: false,
+      sameSite: "lax",
       path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-
-    res.cookie("accessToken", accessToken, {
+    res.cookie("accessToken", newAccessToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "Lax",
+      secure: false,
+      sameSite: "lax",
       path: "/",
-      maxAge: 15 * 60 * 1000, // 15 min
+      maxAge: 15 * 60 * 1000,
     });
 
     return res.status(200).json({
@@ -364,42 +389,70 @@ export const logout = async (req, res) => {
 
 export const refreshAccessToken = async (req, res) => {
   try {
-    
-    
+
+    console.log("refreshAccessToken: 1")
+
     const refreshToken = req.cookies.refreshToken;
-    
+
+    const accessToken = req.cookies.accessToken;
 
 
+    // console.log("The refreshtoken is: ",refreshToken)
+    // console.log("The accessToken is: ",accessToken)
+  
 
     if (!refreshToken) {
       return res.status(401).json({ message: "Invalid email or Password" });
     }
 
+    console.log("refreshAccessToken: 2")
+
 
     const hashedToken = hashToken(refreshToken);
+
+    console.log("refreshAccessToken: 3")
 
     const storedToken = await RefreshToken.findOne({
       token: hashedToken,
     });
 
+    console.log("refreshAccessToken: 4")
+
+    // console.log("The StoredToken is: ", storedToken)
+
     if (!storedToken) {
       return res.status(403).json({ message: "Invalid Email or Password" });
     }
+
+    console.log("refreshAccessToken: 5")
 
     const decoded = jwt.verify(
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET
     );
 
+    console.log("refreshAccessToken: 6")
+
     const user = await User.findById(decoded.id);
+
+
+    console.log("refreshAccessToken: 7")
+
+    // console.log("user is: ", user)
 
     if (!user) {
       return res.status(403).json({ message: "User not found" });
     }
 
+    console.log("refreshAccessToken: 8")
+
     const newAccessToken = createAccessToken(user);
 
+    console.log("refreshAccessToken: 9")
+
     const newrefreshToken = createRefreshToken(user);
+
+    console.log("refreshAccessToken: 10")
 
 
     await RefreshToken.deleteMany({ userId: user._id });
@@ -408,21 +461,43 @@ export const refreshAccessToken = async (req, res) => {
       token: hashToken(newrefreshToken),
     });
 
+    console.log("refreshAccessToken: 11")
+
+    // res.cookie("refreshToken", newrefreshToken, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: "None",
+    //   path: "/",
+    //   maxAge: 7 * 24 * 60 * 60 * 1000,
+    // });
+
+    // console.log("refreshAccessToken: 12")
+
+    // res.cookie("accessToken", newAccessToken, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: "None",
+    //   path: "/",
+    //   maxAge: 15 * 60 * 1000, // 15 min
+    // });
+
     res.cookie("refreshToken", newrefreshToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "None",
+      secure: false,
+      sameSite: "lax",
       path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     res.cookie("accessToken", newAccessToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "None",
+      secure: false,
+      sameSite: "lax",
       path: "/",
-      maxAge: 15 * 60 * 1000, // 15 min
+      maxAge: 15 * 60 * 1000,
     });
+
+    console.log("refreshAccessToken: 13")
 
 
     return res.status(200).json({
@@ -431,6 +506,7 @@ export const refreshAccessToken = async (req, res) => {
     });
 
   } catch (error) {
+    console.log("REFRESH ERROR:", error);
     return res.status(403).json({
       message: "Expired or invalid refresh token",
     });

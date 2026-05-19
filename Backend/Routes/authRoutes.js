@@ -47,6 +47,8 @@ authRouter.post("/login",(req,res,next)=>{
 console.log("Request goes from authroutes")
 next()
 }, login);
+
+
 authRouter.post("/google", googleLogin);
 
 

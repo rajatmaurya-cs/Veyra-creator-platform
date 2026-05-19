@@ -171,7 +171,7 @@ const Blogclient = ({ blog }: BlogClientProps) => {
   const [ailoading, setailoading] = useState(false)
 
   const handlerajat = () => {
-    if(!loggedIn){
+    if (!loggedIn) {
       toast.error("Login First")
       return;
     }
@@ -262,10 +262,12 @@ const Blogclient = ({ blog }: BlogClientProps) => {
                   {/* INNER IMAGE */}
                   <div className="rounded-full overflow-hidden border border-white/10 bg-[#0B1120]">
 
-                    <img
+                    <Image
                       src={blog.createdBy?.avatar}
                       alt="Author"
-                      className="w-14 h-14 rounded-full object-cover"
+                      width={56}
+                      height={56}
+                      className="rounded-full object-cover"
                     />
 
                   </div>

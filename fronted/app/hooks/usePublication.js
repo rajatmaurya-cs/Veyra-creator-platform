@@ -1,22 +1,19 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-export function usePublication({ category = "All", limit = 3,isAdmin = false,}) {
- 
+export function usePublication({ category = "All", limit = 3, isAdmin = false, }) {
+
 
   return useInfiniteQuery({
     queryKey: ["blogs", category, limit, isAdmin],
 
     queryFn: async ({ pageParam = 1 }) => {
 
-      const url = new URL(
-        `${process.env.NEXT_PUBLIC_API_URL}/blog/admin/blogs`
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/blog/admin/blogs?page=${pageParam}&limit=${limit}&category=${category}`,
+        {
+          credentials: "include", // important for cookies
+        }
       );
-
-      url.searchParams.append("page", pageParam);
-      url.searchParams.append("limit", limit);
-      url.searchParams.append("category", category);
-
-      const res = await fetch(url);
 
       if (!res.ok) {
         throw new Error("Failed to fetch blogs");
