@@ -1,4 +1,5 @@
 import express from "express";
+import jwt from "jsonwebtoken";
 import {
 
   /*====signup & Login =====*/
@@ -35,21 +36,81 @@ const authRouter = express.Router();
 
 
 
+authRouter.get("/me", (req, res) => {
+  try {
 
+    console.log("The request enter in /me")
 
+    const token = req?.cookies?.accessToken;
+    
+    console.log("The token from /me is: ",token)
+
+    if (!token) {
+      return res.status(401).json({
+        loggedIn: false,
+      });
+    }
+
+    const user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+  //   const user = {
+  //    name : user.fullName,
+  //    id: user._id,
+  //    role: user.role,
+  //    email : user.email,
+  //    avatar : user.avatar,
+  //  createdAt: user.createdAt,
+  // };
+
+  console.log(user)
+
+    res.json({
+      success:true,
+      user,
+    });
+
+  } catch (err) {
+    console.log(err)
+    res.status(401).json({
+      success:false,
+    });
+  }
+});
 
 /* --------------------------- Signup & Login --------------------------- */
 
 
+
+
 authRouter.post("/signup", signup);
 
-authRouter.post("/login",(req,res,next)=>{
-console.log("Request goes from authroutes")
-next()
+authRouter.post("/login", (req, res, next) => {
+  console.log("Request goes from authroutes")
+  next()
 }, login);
 
 
-authRouter.post("/google", googleLogin);
+authRouter.get("/google", (req, res, next) => {
+
+  console.log("Request goes from /google 1 ")
+
+  const url =
+    `https://accounts.google.com/o/oauth2/v2/auth?` +
+    `client_id=${process.env.GOOGLE_CLIENT_ID}` +
+    `&redirect_uri=${process.env.GOOGLE_REDIRECT_URI}` +
+    `&response_type=code` +
+    `&scope=openid%20email%20profile`;
+
+  console.log("Request goes from /google 2 ")
+
+  res.redirect(url);
+
+});
+
+authRouter.get('/google/callback',(req,res,next)=>{
+console.log("Request Goes from /google/callback ")
+next();
+} ,googleLogin)
 
 
 
@@ -66,7 +127,7 @@ authRouter.post("/refreshtoken", refreshAccessToken);
 
 /* --------------------------- OTP --------------------------- */
 
-authRouter.post("/sendotp",  sendOtp);
+authRouter.post("/sendotp", sendOtp);
 authRouter.post("/verifyotp", verifyOtp);
 
 

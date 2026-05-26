@@ -3,7 +3,9 @@ import Footer from '../components/Footer'
 import Header from './components/Header'
 import Main from "./components/Main";
 
-const page = () => {
+const Page = () => {
+
+
 
  
   return (
@@ -19,4 +21,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

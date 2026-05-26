@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 /*------------------Access Token  Used for API authorization----------------------*/
 
 function createAccessToken(user) {
+  
   const payload = {
      name : user.fullName,
      id: user._id,

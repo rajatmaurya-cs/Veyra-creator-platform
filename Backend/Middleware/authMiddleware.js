@@ -4,6 +4,7 @@ import { validateAccessToken } from "../Service/Authentication.js";
 
 const authMiddleware = async (req, res, next) => {
   try {
+    
     console.log("Entered in authMiddleware")
 
     console.log("1")
@@ -17,7 +18,7 @@ const authMiddleware = async (req, res, next) => {
       
     const token = req.cookies?.accessToken || bearerToken;
 
-    console.log("The access_token is: ",token)
+    console.log("The access_token is from authMiddleware: ",token)
 
     console.log("3")
 

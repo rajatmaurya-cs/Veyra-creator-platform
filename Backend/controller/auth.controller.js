@@ -29,6 +29,7 @@ import RefreshToken from "../Models/RefreshToken.js";
 
 export const signup = async (req, res) => {
   try {
+
     let { fullName, email, password } = req.body;
 
     fullName = fullName.trim();
@@ -210,146 +211,298 @@ export const login = async (req, res) => {
 
 
 
+// export const googleLogin = async (req, res) => {
+//   try {
+
+
+//     // const { code } = req.body;
+
+
+
+//     // console.log("The code is : ", code)
+
+//     // if (!code) {
+//     //   return res.json({ success: false, message: "Google auth code missing" });
+//     // }
+
+
+//     // const { tokens } = await oauth2client.getToken(code);
+//     // oauth2client.setCredentials(tokens);
+
+
+//     // console.log("The Token is : ", tokens)
+
+
+
+//     // const userRes = await axios.get(
+//     //   "https://www.googleapis.com/oauth2/v2/userinfo",
+//     //   {
+//     //     headers: {
+//     //       Authorization: `Bearer ${tokens.access_token}`,
+//     //     },
+//     //   }
+//     // );
+
+//     // const {
+//     //   id: googleId,
+
+//     //   email,
+//     //   name: fullName,
+//     //   picture,
+//     // } = userRes.data;
+
+//     const { name , email , avatar} = req.body;
+
+
+//     let user = await User.findOne({
+//       $or: [{ googleId }, { email }],
+//     });
+
+
+//     if (!user) {
+//       user = await User.create({
+//         fullName,
+//         email,
+//         googleId,
+//         authProvider: "GOOGLE",
+//         avatar: picture
+//       });
+//     }
+
+
+//     if (user && !user.googleId) {
+//       user.googleId = googleId;
+//       if (!user.authProvider.includes("GOOGLE")) {
+//         user.authProvider.push("GOOGLE");
+//       }
+//       if (user && !user.avatar) user.avatar = picture
+//       await user.save();
+//     }
+
+
+
+//     const accessToken = createAccessToken(user);
+
+//     const refreshToken = createRefreshToken(user);
+
+
+//     await RefreshToken.deleteMany({ userId: user._id });
+//     await RefreshToken.create({ userId: user._id, token: hashToken(refreshToken) });
+
+
+   
+
+
+//     res.cookie("refreshToken", newrefreshToken, {
+//       httpOnly: true,
+//       secure: false,
+//       sameSite: "lax",
+//       path: "/",
+//       maxAge: 7 * 24 * 60 * 60 * 1000,
+//     });
+
+//     res.cookie("accessToken", newAccessToken, {
+//       httpOnly: true,
+//       secure: false,
+//       sameSite: "lax",
+//       path: "/",
+//       maxAge: 15 * 60 * 1000,
+//     });
+
+//     return res.status(200).json({
+//       success: true,
+
+//       user: {
+//         id: user._id,
+//         name: user.fullName,
+//         email: user.email,
+//         avatar: user.avatar,
+//         role: user.role,
+//         createdAt: user.createdAt,
+//       },
+//     });
+
+
+
+//   } catch (error) {
+//     console.log("GoogleLogin ERROR:", error?.response?.data || error);
+
+//     return res.status(500).json({
+//       success: false,
+//       message:
+//         error?.response?.data?.error_description ||
+//         error?.response?.data?.error ||
+//         error.message ||
+//         "Google login failed",
+//     });
+//   }
+
+// };
+
+
 export const googleLogin = async (req, res) => {
   try {
 
+    console.log("GoogleLogin 1")
+    // ---------------- GET CODE ----------------
 
-    const { code } = req.body;
+    const code = req.query.code;
 
+     console.log("GoogleLogin 2 code:",code)
 
+    // ---------------- EXCHANGE CODE FOR TOKEN ----------------
 
-    console.log("The code is : ", code)
-
-    if (!code) {
-      return res.json({ success: false, message: "Google auth code missing" });
-    }
-
-
-    const { tokens } = await oauth2client.getToken(code);
-    oauth2client.setCredentials(tokens);
-
-
-    console.log("The Token is : ", tokens)
-
-
-
-    const userRes = await axios.get(
-      "https://www.googleapis.com/oauth2/v2/userinfo",
+    const { data } = await axios.post(
+      "https://oauth2.googleapis.com/token",
+      null,
       {
-        headers: {
-          Authorization: `Bearer ${tokens.access_token}`,
+        params: {
+          client_id: process.env.GOOGLE_CLIENT_ID,
+          client_secret: process.env.GOOGLE_CLIENT_SECRET,
+          code,
+          redirect_uri: process.env.GOOGLE_REDIRECT_URI,
+          grant_type: "authorization_code",
         },
       }
     );
 
-    const {
-      id: googleId,
+     console.log("GoogleLogin 3")
 
-      email,
-      name: fullName,
-      picture,
-    } = userRes.data;
+    const { access_token } = data;
 
+     console.log("GoogleLogin 4")
+
+    // ---------------- GET GOOGLE USER ----------------
+
+    const { data: googleUser } = await axios.get(
+      "https://www.googleapis.com/oauth2/v2/userinfo",
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+ console.log("GoogleLogin 5")
+    // ---------------- FIND USER ----------------
 
     let user = await User.findOne({
-      $or: [{ googleId }, { email }],
+      email: googleUser.email,
     });
 
+     console.log("GoogleLogin 6")
+
+    // ---------------- CREATE USER ----------------
 
     if (!user) {
+
       user = await User.create({
-        fullName,
-        email,
-        googleId,
-        authProvider: "GOOGLE",
-        avatar: picture
+
+        fullName: googleUser.name,
+
+        email: googleUser.email,
+
+        avatar: googleUser.picture,
+
+        authProvider: ["GOOGLE"],
       });
     }
 
+    
 
-    if (user && !user.googleId) {
-      user.googleId = googleId;
-      if (!user.authProvider.includes("GOOGLE")) {
+    // ---------------- UPDATE EXISTING USER ----------------
+
+    else {
+
+      // update avatar if missing
+      if (!user.avatar && googleUser.picture) {
+        user.avatar = googleUser.picture;
+      }
+
+      // add GOOGLE provider if not exists
+      if (
+        user.authProvider &&
+        !user.authProvider.includes("GOOGLE")
+      ) {
         user.authProvider.push("GOOGLE");
       }
-      if (user && !user.avatar) user.avatar = picture
+
       await user.save();
     }
 
+     console.log("GoogleLogin 8")
 
+    // ---------------- TOKENS ----------------
 
     const accessToken = createAccessToken(user);
+
+
+     console.log("GoogleLogin 9")
+
     const refreshToken = createRefreshToken(user);
 
+    // ---------------- STORE REFRESH TOKEN ----------------
 
-    await RefreshToken.deleteMany({ userId: user._id });
-    await RefreshToken.create({ userId: user._id, token: hashToken(refreshToken) });
+    await RefreshToken.deleteMany({
+      userId: user._id,
+    });
 
+     console.log("GoogleLogin 10")
 
-    // res.cookie("refreshToken", refreshToken, {
-    //   httpOnly: true,
-    //   secure: true,
-    //   sameSite: "Lax",
-    //   path: "/",
-    //   maxAge: 7 * 24 * 60 * 60 * 1000,
-    // });
+    await RefreshToken.create({
 
+      userId: user._id,
 
-    // res.cookie("accessToken", accessToken, {
-    //   httpOnly: true,
-    //   secure: true,
-    //   sameSite: "Lax",
-    //   path: "/",
-    //   maxAge: 15 * 60 * 1000, // 15 min
-    // });
+      token: hashToken(refreshToken),
+    });
 
+     console.log("GoogleLogin 11")
 
-    res.cookie("refreshToken", newrefreshToken, {
+    // ---------------- COOKIES ----------------
+
+    res.cookie("refreshToken", refreshToken, {
+
       httpOnly: true,
+
       secure: false,
+
       sameSite: "lax",
+
       path: "/",
+
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.cookie("accessToken", newAccessToken, {
+    res.cookie("accessToken", accessToken, {
+
       httpOnly: true,
+
       secure: false,
+
       sameSite: "lax",
+
       path: "/",
+
       maxAge: 15 * 60 * 1000,
     });
 
-    return res.status(200).json({
-      success: true,
+    // ---------------- REDIRECT ----------------
 
-      user: {
-        id: user._id,
-        name: user.fullName,
-        email: user.email,
-        avatar: user.avatar,
-        role: user.role,
-        createdAt: user.createdAt,
-      },
-    });
+     console.log("GoogleLogin 13")
 
-
+    res.redirect(`${process.env.FRONTEND_URL}/`);
 
   } catch (error) {
-    console.log("GoogleLogin ERROR:", error?.response?.data || error);
+
+    console.log("GoogleLogin ERROR:", error);
 
     return res.status(500).json({
+
       success: false,
-      message:
-        error?.response?.data?.error_description ||
-        error?.response?.data?.error ||
-        error.message ||
-        "Google login failed",
+
+      message: error.message || "Google login failed",
     });
   }
-
 };
-
 
 
 

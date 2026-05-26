@@ -20,8 +20,7 @@ blogRouter.get('/allblog',getallblog)
 // blogRouter.get('/admin/blogs' , authMiddleware ,BlogAdmin)
 blogRouter.get('/admin/blogs',(req,res,next)=>{
 
-    console.log("Accesstoken from blogrouter admin/blogs ✅",req.cookies.accessToken)
-    console.log("METHOD:", req.method, "URL:", req.originalUrl);
+
     
     
     next();

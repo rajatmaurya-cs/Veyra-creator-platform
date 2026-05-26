@@ -3,8 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { User, LayoutDashboard } from "lucide-react";
+import { AuthContext } from "../ContextProvider/AuthProvider";
+import { useContext } from "react";
 
 const Navbar = () => {
+
+  const {user,loggedIn} = useContext(AuthContext)
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-zinc-900 bg-zinc-950/70 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -19,6 +24,8 @@ const Navbar = () => {
             priority
           />
         </Link>
+
+      { loggedIn &&  <div className=" bg-white p-3 rounded-2xl">The User is: {user.name}</div>}
 
         {/* ACTIONS: Minimalist, sharp, and tool-focused */}
         <div className="flex items-center gap-5">

@@ -30,7 +30,7 @@ type AuthContextType = {
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-let refreshPromiseRef: Promise<boolean> | null = null;
+// let refreshPromiseRef: Promise<boolean> | null = null;
 
 // ---------------- PROVIDER ----------------
 
@@ -43,54 +43,93 @@ export function AuthProvider({
 
   const [user, setUser] = useState<User | null>(null);
 
-  const refreshAccessToken = useCallback(async (): Promise<boolean> => {
-    if (refreshPromiseRef) return refreshPromiseRef;
 
-    refreshPromiseRef = (async (): Promise<boolean> => {
-      try {
-        console.log("Refreshing access token");
+useEffect(() => {
+  const getUser = async () => {
+    console.log("Page reload happend")
+    try {
+      const res = await fetch("http://localhost:2000/api/auth/me", {
+        credentials: "include",
+      });
 
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/refreshtoken`,
-          {
-            method: "POST",
-            credentials: "include",
-          }
-        );
-
-        const data: { user?: User } = await res.json();
-
-        if (res.ok && data.user) {
-          setUser(data.user);
-          setLoggedIn(true);
-          return true;
-        }
-
-        setUser(null);
+      // if status code is not 2xx
+      if (!res.ok) {
         setLoggedIn(false);
-
-        return false;
-      } catch (error) {
-        console.log(error);
-
         setUser(null);
-        setLoggedIn(false);
-
-        return false;
-      } finally {
-        refreshPromiseRef = null;
+        return;
       }
-    })();
 
-    return refreshPromiseRef;
-  }, []);
+      const data = await res.json();
 
-  // ✅ THIS FIXES PAGE RELOAD ISSUE
- useEffect(() => {
-  if (!user) {
-    refreshAccessToken();
-  }
-}, [user]);
+      if (data.success) {
+        setUser(data.user);
+        setLoggedIn(true);
+      } else {
+        setUser(null);
+        setLoggedIn(false);
+      }
+
+    } catch (error) {
+
+      // fetch failed completely
+      console.error("Error fetching user:", error);
+
+      setUser(null);
+      setLoggedIn(false);
+    }
+  };
+
+  getUser();
+}, []);
+
+//   const refreshAccessToken = useCallback(async (): Promise<boolean> => {
+//     if (refreshPromiseRef) return refreshPromiseRef;
+
+//     refreshPromiseRef = (async (): Promise<boolean> => {
+//       try {
+//         console.log("Refreshing access token");
+
+//         const res = await fetch(
+//           `${process.env.NEXT_PUBLIC_API_URL}/auth/refreshtoken`,
+//           {
+//             method: "POST",
+//             credentials: "include",
+//           }
+//         );
+
+//         const data: { user?: User } = await res.json();
+
+//         if (res.ok && data.user) {
+//           setUser(data.user);
+//           setLoggedIn(true);
+//           return true;
+//         }
+
+//         setUser(null);
+//         setLoggedIn(false);
+
+//         return false;
+//       } catch (error) {
+//         console.log(error);
+
+//         setUser(null);
+//         setLoggedIn(false);
+
+//         return false;
+//       } finally {
+//         refreshPromiseRef = null;
+//       }
+//     })();
+
+//     return refreshPromiseRef;
+//   }, []);
+
+//   // ✅ THIS FIXES PAGE RELOAD ISSUE
+//  useEffect(() => {
+//   if (!user) {
+//     refreshAccessToken();
+//   }
+// }, [user]);
 
   return (
     <AuthContext.Provider
@@ -98,7 +137,6 @@ export function AuthProvider({
         loggedIn,
         setLoggedIn,
         user,
-        refreshAccessToken,
         setUser
       }}
     >
