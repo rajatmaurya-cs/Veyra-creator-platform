@@ -31,13 +31,13 @@ const Navbar = () => {
         <div className="flex items-center gap-5">
 
           {/* Sign In: Low-profile text link */}
-          <Link 
+          { !loggedIn && <Link 
             href="auth/login" 
             className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-400 hover:text-zinc-200 transition-colors duration-200"
           >
             <User size={15} className="text-zinc-500" />
             <span>Sign In</span>
-          </Link>
+          </Link>}
 
           {/* Admin: Precision-engineered obsidian button */}
           <Link href="/admin">

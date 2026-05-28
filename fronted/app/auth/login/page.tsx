@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 import { AuthContext } from "@/app/ContextProvider/AuthProvider";
 
@@ -256,7 +257,7 @@ export default function LoginPage() {
 
             <button
               type="button"
-              onClick={() => router.push("/auth/forgot-password")}
+              onClick={() => router.push("/auth/forgotpassword")}
               className="
                 text-sm
                 text-[#8b93a7]
@@ -404,7 +405,7 @@ export default function LoginPage() {
 
           Don&apos;t have an account?{" "}
 
-          <span
+          <Link href = {'/auth/createaccount'}
             onClick={() => router.push("/auth/signup")}
             className="
               cursor-pointer
@@ -415,7 +416,7 @@ export default function LoginPage() {
             "
           >
             Create account
-          </span>
+          </Link>
 
         </p>
 

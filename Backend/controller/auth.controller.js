@@ -694,7 +694,11 @@ export const sendOtp = async (req, res) => {
 
 export const verifyOtp = async (req, res) => {
   try {
+    console.log("1 ✅")
+
     let { email, otp, purpose } = req.body;
+
+     console.log("2 ✅")
 
     if (!email || !otp || !purpose) {
       return res.status(400).json({
@@ -703,14 +707,22 @@ export const verifyOtp = async (req, res) => {
       });
     }
 
+     console.log("3 ✅")
+
     email = email.toLowerCase().trim();
     purpose = purpose.toUpperCase().trim(); // e.g. SIGNUP, RESET_PASSWORD
 
     const otpKey = `otp:${purpose}:${email}`;
     const attemptsKey = `otpAttempts:${purpose}:${email}`;
 
+     console.log("4 ✅")
+
     // ✅ Get OTP from Redis (purpose-based)
+    console.log("The status of redisClient: ",redisClient.isOpen)
+    
     const storedOtp = await redisClient.get(otpKey);
+
+     console.log("5 ✅")
 
     if (!storedOtp) {
       return res.status(400).json({
@@ -719,12 +731,19 @@ export const verifyOtp = async (req, res) => {
       });
     }
 
+     console.log("6 ✅")
+
     // ✅ Attempts limiter (purpose-based)
     const attempts = await redisClient.incr(attemptsKey);
+
+     console.log("7 ✅")
+
 
     if (attempts === 1) {
       await redisClient.expire(attemptsKey, 300); // 5 minutes
     }
+
+     console.log("8 ✅")
 
     if (attempts > 5) {
       return res.status(429).json({
@@ -733,8 +752,13 @@ export const verifyOtp = async (req, res) => {
       });
     }
 
+     console.log("9 ✅")
+
     // ✅ Compare OTP
     const isMatch = await bcrypt.compare(otp.toString(), storedOtp);
+
+
+     console.log("10 ✅")
 
     if (!isMatch) {
       return res.status(400).json({
@@ -743,9 +767,13 @@ export const verifyOtp = async (req, res) => {
       });
     }
 
+     console.log("11 ✅")
+
     // ✅ Success: delete OTP + attempts
     await redisClient.del(otpKey);
     await redisClient.del(attemptsKey);
+
+     console.log("12 ✅")
 
     /**
      * ✅ IMPORTANT:
@@ -758,6 +786,8 @@ export const verifyOtp = async (req, res) => {
       { $set: { email, purpose, verifiedAt: new Date() } },
       { upsert: true }
     );
+
+     console.log("13 ✅")
 
     return res.status(200).json({
       success: true,

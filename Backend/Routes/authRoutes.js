@@ -128,7 +128,11 @@ authRouter.post("/refreshtoken", refreshAccessToken);
 /* --------------------------- OTP --------------------------- */
 
 authRouter.post("/sendotp", sendOtp);
-authRouter.post("/verifyotp", verifyOtp);
+
+authRouter.post("/verifyotp", (req,res,next)=>{
+  console.log("Request goes from /VerifyOtp ✅")
+  next()
+},verifyOtp);
 
 
 
