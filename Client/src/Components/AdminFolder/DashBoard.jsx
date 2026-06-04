@@ -94,7 +94,7 @@ const DashBoard = () => {
 
       return { totalBlogs, totalComments, draftBlogs };
     },
-    enabled: !!latestBlogs?.length,
+    // enabled: !!latestBlogs?.length,
     staleTime: 30_000,
   });
 
@@ -256,59 +256,6 @@ const DashBoard = () => {
                   <th className="px-6 py-5 w-36">Visibility</th>
                 </tr>
               </thead>
-
-              {/* <tbody className="divide-y divide-gray-50">
-                {latestBlogs.map((blog, index) => (
-                  <tr key={blog._id} className="group hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-6 text-sm font-semibold text-gray-400">
-                      {(index + 1).toString().padStart(2, "0")}
-                    </td>
-                    <td className="px-6 py-6">
-                      <p className="text-base font-bold text-gray-900 group-hover:text-indigo-600 transition-colors line-clamp-2 pr-2">
-                        {blog.title}
-                      </p>
-                      <p className="text-xs text-gray-500 mt-1.5 font-bold uppercase tracking-wide bg-gray-100 inline-block px-2.5 py-1 rounded-md">
-                        {blog.category}
-                      </p>
-                    </td>
-                    <td className="px-6 py-6 text-sm text-gray-600 font-medium whitespace-nowrap">
-                      {blog.createdAt
-                        ? new Date(blog.createdAt).toLocaleDateString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
-                        })
-                        : "—"}
-                    </td>
-                    <td className="px-6 py-6">
-                      <span
-                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wide ${blog.isPublished
-                            ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
-                            : "bg-amber-50 text-amber-700 border border-amber-100"
-                          }`}
-                      >
-                        <span
-                          className={`w-1.5 h-1.5 rounded-full ${blog.isPublished ? "bg-emerald-500" : "bg-amber-500"
-                            }`}
-                        ></span>
-                        {blog.isPublished ? "LIVE" : "DRAFT"}
-                      </span>
-                    </td>
-                    <td className="px-6 py-6">
-                      <button
-                        className={`w-full relative overflow-hidden whitespace-nowrap px-4 py-2 rounded-xl text-sm font-bold tracking-wide transition-all ${blog.isPublished
-                            ? "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 shadow-sm"
-                            : "bg-gray-900 text-white hover:bg-black shadow-[0_4px_10px_rgb(0,0,0,0.1)] hover:-translate-y-0.5"
-                          } disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none`}
-                        onClick={() => handleTogglePublish(blog._id, blog.isPublished)}
-                        disabled={disableAll}
-                      >
-                        {blog.isPublished ? "Unpublish" : "Publish"}
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody> */}
 
               <tbody className="divide-y divide-gray-50">
                 {isLoading ? (
