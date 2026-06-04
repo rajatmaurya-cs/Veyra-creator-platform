@@ -104,6 +104,7 @@ app.use("/api/auth", (req,res,next)=>{
 app.use("/api/blog", blogRouter);
 
 app.use("/api/comment",(req,res,next)=>{
+  
   console.log("Request enteted in comment")
   next()
 }, commentRouter);

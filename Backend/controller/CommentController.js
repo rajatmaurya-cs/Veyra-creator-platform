@@ -120,60 +120,38 @@ export const addComment = async (req, res) => {
 
 
 
-// export const getAllComments = async (req, res) => {
-
-//   try {
-//     console.log("Entered in getAllComments")
-//     // Logged in user
-
-//     const userId = req.user.id;
-
-//     console.log("The admin is: ",userId)
-
-//     // Find all blogs published by this user
-//     const blogs = await Blog.find({
-//       createdBy: userId
-//     }).select("_id");
-
-//     // Convert blogs into array of ids
-//     const blogIds = blogs.map(blog => blog._id);
-
-//     // Get comments of those blogs
-//     const comments = await Comment.find({
-//       blogId: { $in: blogIds }
-//     })
-
-//       // who commented
-//       .populate("createdBy", "_id fullName email avatar")
-
-//       // which blog
-//       .populate("blogId", "_id title slug")
-
-//       // who moderated
-//       .populate("moderatedBy", "_id fullName")
-
-//       .sort({ createdAt: -1 });
-
-//     res.status(200).json({
-//       success: true,
-//       comments
-//     });
-
-//   } catch (error) {
-
-//     res.status(500).json({
-//       success: false,
-//       message: error.message
-//     });
-
-//   }
-
-// };
-
-
-
  export const getAllComments = async (req, res) => {
+    try {
+      const comments = await Comment.find({})
+        .populate("createdBy", "fullName email")
+        .populate("moderatedBy", "fullName")
+        .sort({ createdAt: -1 })
+
+
+
+      if (comments.length === 0) {
+        return res.status(200).json({
+          success: false,
+          message: "No comments found",
+          comments: []
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        comments
+      });
+
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: error.message
+      });
+    }
   };
+
+
+
 
 
 

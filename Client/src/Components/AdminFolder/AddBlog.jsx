@@ -1,8 +1,7 @@
 import React, { useState, Suspense, lazy, useMemo } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-// import { Editor } from "@tinymce/tinymce-react";
-
+import { Editor } from "@tinymce/tinymce-react";
 import { blogCategories } from "../../assets/assets";
 import API from "../../Api/api";
 import BlogReport from "../../Pop-Up/BlogReport";
