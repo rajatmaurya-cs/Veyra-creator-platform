@@ -42,8 +42,16 @@ const authRouter = express.Router();
 
 
 authRouter.post("/signup", signup);
+
 authRouter.post("/login", login);
-authRouter.post("/google", googleLogin);
+
+authRouter.post("/google",(req,res , next)=>{
+
+  console.log("from authroutes auth 🔞")
+
+  next();
+
+}, googleLogin);
 
 
 
@@ -52,6 +60,7 @@ authRouter.post("/google", googleLogin);
 /* --------------------------- Logout and Refresh Token --------------------------- */
 
 authRouter.post("/logout", authMiddleware, logout);
+
 authRouter.post("/refreshtoken", refreshAccessToken);
 
 

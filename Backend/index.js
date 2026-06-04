@@ -96,7 +96,10 @@ app.use(cookieParser());
 
 
 /* ================= ROUTES ================= */
-app.use("/api/auth", authRoutes);
+app.use("/api/auth", (req,res,next)=>{
+  console.log("from index.js auth 🔞")
+  next()
+},authRoutes);
 
 app.use("/api/blog", blogRouter);
 

@@ -87,11 +87,27 @@ const userSchema = new Schema(
 
 
 
-// HASH PASSWORD
-userSchema.pre("save", async function (next) {
+// // HASH PASSWORD
+// userSchema.pre("save", async function (next) {
+
+//   if (!this.password || !this.isModified("password")) {
+//     return next();
+//   }
+
+//   const saltRounds = 10;
+
+//   this.password = await bcrypt.hash(
+//     this.password,
+//     saltRounds
+//   );
+
+//   next();
+// });
+
+userSchema.pre("save", async function () {
 
   if (!this.password || !this.isModified("password")) {
-    return next();
+    return;
   }
 
   const saltRounds = 10;
@@ -100,8 +116,6 @@ userSchema.pre("save", async function (next) {
     this.password,
     saltRounds
   );
-
-  next();
 });
 
 

@@ -203,24 +203,42 @@ export const login = async (req, res) => {
 export const googleLogin = async (req, res) => {
   try {
 
+    console.log("Request reach at googlelogin authcontroller 🔞") 
+
+    console.log("1 🔞")
+
 
     const { code } = req.body;
+
+    console.log("2 🔞")
 
 
 
     console.log("The code is : ", code)
 
+    console.log("3 🔞")
+
     if (!code) {
       return res.json({ success: false, message: "Google auth code missing" });
     }
 
+    console.log("4  🔞")
+
 
     const { tokens } = await oauth2client.getToken(code);
+
+
+    console.log("5  🔞")
 
     oauth2client.setCredentials(tokens);
 
 
+    console.log("6 🔞")
+
+
     console.log("The Token is : ", tokens)
+
+    console.log("7 🔞")
 
 
 
@@ -233,6 +251,8 @@ export const googleLogin = async (req, res) => {
       }
     );
 
+    console.log("8 🔞")
+
 
     const {
       id: googleId,
@@ -242,10 +262,14 @@ export const googleLogin = async (req, res) => {
       picture,
     } = userRes.data;
 
+    console.log("9  🔞")
+
 
     let user = await User.findOne({
       $or: [{ googleId }, { email }],
     });
+
+    console.log("10 🔞")
 
 
     if (!user) {
@@ -258,6 +282,8 @@ export const googleLogin = async (req, res) => {
       });
     }
 
+    console.log("11 🔞")
+
 
     if (user && !user.googleId) {
       user.googleId = googleId;
@@ -268,15 +294,23 @@ export const googleLogin = async (req, res) => {
       await user.save();
     }
 
+    console.log("12 🔞")
 
 
     const accessToken = createAccessToken(user);
 
+    console.log("13 🔞")
+
     const refreshToken = createRefreshToken(user);
+
+    console.log("14 🔞")
 
 
     await RefreshToken.deleteMany({ userId: user._id });
     await RefreshToken.create({ userId: user._id, token: hashToken(refreshToken) });
+
+
+    console.log("15 🔞")
 
 
     res.cookie("refreshToken", refreshToken, {
@@ -296,6 +330,8 @@ export const googleLogin = async (req, res) => {
       maxAge: 15 * 60 * 1000, // 15 min
     });
 
+    console.log("16 🔞")
+
     return res.status(200).json({
       success: true,
 
@@ -312,7 +348,7 @@ export const googleLogin = async (req, res) => {
 
 
   } catch (error) {
-    console.log("GoogleLogin ERROR:", error?.response?.data || error);
+    console.log("GoogleLogin ERROR ‼️ :", error?.response?.data || error);
 
     return res.status(500).json({
       success: false,
