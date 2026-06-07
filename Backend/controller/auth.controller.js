@@ -6,8 +6,6 @@ import { sendOtpService } from "../Service/otpService.js";
 
 import bcrypt from "bcrypt"
 
-
-
 import { oauth2client } from "../utils/googleconfig.js";
 
 import { createAccessToken, createRefreshToken } from '../Service/Authentication.js'
@@ -16,13 +14,10 @@ import hashToken from "../utils/hashToken.js";
 
 import { redisClient } from "../Config/redis.js";
 
-
 /*------------------------------------- Model Import ----------------------------------- */
 import User from "../Models/User.js";
 import VerifiedEmail from "../Models/VerifiedEmail.js";
 import RefreshToken from "../Models/RefreshToken.js";
-
-
 
 
 /*-----------------------User Login / Signup / google-Login  -------------------------------- */
@@ -154,7 +149,7 @@ export const login = async (req, res) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", 
+      secure: process.env.NODE_ENV === "production",
       sameSite: "Lax",
       path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
@@ -163,10 +158,10 @@ export const login = async (req, res) => {
 
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", 
+      secure: process.env.NODE_ENV === "production",
       sameSite: "Lax",
       path: "/",
-      maxAge: 60 * 1000  
+      maxAge: 60 * 1000
     });
 
 
@@ -405,7 +400,7 @@ export const refreshAccessToken = async (req, res) => {
 
     const time = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-    console.log("Request comes for refreshAccesToken 🚫 at: ",time);
+    console.log("Request comes for refreshAccesToken 🚫 at: ", time);
 
     console.log("refreshAccessToken: 1")
 
@@ -429,7 +424,7 @@ export const refreshAccessToken = async (req, res) => {
 
     console.log("refreshAccessToken: 3")
 
-    const storedToken = await RefreshToken.findOne({
+    const storedToken = await RefreshToken.findOneAndDelete({
       token: hashedToken,
     });
 
@@ -472,7 +467,7 @@ export const refreshAccessToken = async (req, res) => {
     console.log("refreshAccessToken: 10")
 
 
-    await RefreshToken.deleteMany({ userId: user._id });
+
     await RefreshToken.create({
       userId: user._id,
       token: hashToken(newrefreshToken),
@@ -496,10 +491,14 @@ export const refreshAccessToken = async (req, res) => {
       secure: false,
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 1000  
+      maxAge: 60 * 1000
     });
 
-    console.log("\n\n\n accessToken generated: ", newAccessToken)
+    const now2 = new Date();
+
+    const time2 = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+    console.log("\n\n\n accessToken generated at ✅ : ", time2)
 
 
     return res.status(200).json({

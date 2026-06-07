@@ -12,7 +12,7 @@ async function getAIStats() {
     .map((c) => `${c.name}=${c.value}`)
     .join("; ");
 
-  console.log("The payload in cookieHeader is: ", cookieHeader);
+  console.log("\n\nThe payload in cookieHeader is: ", cookieHeader);
 
   // Use standard fetch instead of apiFetch
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ai/ai-dashboard`, {

@@ -1,16 +1,21 @@
-
 "use client";
 import React, { ReactNode, useState } from "react";
 import Sidebar from "./Components/sidebar";
 import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 type AdminLayoutProps = {
   children: ReactNode;
 };
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {
-
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Close sidebar on navigation change on mobile
+  React.useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   return (
     <div className="min-h-screen bg-black text-white">

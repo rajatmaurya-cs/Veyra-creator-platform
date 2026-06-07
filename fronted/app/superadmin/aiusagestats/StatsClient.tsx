@@ -62,444 +62,231 @@ const Client = ({ data }: ClientProps) => {
     },
   ];
 
-  // return (
-  //   <div className="w-full max-w-7xl px-6 py-10">
-  //     {/* Header */}
-  //     <div className="mb-10">
-  //       <h1 className="text-4xl font-bold text-white">
-  //         AI Usage Dashboard
-  //       </h1>
+  return (
+    <div className="w-full max-w-7xl px-4 md:px-6 py-8">
+      {/* Header */}
+      <div className="mb-10">
+        <h1 className="text-3xl font-black text-white tracking-tight">
+          AI Usage Dashboard
+        </h1>
 
-  //       <p className="mt-2 text-gray-400">
-  //         Monitor AI consumption, user engagement and platform activity.
-  //       </p>
-  //     </div>
-
-  //     {/* Stats Cards */}
-  //     <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-  //       {cards.map((card) => (
-  //         <div
-  //           key={card.title}
-  //           className="
-  //             group
-  //             relative
-  //             overflow-hidden
-  //             rounded-3xl
-  //             border
-  //             border-white/10
-  //             bg-gradient-to-b
-  //             from-white/[0.08]
-  //             to-white/[0.03]
-  //             backdrop-blur-xl
-  //             p-6
-  //             transition-all
-  //             duration-300
-  //             hover:border-purple-500/30
-  //             hover:shadow-[0_0_30px_rgba(139,92,246,0.15)]
-  //           "
-  //         >
-  //           <div className="flex items-center justify-between">
-  //             <p className="text-sm font-medium text-gray-400">
-  //               {card.title}
-  //             </p>
-
-  //             <span className="text-xl opacity-80">
-  //               {card.icon}
-  //             </span>
-  //           </div>
-
-  //           <h2 className="mt-4 text-3xl font-bold text-white break-words">
-  //             {card.value}
-  //           </h2>
-  //         </div>
-  //       ))}
-  //     </div>
-
-  //     {/* User Activity */}
-  //     <div
-  //       className="
-  //         mt-10
-  //         rounded-3xl
-  //         border
-  //         border-white/10
-  //         bg-gradient-to-b
-  //         from-white/[0.05]
-  //         to-white/[0.02]
-  //         backdrop-blur-xl
-  //         p-6
-  //       "
-  //     >
-  //       <div className="mb-6">
-  //         <h2 className="text-2xl font-bold text-white">
-  //           Recent AI Activity
-  //         </h2>
-
-  //         <p className="mt-1 text-sm text-gray-400">
-  //           Track which users are utilizing AI features across the platform.
-  //         </p>
-  //       </div>
-
-  //       {stats.logs.length === 0 ? (
-  //         <div
-  //           className="
-  //             rounded-3xl
-  //             border
-  //             border-dashed
-  //             border-white/10
-  //             bg-white/[0.02]
-  //             py-20
-  //             text-center
-  //           "
-  //         >
-  //           <div
-  //             className="
-  //               mx-auto
-  //               mb-5
-  //               flex
-  //               h-16
-  //               w-16
-  //               items-center
-  //               justify-center
-  //               rounded-full
-  //               bg-white/[0.05]
-  //               text-2xl
-  //             "
-  //           >
-  //             📊
-  //           </div>
-
-  //           <h3 className="text-xl font-semibold text-white">
-  //             No AI Activity Yet
-  //           </h3>
-
-  //           <p className="mt-2 text-gray-400">
-  //             Usage logs will appear here once users start using AI features.
-  //           </p>
-  //         </div>
-  //       ) : (
-  //         <div className="space-y-4">
-  //           {stats.logs.map((log, index) => (
-  //             <div
-  //               key={log._id}
-  //               className="
-  //                 flex
-  //                 flex-col
-  //                 gap-4
-  //                 rounded-2xl
-  //                 border
-  //                 border-white/10
-  //                 bg-white/[0.03]
-  //                 p-5
-  //                 transition-all
-  //                 duration-300
-  //                 hover:bg-white/[0.05]
-  //                 hover:border-purple-500/20
-  //                 md:flex-row
-  //                 md:items-center
-  //                 md:justify-between
-  //               "
-  //             >
-  //               {/* Left */}
-  //               <div className="flex items-center gap-4">
-  //                 <div
-  //                   className="
-  //                     flex
-  //                     h-12
-  //                     w-12
-  //                     items-center
-  //                     justify-center
-  //                     rounded-full
-  //                     bg-gradient-to-r
-  //                     from-violet-500
-  //                     to-fuchsia-500
-  //                     text-lg
-  //                     font-bold
-  //                     text-white
-  //                   "
-  //                 >
-  //                   {log.userId?.fullName
-  //                     ? log.userId.fullName.charAt(0).toUpperCase()
-  //                     : "?"}
-  //                 </div>
-
-  //                 <div>
-  //                   <h3 className="font-semibold text-white">
-  //                     {log.userId?.fullName || "Unknown User"}
-  //                   </h3>
-
-  //                   <p className="text-sm text-gray-400">
-  //                     #{String(index + 1).padStart(3, "0")}
-  //                   </p>
-  //                 </div>
-  //               </div>
-
-  //               {/* Center */}
-  //               <div className="flex flex-wrap items-center gap-3">
-  //                 <span
-  //                   className={`
-  //                     inline-flex
-  //                     rounded-xl
-  //                     px-3
-  //                     py-1.5
-  //                     text-xs
-  //                     font-semibold
-  //                     uppercase
-  //                     tracking-wider
-  //                     ${
-  //                       log.role === "admin"
-  //                         ? "bg-amber-500/10 text-amber-300 border border-amber-500/20"
-  //                         : "bg-slate-500/10 text-slate-300 border border-slate-500/20"
-  //                     }
-  //                   `}
-  //                 >
-  //                   {log.role}
-  //                 </span>
-
-  //                 <span
-  //                   className="
-  //                     inline-flex
-  //                     items-center
-  //                     rounded-xl
-  //                     border
-  //                     border-violet-500/20
-  //                     bg-violet-500/10
-  //                     px-3
-  //                     py-1.5
-  //                     text-xs
-  //                     font-semibold
-  //                     text-violet-300
-  //                   "
-  //                 >
-  //                   {log.action}
-  //                 </span>
-  //               </div>
-
-  //               {/* Right */}
-  //               <div className="text-sm text-gray-400 md:text-right">
-  //                 {log.createdAt ? (
-  //                   <Moment format="MMM D, YYYY">
-  //                     {log.createdAt}
-  //                   </Moment>
-  //                 ) : (
-  //                   "—"
-  //                 )}
-  //               </div>
-  //             </div>
-  //           ))}
-  //         </div>
-  //       )}
-  //     </div>
-
-  //     {/* Future Analytics Section */}
-  //     <div
-  //       className="
-  //         mt-10
-  //         rounded-3xl
-  //         border
-  //         border-white/10
-  //         bg-gradient-to-b
-  //         from-white/[0.05]
-  //         to-white/[0.02]
-  //         backdrop-blur-xl
-  //         p-8
-  //       "
-  //     >
-  //       <h2 className="text-2xl font-bold text-white">
-  //         AI Analytics
-  //       </h2>
-
-  //       <p className="mt-2 text-gray-400">
-  //         Daily trends, user-wise usage, AI model distribution,
-  //         growth metrics and visual insights can be displayed here.
-  //       </p>
-
-  //       <div className="mt-8 flex h-64 items-center justify-center rounded-2xl border border-dashed border-white/10">
-  //         <span className="text-gray-500">
-  //           Charts & Insights Coming Soon
-  //         </span>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
-
-return (
-  <div className="w-full max-w-7xl px-6 py-10">
-    {/* Header */}
-    <div className="mb-10">
-      <h1 className="text-3xl font-semibold text-zinc-100">
-        AI Usage Dashboard
-      </h1>
-
-      <p className="mt-2 text-sm text-zinc-400">
-        Monitor AI requests, user engagement, and platform-wide activity.
-      </p>
-    </div>
-
-    {/* Stats Cards */}
-    <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-      {cards.map((card) => (
-        <div
-          key={card.title}
-          className="
-            rounded-2xl
-            border
-            border-zinc-800
-            bg-zinc-950
-            p-6
-            transition-colors
-            duration-200
-            hover:border-zinc-700
-          "
-        >
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-zinc-400">
-              {card.title}
-            </p>
-
-            <div
-              className="
-                flex
-                h-10
-                w-10
-                items-center
-                justify-center
-                rounded-lg
-                border
-                border-zinc-800
-                bg-zinc-900
-                text-zinc-400
-              "
-            >
-              {card.icon}
-            </div>
-          </div>
-
-          <h2 className="mt-5 text-3xl font-bold text-zinc-100">
-            {card.value}
-          </h2>
-        </div>
-      ))}
-    </div>
-
-    {/* Recent Activity */}
-    <div
-      className="
-        mt-10
-        rounded-2xl
-        border
-        border-zinc-800
-        bg-zinc-950
-        p-6
-      "
-    >
-      <div className="mb-6">
-        <h2 className="text-xl font-semibold text-zinc-100">
-          Recent AI Activity
-        </h2>
-
-        <p className="mt-1 text-sm text-zinc-400">
-          View the latest AI actions performed across the platform.
+        <p className="mt-2 text-sm text-slate-400">
+          Monitor AI requests, user engagement, and platform-wide activity.
         </p>
       </div>
 
-      {stats.logs.length === 0 ? (
-        <div
-          className="
-            rounded-2xl
-            border
-            border-dashed
-            border-zinc-800
-            py-20
-            text-center
-          "
-        >
+      {/* Stats Cards */}
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        {cards.map((card) => (
           <div
+            key={card.title}
             className="
-              mx-auto
-              mb-5
-              flex
-              h-14
-              w-14
-              items-center
-              justify-center
-              rounded-xl
+              relative
+              overflow-hidden
+              rounded-[2rem]
               border
-              border-zinc-800
-              bg-zinc-900
-              text-zinc-400
+              border-white/10
+              bg-[#0b0f19]/40
+              backdrop-blur-md
+              p-6
+              transition-all
+              duration-300
+              hover:border-indigo-500/30
+              hover:shadow-[0_8px_30px_rgba(99,102,241,0.05)]
+              hover:-translate-y-0.5
             "
           >
-            <HiOutlineClock size={28} />
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-semibold tracking-wide text-slate-400">
+                {card.title}
+              </p>
+
+              <div
+                className="
+                  flex
+                  h-10
+                  w-10
+                  items-center
+                  justify-center
+                  rounded-xl
+                  border
+                  border-indigo-500/20
+                  bg-indigo-500/10
+                  text-indigo-400
+                "
+              >
+                {card.icon}
+              </div>
+            </div>
+
+            <h2 className="mt-5 text-3xl font-black text-white tracking-tight truncate">
+              {card.value}
+            </h2>
           </div>
+        ))}
+      </div>
 
-          <h3 className="text-lg font-semibold text-zinc-100">
-            No AI Activity Yet
-          </h3>
+      {/* Recent Activity */}
+      <div
+        className="
+          mt-10
+          rounded-[2rem]
+          border
+          border-white/10
+          bg-[#0b0f19]/40
+          backdrop-blur-md
+          p-6 md:p-8
+        "
+      >
+        <div className="mb-6">
+          <h2 className="text-2xl font-black tracking-tight text-white">
+            Recent AI Activity
+          </h2>
 
-          <p className="mt-2 text-sm text-zinc-400">
-            Activity logs will appear here once users start using AI features.
+          <p className="mt-1 text-sm text-slate-400">
+            View the latest AI actions performed across the platform.
           </p>
         </div>
-      ) : (
-        <div className="space-y-4">
-          {stats.logs.map((log, index) => (
+
+        {stats.logs.length === 0 ? (
+          <div
+            className="
+              rounded-[2rem]
+              border
+              border-dashed
+              border-white/10
+              bg-white/[0.01]
+              py-20
+              text-center
+            "
+          >
             <div
-              key={log._id}
               className="
+                mx-auto
+                mb-5
                 flex
-                flex-col
-                gap-4
-                rounded-2xl
+                h-14
+                w-14
+                items-center
+                justify-center
+                rounded-xl
                 border
-                border-zinc-800
-                bg-zinc-900/40
-                p-5
-                transition-colors
-                duration-200
-                hover:border-zinc-700
-                md:flex-row
-                md:items-center
-                md:justify-between
+                border-white/10
+                bg-[#0b0f19]/40
+                text-slate-400
               "
             >
-              {/* Left */}
-              <div className="flex items-center gap-4">
-                <div
-                  className="
-                    flex
-                    h-11
-                    w-11
-                    items-center
-                    justify-center
-                    rounded-full
-                    border
-                    border-zinc-800
-                    bg-zinc-900
-                    text-zinc-300
-                    font-semibold
-                  "
-                >
-                  {log.userId?.fullName ? (
-                    log.userId.fullName.charAt(0).toUpperCase()
+              <HiOutlineClock size={28} />
+            </div>
+
+            <h3 className="text-lg font-bold text-white">
+              No AI Activity Yet
+            </h3>
+
+            <p className="mt-2 text-sm text-slate-500">
+              Activity logs will appear here once users start using AI features.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {stats.logs.map((log, index) => (
+              <div
+                key={log._id}
+                className="
+                  flex
+                  flex-col
+                  gap-4
+                  rounded-2xl
+                  border
+                  border-white/5
+                  bg-white/[0.02]
+                  p-5
+                  transition-all
+                  duration-200
+                  hover:bg-white/[0.04]
+                  hover:border-white/10
+                  md:flex-row
+                  md:items-center
+                  md:justify-between
+                "
+              >
+                {/* Left */}
+                <div className="flex items-center gap-4">
+                  <div
+                    className="
+                      flex
+                      h-11
+                      w-11
+                      items-center
+                      justify-center
+                      rounded-full
+                      border
+                      border-indigo-500/25
+                      bg-indigo-500/15
+                      text-indigo-300
+                      font-bold
+                    "
+                  >
+                    {log.userId?.fullName ? (
+                      log.userId.fullName.charAt(0).toUpperCase()
+                    ) : (
+                      <FiUser size={16} />
+                    )}
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-slate-200">
+                      {log.userId?.fullName || "Unknown User"}
+                    </h3>
+
+                    <p className="text-xs text-slate-500">
+                      Activity #{String(index + 1).padStart(3, "0")}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Center */}
+                <div className="flex flex-wrap items-center gap-3">
+                  {log.role === "admin" ? (
+                    <span
+                      className="
+                        inline-flex
+                        items-center
+                        gap-1.5
+                        rounded-lg
+                        border
+                        border-amber-500/20
+                        bg-amber-500/10
+                        px-3
+                        py-1.5
+                        text-xs
+                        font-semibold
+                        text-amber-300
+                      "
+                    >
+                      <FiShield size={12} />
+                      Admin
+                    </span>
                   ) : (
-                    <FiUser size={16} />
+                    <span
+                      className="
+                        inline-flex
+                        items-center
+                        rounded-lg
+                        border
+                        border-white/5
+                        bg-white/[0.03]
+                        px-3
+                        py-1.5
+                        text-xs
+                        font-semibold
+                        text-slate-300
+                      "
+                    >
+                      User
+                    </span>
                   )}
-                </div>
 
-                <div>
-                  <h3 className="font-medium text-zinc-100">
-                    {log.userId?.fullName || "Unknown User"}
-                  </h3>
-
-                  <p className="text-xs text-zinc-500">
-                    Activity #{String(index + 1).padStart(3, "0")}
-                  </p>
-                </div>
-              </div>
-
-              {/* Center */}
-              <div className="flex flex-wrap items-center gap-3">
-                {log.role === "admin" ? (
                   <span
                     className="
                       inline-flex
@@ -507,131 +294,92 @@ return (
                       gap-1.5
                       rounded-lg
                       border
-                      border-amber-900/40
-                      bg-amber-950/30
+                      border-indigo-500/20
+                      bg-indigo-500/10
                       px-3
                       py-1.5
                       text-xs
-                      font-medium
-                      text-amber-300
+                      font-semibold
+                      text-indigo-300
                     "
                   >
-                    <FiShield size={12} />
-                    Admin
+                    <HiOutlineCpuChip size={12} />
+                    {log.action}
                   </span>
-                ) : (
-                  <span
-                    className="
-                      inline-flex
-                      items-center
-                      rounded-lg
-                      border
-                      border-zinc-800
-                      bg-zinc-900
-                      px-3
-                      py-1.5
-                      text-xs
-                      font-medium
-                      text-zinc-300
-                    "
-                  >
-                    User
-                  </span>
-                )}
+                </div>
 
-                <span
-                  className="
-                    inline-flex
-                    items-center
-                    gap-1.5
-                    rounded-lg
-                    border
-                    border-zinc-800
-                    bg-zinc-900
-                    px-3
-                    py-1.5
-                    text-xs
-                    font-medium
-                    text-zinc-300
-                  "
-                >
-                  <HiOutlineBolt size={12} />
-                  {log.action}
-                </span>
+                {/* Right */}
+                <div className="flex items-center gap-2 text-sm text-slate-400 md:text-right font-medium">
+                  <FiActivity size={14} className="text-slate-500" />
+
+                  {log.createdAt ? (
+                    <Moment format="MMM D, YYYY">
+                      {log.createdAt}
+                    </Moment>
+                  ) : (
+                    "—"
+                  )}
+                </div>
               </div>
-
-              {/* Right */}
-              <div className="flex items-center gap-2 text-sm text-zinc-400">
-                <FiActivity size={14} />
-
-                {log.createdAt ? (
-                  <Moment format="MMM D, YYYY">
-                    {log.createdAt}
-                  </Moment>
-                ) : (
-                  "—"
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-
-    {/* Analytics Section */}
-    <div
-      className="
-        mt-10
-        rounded-2xl
-        border
-        border-zinc-800
-        bg-zinc-950
-        p-6
-      "
-    >
-      <div className="flex items-center gap-3">
-        <MdOutlineAnalytics
-          size={24}
-          className="text-zinc-400"
-        />
-
-        <h2 className="text-xl font-semibold text-zinc-100">
-          AI Analytics
-        </h2>
+            ))}
+          </div>
+        )}
       </div>
 
-      <p className="mt-2 text-sm text-zinc-400">
-        Daily trends, user-wise activity, model usage statistics,
-        growth metrics, and AI insights can be displayed here.
-      </p>
-
+      {/* Analytics Section */}
       <div
         className="
-          mt-8
-          flex
-          h-64
-          flex-col
-          items-center
-          justify-center
-          rounded-2xl
+          mt-10
+          rounded-[2rem]
           border
-          border-dashed
-          border-zinc-800
+          border-white/10
+          bg-[#0b0f19]/40
+          backdrop-blur-md
+          p-8
         "
       >
-        <MdOutlineAnalytics
-          size={42}
-          className="text-zinc-600"
-        />
+        <div className="flex items-center gap-3">
+          <MdOutlineAnalytics
+            size={24}
+            className="text-indigo-400"
+          />
 
-        <p className="mt-4 text-sm text-zinc-500">
-          Charts and analytics modules coming soon.
+          <h2 className="text-2xl font-black tracking-tight text-white">
+            AI Analytics
+          </h2>
+        </div>
+
+        <p className="mt-2 text-sm text-slate-400">
+          Daily trends, user-wise activity, model usage statistics, growth metrics, and AI insights can be displayed here.
         </p>
+
+        <div
+          className="
+            mt-8
+            flex
+            h-64
+            flex-col
+            items-center
+            justify-center
+            rounded-2xl
+            border
+            border-dashed
+            border-white/10
+            bg-white/[0.01]
+          "
+        >
+          <MdOutlineAnalytics
+            size={42}
+            className="text-slate-600 animate-pulse"
+          />
+
+          <p className="mt-4 text-sm font-bold text-slate-500 tracking-wide">
+            Charts and analytics modules coming soon.
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-);
-
+  );
 };
 
 export default Client;
