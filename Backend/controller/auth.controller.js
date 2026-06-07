@@ -166,7 +166,7 @@ export const login = async (req, res) => {
       secure: process.env.NODE_ENV === "production", 
       sameSite: "Lax",
       path: "/",
-      maxAge: 15 * 60 * 1000    
+      maxAge: 60 * 1000  
     });
 
 
@@ -496,7 +496,7 @@ export const refreshAccessToken = async (req, res) => {
       secure: false,
       sameSite: "lax",
       path: "/",
-      maxAge: 15 * 60 * 1000,
+      maxAge: 60 * 1000  
     });
 
     console.log("\n\n\n accessToken generated: ", newAccessToken)

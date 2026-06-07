@@ -1,34 +1,40 @@
-// app/admin/ai-dashboard/page.tsx
 import Client from "./StatsClient";
 import { cookies } from "next/headers";
-import { apiFetch } from "@/lib/apiFetch";
 
 async function getAIStats() {
-
   const cookieStore = await cookies();
+  const allowedCookies = ["accessToken", "refreshToken"];
 
-  const res = await apiFetch(`${process.env.NEXT_PUBLIC_API_URL}/ai/ai-dashboard`, {
-  method: "GET",
-  headers: {
-    Cookie: cookieStore.toString(),
-  },
-});
+  // Construct cookie header from the fresh middleware cookies
+  const cookieHeader = cookieStore
+    .getAll()
+    .filter((c) => allowedCookies.includes(c.name))
+    .map((c) => `${c.name}=${c.value}`)
+    .join("; ");
+
+  console.log("The payload in cookieHeader is: ", cookieHeader);
+
+  // Use standard fetch instead of apiFetch
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ai/ai-dashboard`, {
+    method: "GET",
+    headers: {
+      Cookie: cookieHeader,
+    },
+    // Optional: add cache: "no-store" if you want dashboard data to always be fresh
+    cache: "no-store", 
+  });
 
   const data = await res.json();
 
-  if (res.status === 401) {
+  if (!res.ok) {
     throw new Error(data.message || "Request failed");
   }
 
   console.log("The ai dashboard data is:", data);
-
   return data;
-
-
 }
 
 export default async function Page() {
-
   const data = await getAIStats();
 
   return (
