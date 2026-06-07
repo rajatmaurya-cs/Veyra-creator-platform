@@ -1,3 +1,4 @@
+import { apiFetch } from "@/lib/apiFetch";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 export function useHomeBlogs({
@@ -17,7 +18,7 @@ export function useHomeBlogs({
 
       const url = `${endpoint}?page=${pageParam}&limit=${limit}&category=${encodeURIComponent(category)}`;
 
-      const res = await fetch(url);
+      const res = await apiFetch(url);
 
       if (!res.ok) {
         throw new Error("Failed to fetch blogs");

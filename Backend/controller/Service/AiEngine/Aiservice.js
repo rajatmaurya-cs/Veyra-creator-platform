@@ -3,7 +3,7 @@ import groq from "../../../Config/Gemini.js";
 import Config from "../../../Models/Config.js";
 import AILog from "../../../Models/AIlog.js";
 
-export const contentGenerationService = async ({ user, prompt }) => {
+export const contentGenerationService = async ({ user, prompt , model}) => {
 
 
   console.log("content Generation ai engine 1")
@@ -28,9 +28,10 @@ export const contentGenerationService = async ({ user, prompt }) => {
 
  
 
+console.log("Just Going to Generate content using model: ",model)
 
   const completion = await groq.chat.completions.create({
-    model: config.aiModel,
+    model: model,
     messages: [
       { role: "system", content: "You are a professional blog writer." },
       { role: "user", content: prompt },

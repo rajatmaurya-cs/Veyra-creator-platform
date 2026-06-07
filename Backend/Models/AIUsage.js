@@ -1,28 +1,38 @@
 import mongoose from "mongoose";
 
-const aiUsageSchema = new mongoose.Schema({
-    userId:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:"User",
-        required:true
+const usageSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      unique: true,
     },
-    role : {
-        type : String,
-        default : "USER"
-    },
-    date:{
-        type:String, 
-        required:true
-    },
-    count:{
-        type:Number,
-        default:0
-    },
-   
-})
 
-aiUsageSchema.index({ userId: 1, date: 1 }, { unique: true });
+    aiGenerationUsed: {
+      type: Number,
+      default: 0,
+    },
 
-const AiUsage = mongoose.model("AIUsage", aiUsageSchema);
+    aiSummarizerUsed: {
+      type: Number,
+      default: 0,
+    },
 
-export default AiUsage;
+    currentPeriodStart: {
+      type: Date,
+      default: Date.now,
+    },
+    
+    currentPeriodEnd: {
+      type: Date,
+    }
+  },
+
+  {
+    timestamps: true,
+  }
+);
+
+export const AIUsage =
+  mongoose.models.AIUsage || mongoose.model("AIUsage", usageSchema);

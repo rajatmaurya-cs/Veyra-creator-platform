@@ -46,6 +46,7 @@ type Page = {
   limit: number;
   total: number;
 };
+import { ChevronDown } from "lucide-react";
 
 type Props = {
   initialData: InitialData;
@@ -217,13 +218,55 @@ export default function BlogClient({ initialData }: Props) {
         {hasNextPage && (
 
           <div className="flex justify-center pt-14">
-            <button
+            {/* <button
               onClick={() => fetchNextPage()}
               disabled={isFetchingNextPage}
               className="rounded-2xl border border-white/10 bg-white px-8 py-3 text-sm font-medium text-black transition-all duration-300 hover:scale-[1.02] hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isFetchingNextPage ? "Loading..." : "Load More"}
-            </button>
+            </button> */}
+
+             <button
+          onClick={() => fetchNextPage()}
+          disabled={isFetchingNextPage}
+          className="
+            h-10
+            inline-flex
+            items-center
+            justify-center
+            gap-2
+            rounded-xl
+            border
+            border-[#222733]
+            bg-[#171b22]
+            px-5
+            text-xs
+            font-medium
+            tracking-tight
+            text-[#c2c8d3]
+            transition-all
+            duration-200
+            hover:border-[#364152]
+            hover:bg-[#1d2430]
+            disabled:opacity-40
+          "
+        >
+          {isFetchingNextPage ? (
+            <div className="flex items-center gap-2">
+              
+              <span>Loading updates...</span>
+            </div>
+          ) : (
+            <>
+
+              <span>See More</span>
+
+              <ChevronDown className="h-4 w-4" />
+
+            </>
+          )}
+        </button>
+        
           </div>
 
         )}

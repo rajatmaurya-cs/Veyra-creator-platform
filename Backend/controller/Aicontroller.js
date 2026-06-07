@@ -31,10 +31,13 @@ export const generateContent = async (req, res) => {
     const prompt = blogPrompt(title , subTitle)
 
     console.log("Generat content 4")
+
+    const model = req.body.model?.id || req.body.model;
     
     const result = await contentGenerationService({
       user: req.user,
-      prompt: prompt
+      prompt: prompt,
+      model : model
     });
 
     console.log("Generat content 5")

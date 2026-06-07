@@ -16,7 +16,7 @@ import Loader from "@/app/Animations/Loader";
 
 import AIButton from "@/app/Animations/AIButton";
 
-
+import { Listbox } from '@headlessui/react'
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -109,6 +109,13 @@ const editorConfig = {
   `,
 };
 
+const models = [
+  { id: 'llama-3.1-8b-instant', name: 'Meta 3.2', desc: 'Fast' },
+  { id: 'groq/compound', name: 'Claude', desc: 'Advanced code & Debugging' },
+  { id: 'qwen/qwen3-32b', name: 'Copilot', desc: 'Advanced Math Problems' },
+  { id: 'openai/gpt-oss-120b', name: 'ChatGPT 5.1', desc: 'Tough Reasoning' },
+]
+
 const Editor = dynamic(
   () => import("@tinymce/tinymce-react").then((mod) => mod.Editor),
   {
@@ -122,6 +129,7 @@ const Editor = dynamic(
 );
 
 const AddBlog = () => {
+
   const queryClient = useQueryClient();
   const [mounted, setMounted] = useState(false);
   const [content, setContent] = useState<string>("");
@@ -131,6 +139,10 @@ const AddBlog = () => {
   const [category, setCategory] = useState<string>("startup");
   const [isPublished, setIsPublished] = useState<boolean>(false);
   const [contentType, setContentType] = useState<ContentType>("human");
+
+  const [model , setModel] = useState<string>(models[0].id)
+
+  const selectedModel = models.find((m) => m.id === model);
 
 
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
@@ -152,11 +164,12 @@ const AddBlog = () => {
     mutationFn: async ({
       title,
       subTitle,
+
     }: {
       title: string;
       subTitle: string;
     }) => {
-      const res = await fetch(
+      const res = await apiFetch(
         `${process.env.NEXT_PUBLIC_API_URL}/ai/Generatecontent`,
         {
           method: "POST",
@@ -165,7 +178,7 @@ const AddBlog = () => {
             "Content-Type": "application/json",
           },
 
-          body: JSON.stringify({ title, subTitle }),
+          body: JSON.stringify({ title, subTitle , model}),
         }
       );
 
@@ -516,7 +529,7 @@ const AddBlog = () => {
                         <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#2b3140] border-t-[#d5d7de]" />
                       }
                     >
-                      <Loader data = "Generating" />
+                      <Loader data="Generating" />
                     </Suspense>
 
                   </div>
@@ -725,25 +738,62 @@ const AddBlog = () => {
             border border-[#1b1f27]
             bg-[#11141a]
             p-5
-            space-y-3
+            space-y-4
           "
             >
+              {/* AI MODEL SELECTOR */}
+              <div>
+                <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#7b8190]">
+                  AI Model
+                </label>
+                
+                <div className="flex items-center gap-3">
+                  {/* Selected Model Logo */}
+                  <div className="flex-shrink-0 h-12 w-12 rounded-2xl border border-[#222733] bg-[#171b22] flex items-center justify-center p-2">
+                    {model === 'qwen/qwen3-32b' && <img src="/copilot.png" className="h-full w-full object-contain" alt="Copilot" />}
+                    {model === 'llama-3.1-8b-instant' && <img src="/meta.png" className="h-full w-full object-contain" alt="Meta" />}
+                    {model === 'groq/compound' && <img src="/claude.png" className="h-full w-full object-contain" alt="Claude" />}
+                    {model === 'openai/gpt-oss-120b' && <img src="/chatgpt.png" className="h-full w-full object-contain" alt="ChatGPT" />}
+                  </div>
+
+                  {/* Listbox Dropdown */}
+                  <div className="flex-1 relative">
+                    <Listbox value={model} onChange={setModel}>
+                      <div className="relative">
+                        <Listbox.Button className="h-12 w-full rounded-2xl border border-[#222733] bg-[#171b22] px-4 text-left text-sm text-white font-medium focus:border-[#3a4252] outline-none flex items-center justify-between transition-all hover:border-zinc-700">
+                          <span>{selectedModel?.name || "Select Model"}</span>
+                          <span className="text-[#7b8190] text-xs">▼</span>
+                        </Listbox.Button>
+
+                        <Listbox.Options className="absolute bottom-full mb-2 right-0 left-0 w-full bg-[#171b22] rounded-2xl border border-[#222733] z-50 max-h-60 overflow-y-auto shadow-2xl focus:outline-none divide-y divide-[#1f2430]">
+                          {models.map((item) => (
+                            <Listbox.Option
+                              key={item.id}
+                              value={item.id}
+                              className={({ active, selected }) => `
+                                px-4 py-3 text-sm cursor-pointer transition-all flex flex-col gap-0.5
+                                ${active ? "bg-[#1d2430] text-white" : "text-[#d1d5db]"}
+                                ${selected ? "bg-[#1d2430]/60 text-indigo-400 font-bold" : ""}
+                              `}
+                            >
+                              <span className="font-semibold text-white">{item.name}</span>
+                              <span className="text-xs text-[#7b8190]">{item.desc}</span>
+                            </Listbox.Option>
+                          ))}
+                        </Listbox.Options>
+                      </div>
+                    </Listbox>
+                  </div>
+                </div>
+              </div>
 
               <button
                 type="button"
                 onClick={handleGenerateContent}
-            //     className="
-            //   flex h-12 w-full items-center justify-center
-            //   rounded-2xl
-            //   bg-[#1d2430]
-            //   text-sm font-medium text-white
-            //   transition-all
-            //   hover:bg-[#252d3a]
-            // "
               >
                 {generateContentMutation.isPending
                   ? "Generating..."
-                  : <AIButton/>}
+                  : <AIButton />}
               </button>
 
               {!analysis ? (
@@ -788,8 +838,8 @@ const AddBlog = () => {
                 type="submit"
                 disabled={addBlogMutation.isPending}
                 className={`mt-2 flex h-12 w-full items-center justify-center rounded-2xl text-sm font-semibold text-white transition-all duration-200 ${addBlogMutation.isPending
-                    ? "bg-transparent cursor-not-allowed"
-                    : "bg-[#1d2430] hover:bg-[#252d3a]"
+                  ? "bg-transparent cursor-not-allowed"
+                  : "bg-[#1d2430] hover:bg-[#252d3a]"
                   }`}
               >
                 {addBlogMutation.isPending ? (

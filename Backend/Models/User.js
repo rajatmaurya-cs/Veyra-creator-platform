@@ -45,14 +45,10 @@ const userSchema = new Schema(
       enum: ["USER", "ADMIN"],
       default: "USER",
     },
-    isPremium: {
-      type: Boolean,
-      default: false
-    },
-    premiumExpiry: {
-      type: Date,
-      default: null
-    }
+   plan:{
+    type:mongoose.Schema.Types.ObjectId,
+      ref:"Plan"
+   }
   },
   { timestamps: true }
 );

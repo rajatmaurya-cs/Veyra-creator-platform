@@ -180,7 +180,6 @@ const AIConfigDashboard = () => {
 
     const payload: Partial<AIConfig> = {
       aiEnabled: editedConfig.aiEnabled,
-      aiModel: editedConfig.aiModel,
       dailyAiLimit: editedConfig.dailyAiLimit,
       dailyappLimit: editedConfig.dailyappLimit,
       aiPerMinuteLimit: editedConfig.aiPerMinuteLimit,
@@ -359,36 +358,7 @@ const AIConfigDashboard = () => {
           />
         </div>
 
-        {/* AI Model Architecture - Full Width */}
-        <div className="bg-[#0b0f19]/40 backdrop-blur-md rounded-[2rem] border border-white/10 p-8 lg:col-span-2">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-              </svg>
-            </div>
-            <div>
-              <h2 className="text-xl font-bold text-white mb-1">Compute Architecture</h2>
-              <p className="text-slate-400 font-medium text-sm">Select the underlying foundational model for cognitive tasks.</p>
-            </div>
-          </div>
-
-          <div className="relative mt-2">
-            <select
-              disabled={disableAll}
-              value={editedConfig.aiModel ?? ""}
-              onChange={(e) => setEditedConfig((prev) => ({ ...prev, aiModel: e.target.value }))}
-              className="w-full bg-[#0d121f] border border-white/10 rounded-2xl p-5 text-white font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all appearance-none cursor-pointer hover:border-white/20 disabled:opacity-60 disabled:cursor-not-allowed"
-              style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`, backgroundPosition: 'right 1.5rem center', backgroundRepeat: 'no-repeat', backgroundSize: '1.5em 1.5em' }}
-            >
-              <option value="openai/gpt-oss-120b" className="bg-[#0d121f] text-white">GPT (Highest Intelligence)</option>
-              <option value="llama-3.3-70b-versatile" className="bg-[#0d121f] text-white">LLaMA Versatile (Recommended)</option>
-              <option value="groq/compound" className="bg-[#0d121f] text-white">Groq Compound (Balanced)</option>
-              <option value="groq/compound-mini" className="bg-[#0d121f] text-white">Groq Compound Mini (Fast & Cheap)</option>
-              <option value="llama-3.1-8b-instant" className="bg-[#0d121f] text-white">LLaMA Instant (Ultra Fast)</option>
-            </select>
-          </div>
-        </div>
+    
 
       </div>
 

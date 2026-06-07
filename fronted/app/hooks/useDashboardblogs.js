@@ -11,7 +11,7 @@ export function useDashboardblogs({ limit = 5, isAdmin = true, category = "All" 
     queryFn: async () => {
 
 
-      const res = await fetch(
+      const res = await apiFetch(
         `${process.env.NEXT_PUBLIC_API_URL}/blog/admin/blogs?page=1&limit=${limit}&category=${category}`,
         {
           credentials: "include",

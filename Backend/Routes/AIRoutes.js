@@ -15,7 +15,11 @@ const AiRouter = express.Router();
 // AiRouter.post('/Generatecontent', checkAiLimit, adminMiddleware, generateContent)
 
 AiRouter.post('/Generatecontent',(req,res,next)=>{
-    console.log("Requst goes from /GenerateContent from airoutes")
+
+    // console.log("Requst goes from /GenerateContent from airoutes")
+    const model = req.body.model?.id || req.body.model;
+    console.log("The model that want 🙏🏼: ",model)
+
     next()
 },authMiddleware,generateContent)
 
