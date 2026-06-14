@@ -1,4 +1,4 @@
-import { Plan } from "../Models/Plans.js";
+import { Plan } from "../Models/plans.js";
 import { Payment } from "../Models/Payment.js";
 import User from "../Models/User.js";
 import razorpay from "../Config/razorpay.js";

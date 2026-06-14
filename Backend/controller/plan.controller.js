@@ -1,4 +1,4 @@
-import {Plan} from '../Models/Plans.js'
+import {Plan} from '../Models/plans.js'
 import PlanHistory from '../Models/plansHistory.js'
 
 export const getPlans = async (req, res) => {
