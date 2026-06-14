@@ -3,7 +3,7 @@ import upload from '../Middleware/Multer.js'
 import authMiddleware from "../Middleware/authMiddleware.js"
 import adminMiddleware from "../Middleware/adminMiddleware.js"
 
-import  {addBlog , getallblog ,getblogbyid , deleteBlog , toggleblogpublish , GenerateReport ,BlogAdmin} from '../controller/BlogController.js'
+import  {addBlog , getallblog ,getblogbyid , deleteBlog , toggleblogpublish , GenerateReport ,BlogAdmin , toggleLikeBlog} from '../controller/BlogController.js'
 import {getDashboardStats} from '../controller/Dashboard.js'
 const blogRouter = express.Router();
 
@@ -54,6 +54,10 @@ blogRouter.get('/BlogDashBoard',authMiddleware,(req,res,next)=>{
     next()
     
 },getDashboardStats)
+
+
+// POST /api/blog/:id/like
+blogRouter.post('/like/:id', authMiddleware, toggleLikeBlog);
 
 
 

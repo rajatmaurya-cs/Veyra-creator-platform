@@ -6,6 +6,8 @@ import {
   MessageSquare,
   FileClock,
   AlertCircle,
+  Heart,
+  Users,
 } from 'lucide-react'
 import { StatusSkeleton } from '../loading'
 
@@ -40,6 +42,8 @@ export default function StatusClient() {
         totalBlogs: json.stats.totalBlogs,
         totalComments: json.stats.totalComments,
         draftBlogs: json.stats.draftBlogs,
+        totalLikes: json.stats.totalLikes,
+        totalFollowers: json.stats.totalFollowers,
       }
     },
 
@@ -47,7 +51,7 @@ export default function StatusClient() {
     refetchOnWindowFocus: false,
   })
 
-  const wrapper = 'w-full max-w-2xl mx-auto'
+  const wrapper = 'w-full max-w-5xl mx-auto'
 
   if (isLoading) {
     return <StatusSkeleton />
@@ -71,7 +75,7 @@ export default function StatusClient() {
       title: 'Total Blogs',
       value: data?.totalBlogs ?? 0,
       icon: FileText,
-
+      highlight: false,
       iconClass:
         'text-sky-300 border-sky-500/20 bg-gradient-to-br from-sky-500/20 via-blue-500/10 to-cyan-500/20 shadow-[0_0_25px_rgba(56,189,248,0.18)]',
     },
@@ -80,7 +84,7 @@ export default function StatusClient() {
       title: 'Total Comments',
       value: data?.totalComments ?? 0,
       icon: MessageSquare,
-
+      highlight: false,
       iconClass:
         'text-fuchsia-300 border-fuchsia-500/20 bg-gradient-to-br from-fuchsia-500/20 via-pink-500/10 to-violet-500/20 shadow-[0_0_25px_rgba(217,70,239,0.18)]',
     },
@@ -89,22 +93,44 @@ export default function StatusClient() {
       title: 'Draft Blogs',
       value: data?.draftBlogs ?? 0,
       icon: FileClock,
-
+      highlight: false,
       iconClass:
         'text-amber-200 border-amber-500/20 bg-gradient-to-br from-amber-500/20 via-orange-500/10 to-yellow-500/20 shadow-[0_0_25px_rgba(251,191,36,0.18)]',
+    },
+
+    {
+      title: 'Total Likes',
+      value: data?.totalLikes ?? 0,
+      icon: Heart,
+      highlight: true,
+      iconClass:
+        'text-rose-300 border-rose-500/20 bg-rose-950/20 shadow-[0_0_25px_rgba(244,63,94,0.1)]',
+    },
+
+    {
+      title: 'Total Followers',
+      value: data?.totalFollowers ?? 0,
+      icon: Users,
+      highlight: true,
+      iconClass:
+        'text-teal-300 border-teal-500/20 bg-teal-950/20 shadow-[0_0_25px_rgba(20,184,166,0.1)]',
     },
   ]
 
   return (
     <div className={wrapper}>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         {stats.map((stat) => {
           const Icon = stat.icon
 
           return (
             <div
               key={stat.title}
-              className="group relative overflow-hidden rounded-3xl border border-zinc-800/60 bg-zinc-950/50 p-5 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 hover:border-zinc-700/80 hover:bg-zinc-900/50"
+              className={`group relative overflow-hidden rounded-3xl border p-5 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 ${
+                stat.highlight
+                  ? 'border-white/20 bg-zinc-900/40 hover:border-white/30 hover:bg-zinc-800/40 shadow-[0_0_20px_rgba(255,255,255,0.03)]'
+                  : 'border-zinc-800/60 bg-zinc-950/50 hover:border-zinc-700/80 hover:bg-zinc-900/50'
+              }`}
             >
               {/* subtle glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { X, Mail, Calendar, Shield, LogOut, CheckCircle2, CreditCard } from "lucide-react";
+import { X, Mail, Calendar, Shield, LogOut, CheckCircle2, CreditCard, Users } from "lucide-react";
 import { motion } from "framer-motion";
 import EditorLoader from "../Animations/EditorLoader";
 
@@ -17,6 +17,8 @@ type UserProfileModalProps = {
             name: string;
         } | null;
         planExpiresAt?: string | null;
+        followers?: string[];
+        following?: string[];
     } | null;
     onClose: () => void;
     onLogout: () => void;
@@ -164,6 +166,20 @@ const UserProfileModal = ({
                                                 day: "numeric",
                                               })
                                             : "-"}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        {/* Followers Row */}
+                        <div className="group flex items-center justify-between p-3.5 rounded-2xl bg-zinc-900/40 border border-zinc-900 hover:border-zinc-850 hover:bg-zinc-900/60 transition-all duration-300">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 rounded-xl bg-zinc-950 border border-zinc-800/60 text-zinc-400 group-hover:text-indigo-400 transition-colors">
+                                    <Users size={16} />
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">Followers</span>
+                                    <span className="text-sm text-zinc-300 font-medium">
+                                        {user?.followers?.length || 10} followers
                                     </span>
                                 </div>
                             </div>

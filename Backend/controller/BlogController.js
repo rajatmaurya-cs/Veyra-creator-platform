@@ -4,20 +4,14 @@ import imageKit from '../Config/imagekit.js'
 import { convertHtmlToText } from '../utils/htmlToPlainText.js'
 import { analyzeContent } from "../utils/contentAnalyzer.js";
 
-
-
-
 export const addBlog = async (req, res) => {
   try {
-
-
     if (!req.user) {
       return res.status(401).json({
         success: false,
         message: "Login required",
       });
     }
-
 
     let blogData;
     try {
@@ -214,10 +208,11 @@ export const getblogbyid = async (req, res) => {
     const blog = await Blog.findById(blogId).populate("createdBy", "fullName email avatar");
 
 
-    console.log("The fetched blog is :",blog.content)
+    // console.log("The fetched blog is :",blog.content)
 
 
     if (!blog) return res.json({ success: false, message: "Blog not found" })
+      
     res.json({
       success: true,
       blog,
@@ -351,4 +346,32 @@ export const GenerateReport = (req, res) => {
 }
 
 
+export const toggleLikeBlog = async (req, res) => {
+  try {
+    const blogId = req.params.id;
 
+    const userId = req.user.id; // From authMiddleware
+
+    const blog = await Blog.findById(blogId);
+
+    if (!blog) return res.status(404).json({ message: "Blog not found" });
+
+    // Check if user has already liked the blog using string comparison
+    const likesArray = blog.likes || [];
+    const hasLiked = likesArray.some(id => id.toString() === userId.toString());
+
+    if (hasLiked) {
+      // Unlike: Remove the userId from the likes array
+      await Blog.findByIdAndUpdate(blogId, { $pull: { likes: userId } });
+      return res.status(200).json({ liked: false, message: "Unliked successfully" });
+
+    } else {
+      // Like: Add the userId to the likes array (ensuring uniqueness)
+      await Blog.findByIdAndUpdate(blogId, { $addToSet: { likes: userId } });
+
+      return res.status(200).json({ liked: true, message: "Liked successfully" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

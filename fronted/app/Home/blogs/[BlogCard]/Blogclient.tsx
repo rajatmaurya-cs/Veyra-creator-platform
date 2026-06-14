@@ -24,13 +24,12 @@ import { AuthContext } from "@/app/ContextProvider/AuthProvider";
 import { useContext } from "react";
 
 import {
-  CalendarDays,
   MessageSquare,
   Sparkles,
   SendHorizonal,
-  Clock3,
-  FileText,
-  FlaskConical
+  FlaskConical,
+  Heart,
+  FileText
 } from "lucide-react";
 
 
@@ -48,9 +47,11 @@ type Blog = {
   isPublished: boolean;
   contentSource: string;
   createdBy?: {
+    _id?: string;
     avatar?: string;
     fullName?: string;
   };
+  likes?: string[];
   aiAnalysis: {
     words: number;
     sentences: number;
@@ -71,7 +72,8 @@ const Blogclient = ({ blog }: BlogClientProps) => {
 
   const router = useRouter()
 
-  const { loggedIn, setLoggedIn } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
+  const loggedIn = authContext ? authContext.loggedIn : false;
 
   const [comment, setComment] = useState("");
 
@@ -84,6 +86,101 @@ const Blogclient = ({ blog }: BlogClientProps) => {
   const queryClient = useQueryClient();
 
   const blogId = blog._id;
+
+  const { user, refetchUser } = useContext(AuthContext) as any;
+
+  const [localHasLiked, setLocalHasLiked] = useState(false);
+  const [localLikesCount, setLocalLikesCount] = useState(0);
+  const [localIsFollowing, setLocalIsFollowing] = useState(false);
+
+  useEffect(() => {
+    if (blog) {
+      console.log("The user is:", user)
+      setLocalLikesCount(blog.likes?.length || 0);
+      if (user && blog.likes) {
+        setLocalHasLiked(blog.likes.includes(user.id || user._id));
+      }
+    }
+  }, [blog, user]);
+
+  useEffect(() => {
+    if (user && blog.createdBy?._id) {
+      setLocalIsFollowing(user.following?.includes(blog.createdBy._id));
+    }
+  }, [user, blog.createdBy?._id]);
+
+  const likeMutation = useMutation({
+    mutationFn: async () => {
+      if (!loggedIn) {
+        toast.error("Please login to like this blog");
+        router.push("/auth/login");
+        throw new Error("Unauthorized");
+      }
+      const res = await apiFetch(`${process.env.NEXT_PUBLIC_API_URL}/blog/like/${blogId}`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to like blog");
+      return data;
+    },
+    onMutate: async () => {
+      setLocalHasLiked((prev) => !prev);
+      setLocalLikesCount((prev) => (localHasLiked ? prev - 1 : prev + 1));
+    },
+    onError: (err) => {
+      setLocalHasLiked((prev) => !prev);
+      setLocalLikesCount((prev) => (localHasLiked ? prev + 1 : prev - 1));
+      toast.error(err.message || "Error liking blog");
+    },
+    onSuccess: (data) => {
+      setLocalHasLiked(data.liked);
+      queryClient.invalidateQueries({ queryKey: ["blog", blogId] });
+    },
+  });
+
+  const followMutation = useMutation({
+    mutationFn: async () => {
+      if (!loggedIn) {
+        toast.error("Please login to follow this author");
+        router.push("/auth/login");
+        throw new Error("Unauthorized");
+      }
+      const res = await apiFetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/follow/${blog.createdBy?._id}`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to follow author");
+      return data;
+    },
+    onMutate: async () => {
+      setLocalIsFollowing((prev) => !prev);
+    },
+    onError: (err) => {
+      setLocalIsFollowing((prev) => !prev);
+      toast.error(err.message || "Error following author");
+    },
+    onSuccess: () => {
+      refetchUser();
+    },
+  });
+
+  const handleLike = () => {
+    if (!loggedIn) {
+      toast.error("Please login to like this blog");
+      router.push("/auth/login");
+      return;
+    }
+    likeMutation.mutate();
+  };
+
+  const handleFollow = () => {
+    if (!loggedIn) {
+      toast.error("Please login to follow this author");
+      router.push("/auth/login");
+      return;
+    }
+    followMutation.mutate();
+  };
 
   const addCommentMutation = useMutation({
     mutationFn: async () => {
@@ -252,72 +349,84 @@ const Blogclient = ({ blog }: BlogClientProps) => {
             {blog.subTitle}
           </p>
 
-          {/* META */}
-          <div className="flex flex-wrap items-center gap-5">
+          {/* META & STATS */}
+          <div className="border-y border-white/5 py-6 mb-10">
+            <div className="flex items-start justify-between gap-4">
 
-            <div className="flex items-center gap-3">
+              {/* LEFT */}
+              <div className="flex items-center gap-4 min-w-0">
 
-              <div className="relative">
+                <div className="relative w-12 h-12 shrink-0">
+                  <Image
+                    src={blog?.createdBy?.avatar || "/man.png"}
+                    alt={blog?.createdBy?.fullName || "Author"}
+                    fill
+                    className="rounded-full object-cover"
+                  />
+                </div>
 
-                {/* GLOW */}
-                <div className="absolute inset-0 bg-violet-500 blur-xl opacity-40 rounded-full" />
+                <div className="min-w-0">
+                  <h4 className="text-sm font-semibold text-white truncate">
+                    {blog.createdBy?.fullName || "Unknown Author"}
+                  </h4>
 
-                {/* WHITE OUTER RING */}
-                <div className="relative p-[3px] rounded-full bg-gradient-to-br from-white via-gray-200 to-white shadow-[0_0_30px_rgba(255,255,255,0.18)]">
+                  <p className="text-xs text-gray-500 mt-0.5">
+                    Author
+                  </p>
 
-                  {/* INNER IMAGE */}
-                  <div className="rounded-full overflow-hidden border border-white/10 bg-[#0B1120]">
+                  <div className="flex flex-wrap items-center gap-2 mt-2 text-xs text-gray-500">
+                    <span>
+                      {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </span>
 
-                    <Image
-                      src={blog?.createdBy?.avatar || '/man.png'}
-                      alt="Author"
-                      width={56}
-                      height={56}
-                      priority
-                      className="rounded-full object-cover"
-                    />
+                    <span>•</span>
 
+                    <span>{blog.aiAnalysis.words} words</span>
+
+                    <span>•</span>
+
+                    <span>
+                      {Math.ceil(blog.aiAnalysis.words / 200)} min read
+                    </span>
                   </div>
                 </div>
               </div>
 
-              <div>
-                <p className="text-sm text-gray-300 font-medium">
-                  {blog.createdBy?.fullName || "Unknown Author"}
-                </p>
+              {/* RIGHT */}
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={handleLike}
+                  className={`group flex items-center gap-2 px-4 py-2.5 rounded-full border transition-all duration-200 ${localHasLiked
+                      ? "bg-rose-500 text-white border-rose-500 shadow-lg shadow-rose-500/20"
+                      : "bg-white/5 border-white/10 text-gray-300 hover:border-rose-500/40 hover:bg-rose-500/10"
+                    }`}
+                >
+                  <Heart
+                    size={16}
+                    className={`transition-transform duration-200 ${localHasLiked ? "fill-current scale-110" : "group-hover:scale-110"
+                      }`}
+                  />
+                  <span className="font-medium">{localLikesCount}</span>
+                </button>
 
-                <div className="flex items-center gap-2 text-xs text-gray-500">
-                  <CalendarDays size={14} />
-
-                  {new Date(blog.createdAt).toLocaleDateString("en-US", {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric",
-                  })}
-                </div>
+               { blog?.createdBy?._id && <button
+                  onClick={handleFollow}
+                  disabled={followMutation.isPending}
+                  className={`px-5 py-2.5 rounded-full font-medium transition-all duration-200 ${localIsFollowing
+                      ? "bg-white/10 text-white border border-white/10"
+                      : "bg-blue-500 hover:bg-blue-400 text-white shadow-lg shadow-blue-500/25"
+                    }`}
+                >
+                  {localIsFollowing ? "Following" : "Follow"}
+                </button>}
               </div>
-            </div>
-
-            {/* STATS */}
-            <div className="flex items-center gap-3 flex-wrap">
-
-              <div className="px-4 py-2 rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl">
-                <div className="flex items-center gap-2 text-sm text-gray-300">
-                  <FileText size={15} />
-                  {blog.aiAnalysis.words} Words
-                </div>
-              </div>
-
-              <div className="px-4 py-2 rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl">
-                <div className="flex items-center gap-2 text-sm text-gray-300">
-                  <Clock3 size={15} />
-                  {Math.ceil(blog.aiAnalysis.words / 200)} min read
-                </div>
-              </div>
-
-
             </div>
           </div>
+
         </div>
 
         {/* IMAGE FIXED */}
@@ -486,13 +595,13 @@ const Blogclient = ({ blog }: BlogClientProps) => {
       "
 
                 onClick={() => setShowContent('AI')}>
-                  
-                  <span className="flex items-center gap-2">
-                    <FlaskConical size = {18} />
-                    Move to AI Content
-                    </span>
 
-                </button>)
+                <span className="flex items-center gap-2">
+                  <FlaskConical size={18} />
+                  Move to AI Content
+                </span>
+
+              </button>)
 
 
             }

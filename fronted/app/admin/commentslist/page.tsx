@@ -149,7 +149,7 @@ const Page = () => {
     toggleMutation.mutate(commentId);
   };
 
-  if (!isLoading) {
+  if (isLoading) {
     return <CommentModerationSkeleton />;
   }
 

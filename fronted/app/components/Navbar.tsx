@@ -6,7 +6,8 @@ import {
   LayoutGrid,
   User,
   ShieldCheck,
-  IndianRupee
+  IndianRupee,
+   Trophy
 } from "lucide-react";
 
 import { AuthContext } from "../ContextProvider/AuthProvider";
@@ -190,6 +191,23 @@ const Navbar = () => {
 
               </button>
             )}
+
+         
+              <button
+                onClick={()=>router.push('/leaderboard')}
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
+                bg-zinc-900/60 border border-zinc-800 text-sm font-medium text-zinc-300
+                hover:bg-zinc-900 hover:border-zinc-700 hover:text-zinc-100
+                transition-all duration-200"
+              >
+              
+                <Trophy size ={22}
+                className="text-indigo-400"
+                />
+                <span>LeaderBoard</span>
+
+              </button>
+            
 
 
 

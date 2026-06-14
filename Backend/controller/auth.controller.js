@@ -20,6 +20,8 @@ import VerifiedEmail from "../Models/VerifiedEmail.js";
 import RefreshToken from "../Models/RefreshToken.js";
 import { Plan } from "../Models/Plans.js";
 import { AIUsage } from "../Models/AIUsage.js";
+import fs from "fs";
+import imageKit from "../Config/imagekit.js";
 
 
 /*-----------------------User Login / Signup / google-Login  -------------------------------- */
@@ -27,7 +29,12 @@ import { AIUsage } from "../Models/AIUsage.js";
 export const signup = async (req, res) => {
   try {
 
+    console.log("Local Signup Controller.js ↘️")
+
+
     let { fullName, email, password } = req.body;
+
+
 
     fullName = fullName.trim();
     email = email.toLowerCase().trim();
@@ -57,31 +64,68 @@ export const signup = async (req, res) => {
       });
     }
 
+
     const freePlan = await Plan.findOne({
       name: "free",
     });
 
 
+    let avatarUrl = "";
+    if (req.file) {
+      try {
+
+        const fileBuffer = fs.readFileSync(req.file.path);
+
+        const uploadResponse = await imageKit.upload({
+          file: fileBuffer,
+          fileName: `${Date.now()}-${req.file.originalname}`,
+          folder: "/Postify-Users",
+        });
+
+        if (uploadResponse?.url) {
+          avatarUrl = uploadResponse.url;
+        }
+
+      } catch (uploadError) {
+        console.error("Avatar upload failed:", uploadError);
+      } finally {
+        // Safe temp file cleanup
+
+        fs.unlink(req.file.path, (err) => {
+          if (err) console.error("Error deleting temp avatar file:", err);
+        });
+      }
+    }
 
     const user = await User.create({
       fullName,
       email,
       password,
+      avatar: avatarUrl || undefined,
       authProvider: "LOCAL",
       plan: freePlan._id,
     });
 
 
-    await AIUsage.create({
-      user: user._id,
-    });
+    await AIUsage.findOneAndUpdate(
+      { userId: user._id },
+      { $setOnInsert: { userId: user._id } },
+      {
+        upsert: true,
+        new: true,
+        setDefaultsOnInsert: true,
+      }
+    );
 
+
+    console.log("Local Signup Controller.js ✅")
     return res.json({
       success: true,
       message: "User signed up successfully",
     });
 
   } catch (error) {
+    console.log("The Error in LocalSignup is", error)
     return res.json({
       success: false,
       message: error.message,
@@ -181,7 +225,7 @@ export const login = async (req, res) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       path: "/",
-      maxAge: 60 * 1000
+      maxAge: 15 * 60 * 1000
     });
 
 
@@ -189,7 +233,7 @@ export const login = async (req, res) => {
     return res.status(200).json({
       success: true,
 
-       user: {
+      user: {
         id: user._id,
         name: user.fullName,
         email: user.email,
@@ -197,13 +241,13 @@ export const login = async (req, res) => {
         avatar: user.avatar,
         plan: user.plan, // 👈 Populated plan object containing name, price, etc.
         createdAt: user.createdAt,
-        planExpiresAt:user.planExpiresAt
+        planExpiresAt: user.planExpiresAt
       },
     });
 
 
   } catch (error) {
-    console.log("The error is Login: ", error)
+    console.log("The error in Local Login: ", error)
     return res.json({
       success: false,
       message: error.message,
@@ -268,13 +312,7 @@ export const googleLogin = async (req, res) => {
 
     // ---------------- CREATE USER ----------------
 
-
-
-
-
     if (!user) {
-
-
 
       const freePlan = await Plan.findOne({ name: "free" });
 
@@ -292,9 +330,15 @@ export const googleLogin = async (req, res) => {
       });
 
 
-      await AIUsage.create({
-        user: user._id,
-      });
+      await AIUsage.findOneAndUpdate(
+        { userId: user._id },
+        { $setOnInsert: { userId: user._id } },
+        {
+          upsert: true,
+          new: true,
+          setDefaultsOnInsert: true,
+        }
+      );
 
       console.log("The User is New and AIUsage Created 🚨")
 
@@ -442,69 +486,69 @@ export const refreshAccessToken = async (req, res) => {
 
     console.log("Request comes for refreshAccesToken 🚫 at: ", time);
 
-    console.log("refreshAccessToken: 1")
+    // console.log("refreshAccessToken: 1")
 
     const refreshToken = req.cookies.refreshToken;
 
     const accessToken = req.cookies.accessToken;
 
 
-    console.log("The refreshtoken from Browser is: ",refreshToken)
-    
+    console.log("The refreshtoken from Browser is: ", refreshToken)
+
 
 
     if (!refreshToken) {
       return res.status(401).json({ message: "Invalid email or Password" });
     }
 
-    console.log("refreshAccessToken: 2")
+    // console.log("refreshAccessToken: 2")
 
 
     const hashedToken = hashToken(refreshToken);
 
-    console.log("refreshAccessToken: 3")
+    // console.log("refreshAccessToken: 3")
 
     const storedToken = await RefreshToken.findOneAndDelete({
       token: hashedToken,
     });
 
-    console.log("refreshAccessToken: 4")
+    // console.log("refreshAccessToken: 4")
 
-    console.log("The StoredToken is: ", storedToken)
+    // console.log("The StoredToken is: ", storedToken)
 
     if (!storedToken) {
       return res.status(403).json({ message: "Invalid Email or Password" });
     }
 
-    console.log("refreshAccessToken: 5")
+    // console.log("refreshAccessToken: 5")
 
     const decoded = jwt.verify(
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET
     );
 
-    console.log("refreshAccessToken: 6")
+    // console.log("refreshAccessToken: 6")
 
     const user = await User.findById(decoded.id);
 
 
-    console.log("refreshAccessToken: 7")
+    // console.log("refreshAccessToken: 7")
 
-    console.log("user is: ", user)
+    // console.log("user is: ", user)
 
     if (!user) {
       return res.status(403).json({ message: "User not found" });
     }
 
-    console.log("refreshAccessToken: 8")
+    // console.log("refreshAccessToken: 8")
 
     const newAccessToken = createAccessToken(user);
 
-    console.log("refreshAccessToken: 9")
+    // console.log("refreshAccessToken: 9")
 
     const newrefreshToken = createRefreshToken(user);
 
-    console.log("refreshAccessToken: 10")
+    // console.log("refreshAccessToken: 10")
 
 
 
@@ -514,7 +558,7 @@ export const refreshAccessToken = async (req, res) => {
     });
 
 
-    console.log("refreshAccessToken: 11")
+    // console.log("refreshAccessToken: 11")
 
 
 
@@ -582,11 +626,11 @@ export const sendOtp = async (req, res) => {
 
 export const verifyOtp = async (req, res) => {
   try {
-    console.log("1 ✅")
+    // console.log("1 ✅")
 
     let { email, otp, purpose } = req.body;
 
-    console.log("2 ✅")
+    // console.log("2 ✅")
 
     if (!email || !otp || !purpose) {
       return res.status(400).json({
@@ -595,7 +639,7 @@ export const verifyOtp = async (req, res) => {
       });
     }
 
-    console.log("3 ✅")
+    // console.log("3 ✅")
 
     email = email.toLowerCase().trim();
     purpose = purpose.toUpperCase().trim(); // e.g. SIGNUP, RESET_PASSWORD
@@ -603,14 +647,14 @@ export const verifyOtp = async (req, res) => {
     const otpKey = `otp:${purpose}:${email}`;
     const attemptsKey = `otpAttempts:${purpose}:${email}`;
 
-    console.log("4 ✅")
+    // console.log("4 ✅")
 
     // ✅ Get OTP from Redis (purpose-based)
     console.log("The status of redisClient: ", redisClient.isOpen)
 
     const storedOtp = await redisClient.get(otpKey);
 
-    console.log("5 ✅")
+    // console.log("5 ✅")
 
     if (!storedOtp) {
       return res.status(400).json({
@@ -619,19 +663,19 @@ export const verifyOtp = async (req, res) => {
       });
     }
 
-    console.log("6 ✅")
+    // console.log("6 ✅")
 
     // ✅ Attempts limiter (purpose-based)
     const attempts = await redisClient.incr(attemptsKey);
 
-    console.log("7 ✅")
+    // console.log("7 ✅")
 
 
     if (attempts === 1) {
       await redisClient.expire(attemptsKey, 300); // 5 minutes
     }
 
-    console.log("8 ✅")
+    // console.log("8 ✅")
 
     if (attempts > 5) {
       return res.status(429).json({
@@ -640,13 +684,13 @@ export const verifyOtp = async (req, res) => {
       });
     }
 
-    console.log("9 ✅")
+    // console.log("9 ✅")
 
     // ✅ Compare OTP
     const isMatch = await bcrypt.compare(otp.toString(), storedOtp);
 
 
-    console.log("10 ✅")
+    // console.log("10 ✅")
 
     if (!isMatch) {
       return res.status(400).json({
@@ -655,13 +699,13 @@ export const verifyOtp = async (req, res) => {
       });
     }
 
-    console.log("11 ✅")
+    // console.log("11 ✅")
 
     // ✅ Success: delete OTP + attempts
     await redisClient.del(otpKey);
     await redisClient.del(attemptsKey);
 
-    console.log("12 ✅")
+    // console.log("12 ✅")
 
     /**
      * ✅ IMPORTANT:
@@ -675,7 +719,7 @@ export const verifyOtp = async (req, res) => {
       { upsert: true }
     );
 
-    console.log("13 ✅")
+    // console.log("13 ✅")
 
     return res.status(200).json({
       success: true,
@@ -810,3 +854,64 @@ export const checkmailforreset = async (req, res) => {
     })
   }
 }
+
+
+
+export const toggleFollowAuthor = async (req, res) => {
+  const authorId = req.params.id;
+  const currentUserId = req.user.id;
+
+  const author = await User.findById(authorId);
+  const followersArray = author.followers || [];
+  const isFollowing = followersArray.some(id => id.toString() === currentUserId.toString());
+
+  if (isFollowing) {
+    // Unfollow
+    await User.findByIdAndUpdate(authorId, { $pull: { followers: currentUserId } });
+    await User.findByIdAndUpdate(currentUserId, { $pull: { following: authorId } });
+    return res.json({ following: false });
+  } else {
+    // Follow
+    await User.findByIdAndUpdate(authorId, { $addToSet: { followers: currentUserId } });
+    await User.findByIdAndUpdate(currentUserId, { $addToSet: { following: authorId } });
+    return res.json({ following: true });
+  }
+};
+
+
+export const getLeaderboard = async (req, res) => {
+  try {
+
+
+    const users = await User.aggregate([
+      {
+        $project: {
+          fullName: 1,
+          avatar: 1,
+          role: 1,
+          followersCount: {
+            $size: {
+              $ifNull: ["$followers", []]
+            }
+          }
+        }
+      },
+      {
+        $sort: {
+          followersCount: -1
+        }
+      }
+    ]);
+
+    return res.status(200).json({
+      success: true,
+      users
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};

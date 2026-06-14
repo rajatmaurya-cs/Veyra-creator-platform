@@ -28,6 +28,26 @@ const Page = () => {
 
   const [password, setPassword] = useState("");
 
+  const [avatarFile, setAvatarFile] = useState(null);
+
+  const [avatarPreview, setAvatarPreview] = useState("");
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAvatarFile(file);
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (avatarPreview) {
+        URL.revokeObjectURL(avatarPreview);
+      }
+    };
+  }, [avatarPreview]);
+
   const [otp, setOtp] = useState("");
 
 
@@ -41,29 +61,30 @@ const Page = () => {
 
   const signupMutation = useMutation({
     mutationFn: async () => {
-
-      //   const res = await API.post("/auth/signup", { fullName, email, password });
-     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`,
-      {
-        method: "POST",
-
-        headers: {
-          "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify({
-          fullName,
-          email,
-          password,
-        }),
+      const formData = new FormData();
+      formData.append("fullName", fullName);
+      formData.append("email", email);
+      formData.append("password", password);
+      if (avatarFile) {
+        formData.append("avatar", avatarFile);
       }
-    );
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (!res.ok) {
         throw new Error("Signup failed");
       }
-      const data = await res.json()
+      const data = await res.json();
+
+      if (!data.success) {
+        throw new Error(data.message || "Signup failed");
+      }
 
       return data;
     },
@@ -71,11 +92,10 @@ const Page = () => {
       toast.success("Signup successful");
       router.replace("/auth/login");
     },
-     onError: (err) => {
-    console.log(err.message);
-
-    toast.error(err.message);
-  },
+    onError: (err) => {
+      console.log(err.message);
+      toast.error(err.message);
+    },
   });
 
   const handleSignup = (e) => {
@@ -85,6 +105,7 @@ const Page = () => {
     if (!fullName.trim()) return toast.error("Name is required");
     if (!email.trim()) return toast.error("Email is required");
     if (!password.trim()) return toast.error("Password is required");
+    if (!avatarFile) return toast.error("profilePicture is required");
 
     signupMutation.mutate();
   };
@@ -142,6 +163,7 @@ const Page = () => {
 
 
 const isCreating = signupMutation.isPending;
+
 return (
   <div className="min-h-screen bg-[#0b0d11] text-[#f3f4f6] relative overflow-hidden flex items-center justify-center px-4 py-10">
 
@@ -190,6 +212,34 @@ return (
         onSubmit={handleSignup}
         className="flex flex-col gap-5"
       >
+
+        {/* AVATAR UPLOAD */}
+        {isVerified && (
+          <div className="flex flex-col items-center justify-center gap-3 my-2">
+            <div className="relative group">
+              <div className="w-24 h-24 rounded-full border border-dashed border-[#3a4252] bg-[#171b22] flex items-center justify-center overflow-hidden cursor-pointer hover:border-zinc-500 transition-all">
+                {avatarPreview ? (
+                  <img
+                    src={avatarPreview}
+                    alt="Avatar Preview"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-3xl select-none">📷</span>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarChange}
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                />
+              </div>
+            </div>
+            <span className="text-xs text-[#7c8393]">
+              Upload profile picture (optional)
+            </span>
+          </div>
+        )}
 
         {/* FULL NAME */}
         {isVerified && (

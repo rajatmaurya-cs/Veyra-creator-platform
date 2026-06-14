@@ -5,13 +5,15 @@ import {
   FileClock,
   CalendarDays,
   Layers,
+  Heart,
+  Users,
 } from "lucide-react";
 
 export function StatusSkeleton() {
-  const wrapper = "w-full max-w-2xl mx-auto";
+  const wrapper = "w-full max-w-5xl mx-auto";
   return (
     <div className={wrapper}>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 animate-pulse">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 animate-pulse">
         
         {/* Total Blogs Card Skeleton */}
         <div className="group relative overflow-hidden rounded-3xl border border-zinc-800/60 bg-zinc-950/50 p-5 backdrop-blur-xl">
@@ -51,6 +53,34 @@ export function StatusSkeleton() {
             </div>
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-amber-500/20 bg-gradient-to-br from-amber-500/20 via-orange-500/10 to-yellow-500/20 shadow-[0_0_25px_rgba(251,191,36,0.18)]">
               <FileClock className="h-5 w-5 text-amber-200/40 stroke-[2]" />
+            </div>
+          </div>
+        </div>
+
+        {/* Total Likes Card Skeleton */}
+        <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/30 p-5 backdrop-blur-xl">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] via-transparent to-transparent opacity-100" />
+          <div className="relative flex items-start justify-between">
+            <div className="space-y-3">
+              <div className="h-3 w-20 rounded-full bg-zinc-800" />
+              <div className="h-8 w-10 rounded-xl bg-zinc-800" />
+            </div>
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-rose-500/20 bg-rose-950/20 shadow-[0_0_25px_rgba(244,63,94,0.1)]">
+              <Heart className="h-5 w-5 text-rose-300/40 stroke-[2]" />
+            </div>
+          </div>
+        </div>
+
+        {/* Total Followers Card Skeleton */}
+        <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/30 p-5 backdrop-blur-xl">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] via-transparent to-transparent opacity-100" />
+          <div className="relative flex items-start justify-between">
+            <div className="space-y-3">
+              <div className="h-3 w-24 rounded-full bg-zinc-800" />
+              <div className="h-8 w-10 rounded-xl bg-zinc-800" />
+            </div>
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-teal-500/20 bg-teal-950/20 shadow-[0_0_25px_rgba(20,184,166,0.1)]">
+              <Users className="h-5 w-5 text-teal-300/40 stroke-[2]" />
             </div>
           </div>
         </div>

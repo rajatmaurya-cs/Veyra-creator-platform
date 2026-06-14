@@ -1,5 +1,6 @@
 import React from "react";
 import Blogclient from "./Blogclient";
+import { apiFetch } from "@/lib/apiFetch";
 
 type Blog = {
   _id: string;
@@ -26,6 +27,7 @@ type Blog = {
     email: string;
     avatar: string;
   };
+  likes?: string[];
 };
 
 type BlogResponse = {
@@ -41,12 +43,15 @@ const Blogserver = async ({ Id }: BlogServerProps) => {
 
   const start:number = Date.now();
 
-  const res = await fetch(
-  `https://postifybackend-six.vercel.app/api/blog/blogbyid/${Id}?blogId=${Id}`,
+ const res = await fetch(
+  `${process.env.NEXT_PUBLIC_API_URL}/blog/blogbyid/${Id}?blogId=${Id}`,
   {
-    cache: "force-cache",
+    next: {
+      revalidate: 300, // 5 minutes
+    },
   }
 );
+
 
 const end:number = Date.now();
 
@@ -54,7 +59,7 @@ console.log("The Time taken to fetch blogs:",((end-start) || 0)/1000)
 
   const data: BlogResponse = await res.json();
 
-
+console.log("The blog likes are:",data.blog?.likes)
 
   return (
     <div>

@@ -1,6 +1,7 @@
 import Blog from "../Models/Blog.js";
 import Comment from "../Models/Comments.js";
 import AILog from "../Models/AIlog.js";
+import User from "../Models/User.js";
 
 export const getDashboardStats = async (req, res) => {
   try {
@@ -41,7 +42,13 @@ export const getDashboardStats = async (req, res) => {
       isPublished: false,
     });
 
-    // console.log("6  🚫")
+    // Calculate total likes on user's blogs
+    const totalLikes = blogs.reduce((sum, blog) => sum + (blog.likes?.length || 0), 0);
+
+    // Fetch user profile to get total followers
+    const userFromDb = await User.findById(id);
+    
+    const totalFollowers = userFromDb?.followers?.length || 0;
 
     res.status(200).json({
       success: true,
@@ -49,6 +56,8 @@ export const getDashboardStats = async (req, res) => {
         totalBlogs: blogs.length,
         totalComments: comments.length,
         draftBlogs,
+        totalLikes,
+        totalFollowers,
       },
     });
 

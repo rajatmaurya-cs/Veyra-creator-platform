@@ -25,12 +25,17 @@ import {
 
   /*===== Reset Password =====*/
   resetpassword,
-  checkmailforreset
+  checkmailforreset,
+
+   /*===== Follow =====*/
+  toggleFollowAuthor,
+  getLeaderboard
 
 } from "../controller/auth.controller.js"
 
 import checkAiLimit from "../Middleware/aiLimitMiddleware.js";
 import authMiddleware from "../Middleware/authMiddleware.js";
+import upload from "../Middleware/Multer.js";
 
 const authRouter = express.Router();
 
@@ -67,7 +72,9 @@ authRouter.get("/me", async (req, res) => { // 👈 Make this async
         avatar: userFromDb.avatar,
         plan: userFromDb.plan, // 👈 Populated plan object containing name, price, etc.
         createdAt: userFromDb.createdAt,
-        planExpiresAt:userFromDb.planExpiresAt
+        planExpiresAt:userFromDb.planExpiresAt,
+        following: userFromDb.following || [],
+        followers: userFromDb.followers || []
       },
     });
 
@@ -88,7 +95,7 @@ authRouter.get("/me", async (req, res) => { // 👈 Make this async
 
 
 
-authRouter.post("/signup", signup);
+authRouter.post("/signup", upload.single("avatar"), signup);
 
 authRouter.post("/login", (req, res, next) => {
   console.log("Request goes from authroutes")
@@ -163,5 +170,13 @@ authRouter.post("/verifyemail", verifyEmails);
 
 authRouter.post("/checkemailforreset", checkmailforreset);
 authRouter.post("/reset-password", resetpassword);
+
+
+authRouter.post('/follow/:id', authMiddleware, (req,res,next)=>{
+  console.log("authroutes /follow/:id")
+  next();
+},toggleFollowAuthor)
+
+authRouter.get('/topfollowers',getLeaderboard)
 
 export default authRouter;

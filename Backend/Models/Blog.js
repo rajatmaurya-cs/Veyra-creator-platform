@@ -42,7 +42,14 @@ const blogSchema = new mongoose.Schema(
       avgSentenceLength: String,
       totalScore: Number,
       verdict: String
-    }
+    },
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: []
+      }
+    ]
   },
   { timestamps: true }
 );

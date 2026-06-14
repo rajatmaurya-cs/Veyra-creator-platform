@@ -19,7 +19,7 @@ const userSchema = new Schema(
       type: String
     },
 
-    
+
     password: {
       type: String,
       required: function () {
@@ -27,11 +27,11 @@ const userSchema = new Schema(
       },
     },
 
-  
+
     googleId: {
       type: String,
       unique: true,
-      sparse: true, 
+      sparse: true,
     },
 
     authProvider: {
@@ -42,17 +42,31 @@ const userSchema = new Schema(
 
     role: {
       type: String,
-      enum: ["USER", "ADMIN","SUPERADMIN"],
+      enum: ["USER", "ADMIN", "SUPERADMIN"],
       default: "USER",
     },
-   plan:{
-    type:mongoose.Schema.Types.ObjectId,
-      ref:"Plan"
-   },
+    plan: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Plan"
+    },
     planExpiresAt: {
-        type: Date,
-        default: null
+      type: Date,
+      default: null
+    },
+    followers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: []
       }
+    ],
+    following: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: []
+      }
+    ],
   },
   { timestamps: true }
 );
