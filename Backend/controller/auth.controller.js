@@ -18,7 +18,7 @@ import { redisClient } from "../Config/redis.js";
 import User from "../Models/User.js";
 import VerifiedEmail from "../Models/VerifiedEmail.js";
 import RefreshToken from "../Models/RefreshToken.js";
-import { Plan } from "../Models/Plans.js";
+import { Plan } from "../Models/plans.js";
 import { AIUsage } from "../Models/AIUsage.js";
 import fs from "fs";
 import imageKit from "../Config/imagekit.js";
