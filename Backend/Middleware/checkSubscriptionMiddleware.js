@@ -1,5 +1,5 @@
 import User from "../Models/User.js";
-import { Plan } from "../Models/Plans.js";
+import { Plan } from "../Models/plans.js";
 
 const checkSubscriptionMiddleware = async (
   req,
