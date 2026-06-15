@@ -63,11 +63,11 @@ console.log("The RefreshToken after decoding: ",decoded)
 
  console.log("The accessToken before decoding: ",refreshToken);
 
- const decoded = jwt.verify(
+ const decoded2 = jwt.verify(
         accessToken,
         process.env.ACCESS_TOKEN_SECRET
       );
-console.log("The accessToken after decoding: ",refreshToken);
+console.log("The accessToken after decoding: ",decoded2);
 
 
   try {
