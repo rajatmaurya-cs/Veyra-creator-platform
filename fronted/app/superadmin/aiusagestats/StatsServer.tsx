@@ -15,14 +15,18 @@ async function getAIStats() {
   console.log("\n\nThe payload in cookieHeader is: ", cookieHeader);
 
   // Use standard fetch instead of apiFetch
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ai/ai-dashboard`, {
-    method: "GET",
-    headers: {
-      Cookie: cookieHeader,
-    },
-    // Optional: add cache: "no-store" if you want dashboard data to always be fresh
-    cache: "no-store", 
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/ai/ai-dashboard`,
+    {
+      method: "GET",
+      headers: {
+        Cookie: cookieHeader,
+      },
+      next: {
+        revalidate: 300, // 5 minutes
+      },
+    }
+  );
 
   const data = await res.json();
 
