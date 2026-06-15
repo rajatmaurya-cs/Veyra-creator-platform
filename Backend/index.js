@@ -14,6 +14,7 @@ import adminMiddleware from "./Middleware/adminMiddleware.js";
 import paymentroutes from "./Routes/payment.routes.js";
 import { Plan } from "./Models/plans.js"
 import planrouter from "./Routes/plan.route.js";
+import jwt from "jsonwebtoken";
 
 
 const app = express();
@@ -68,7 +69,7 @@ app.use(async (req, res, next) => {
       accessToken,
       process.env.ACCESS_TOKEN_SECRET
     );
-    
+
     console.log("The accessToken after decoding: ", decoded2);
   }catch(error){
     console.log("The Error is: ",error)
