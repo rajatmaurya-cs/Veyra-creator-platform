@@ -12,7 +12,7 @@ import AiRouter from "./Routes/ai.routes.js";
 import configRoutes from "./Routes/config.routes.js";
 import adminMiddleware from "./Middleware/adminMiddleware.js";
 import paymentroutes from "./Routes/payment.routes.js";
-import {Plan} from "./Models/plans.js"
+import { Plan } from "./Models/plans.js"
 import planrouter from "./Routes/plan.route.js";
 
 
@@ -39,42 +39,50 @@ let isDbConnected = false;
 async function init() {
   if (!isDbConnected) {
     await connectDB();
-   await connectRedis();
+    await connectRedis();
     isDbConnected = true;
   }
 }
 
+
 app.use(async (req, res, next) => {
+  try {
+    const refreshToken = req?.cookies?.refreshToken
 
- const refreshToken =  req?.cookies?.refreshToken
+    console.log("The RefreshToken before decoding: ", refreshToken)
 
- console.log("The RefreshToken before decoding: ",refreshToken)
+    const decoded = jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET
+    );
 
-  const decoded = jwt.verify(
-        refreshToken,
-        process.env.REFRESH_TOKEN_SECRET
-      );
-
-console.log("The RefreshToken after decoding: ",decoded)
-
-
-
- const accessToken = req?.cookies?.accessTokenToken
-
- console.log("The accessToken before decoding: ",refreshToken);
-
- const decoded2 = jwt.verify(
-        accessToken,
-        process.env.ACCESS_TOKEN_SECRET
-      );
-console.log("The accessToken after decoding: ",decoded2);
+    console.log("The RefreshToken after decoding: ", decoded)
 
 
+
+    const accessToken = req?.cookies?.accessToken
+
+    console.log("The accessToken before decoding: ", accessToken);
+
+    const decoded2 = jwt.verify(
+      accessToken,
+      process.env.ACCESS_TOKEN_SECRET
+    );
+    
+    console.log("The accessToken after decoding: ", decoded2);
+  }catch(error){
+    console.log("The Error is: ",error)
+  }finally{next()}
+   
+})
+
+
+app.use(async (req, res, next) => {
   try {
     await init();
     next();
   } catch (err) {
-    console.log("The error in index.js",err)
+    console.log("The error in index.js", err)
     res.status(500).json({ error: "Database initialization failed" });
   }
 });
@@ -108,66 +116,66 @@ app.use(cookieParser());
 
 
 /* ================= ROUTES ================= */
-app.use("/api/auth", (req,res,next)=>{
+app.use("/api/auth", (req, res, next) => {
 
   console.log("indes.js /api/auth ✅")
-  
+
   next()
-  
-},authRoutes);
+
+}, authRoutes);
 
 
 
 
 
-app.use("/api/blog",(req,res,next)=>{ 
+app.use("/api/blog", (req, res, next) => {
 
-console.log("index.js/api/blog  ✅")
-  
+  console.log("index.js/api/blog  ✅")
+
   next()
-  
-},blogRouter);
 
-app.use("/api/comment",(req,res,next)=>{
+}, blogRouter);
 
- console.log("index.js /api/comment ✅")
+app.use("/api/comment", (req, res, next) => {
+
+  console.log("index.js /api/comment ✅")
   next();
 
-},commentRouter);
+}, commentRouter);
 
 // app.use("/api/ai", authMiddleware, AiRouter);
 
-app.use("/api/ai/config", authMiddleware,(req,res,next)=>{
+app.use("/api/ai/config", authMiddleware, (req, res, next) => {
   console.log("/api/ai/config ✅")
   next()
-},configRoutes);
+}, configRoutes);
 
 
 
-app.use("/api/ai",authMiddleware,(req,res , next)=>{
+app.use("/api/ai", authMiddleware, (req, res, next) => {
 
   console.log("index.js /api/ai ✅")
 
- 
-    
+
+
 
   next()
 
 }, AiRouter);
 
 
-app.use('/api/payment',(req,res,next)=>{
+app.use('/api/payment', (req, res, next) => {
 
   console.log(" index.js /api/payments")
 
   next();
 
-},authMiddleware,paymentroutes);
+}, authMiddleware, paymentroutes);
 
-app.use('/api/plan',(req,res,next)=>{
+app.use('/api/plan', (req, res, next) => {
   console.log("index.js /api/plans");
   next();
-},planrouter)
+}, planrouter)
 
 
 
