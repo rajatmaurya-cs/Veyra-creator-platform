@@ -80,15 +80,8 @@ export default function LoginPage() {
       setUser(data.user);
 
       toast.success("Login successful");
-
-      if (data.user.role === "ADMIN") {
-
-        router.replace("/admin");
-
-      } else {
-
-        router.replace("/");
-      }
+      router.replace("/");
+      
     },
 
     onError: (err) => {
