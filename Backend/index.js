@@ -45,10 +45,36 @@ async function init() {
 }
 
 app.use(async (req, res, next) => {
+
+ const refreshToken =  req?.cookies?.refreshToken
+
+ console.log("The RefreshToken before decoding: ",refreshToken)
+
+  const decoded = jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET
+      );
+
+console.log("The RefreshToken after decoding: ",decoded)
+
+
+
+ const accessToken = req?.cookies?.accessTokenToken
+
+ console.log("The accessToken before decoding: ",refreshToken);
+
+ const decoded = jwt.verify(
+        accessToken,
+        process.env.ACCESS_TOKEN_SECRET
+      );
+console.log("The accessToken after decoding: ",refreshToken);
+
+
   try {
     await init();
     next();
   } catch (err) {
+    console.log("The error in index.js",err)
     res.status(500).json({ error: "Database initialization failed" });
   }
 });
