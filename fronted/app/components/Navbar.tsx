@@ -74,14 +74,7 @@ const Navbar = () => {
       return ;
     }
 
-    // if(user.role != 'ADMIN'){
-    //   toast.error("Oops, Plan Not purchased ");
-    //   setTimeout(()=>{
-    //     router.push('plans')
-    //   },2000)
-
-    //   return ;
-    // }
+    
 
     router.push('/admin')
 
@@ -107,15 +100,7 @@ const Navbar = () => {
             />
           </Link>
 
-          {/* {loggedIn &&  (
-            <div className="bg-white text-black px-4 py-2 rounded-xl text-sm font-medium">
-              <span className="space-x-3 flex">
-                <div>name is: {user?.name}</div>
-                <div>plan is: {user?.plan?.name}</div>
-                <div>expired at: {user?.planExpiresAt ? user.planExpiresAt : "Null" }</div>
-              </span>
-            </div>
-          )} */}
+         
 
           <div className="flex items-center gap-4">
             {!loggedIn && (

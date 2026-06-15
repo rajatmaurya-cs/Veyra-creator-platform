@@ -9,7 +9,12 @@ function isTokenExpired(token: string | undefined) {
     if (parts.length !== 3) return true;
     
     const base64Url = parts[1];
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    // Add base64 padding if missing to prevent decoding failure in Edge/Vercel environments
+    const pad = base64.length % 4;
+    if (pad) {
+      base64 += "=".repeat(4 - pad);
+    }
     const jsonPayload = decodeURIComponent(
       atob(base64)
         .split("")
@@ -65,7 +70,7 @@ export async function proxy(request: NextRequest) {
   // 2. If accessToken is expired but we have a refreshToken, run the refresh flow
   if (isAccessExpired && refreshToken) {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refreshtoken`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/refreshtoken`, {
         method: "POST",
         headers: {
           Cookie: `refreshToken=${refreshToken}`,
