@@ -4,7 +4,6 @@ import { useState, useContext } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
