@@ -493,7 +493,7 @@ export const refreshAccessToken = async (req, res) => {
     const accessToken = req.cookies.accessToken;
 
 
-    console.log("The refreshtoken from Browser is: ", refreshToken)
+    // console.log("The refreshtoken from Browser is: ", refreshToken)
 
 
 

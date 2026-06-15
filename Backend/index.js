@@ -19,6 +19,10 @@ import jwt from "jsonwebtoken";
 
 const app = express();
 
+app.use(cookieParser());
+app.use(express.json());
+
+
 
 
 /* ================= Backend Checking Route ================= */
@@ -50,31 +54,36 @@ app.use(async (req, res, next) => {
   try {
     const refreshToken = req?.cookies?.refreshToken
 
-    console.log("The RefreshToken before decoding: ", refreshToken)
+    console.log("The RefreshToken before decoding🎃: ", refreshToken)
 
-    const decoded = jwt.verify(
-      refreshToken,
-      process.env.REFRESH_TOKEN_SECRET
-    );
-
-    console.log("The RefreshToken after decoding: ", decoded)
-
-
+    if (refreshToken) {
+      const decoded = jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET
+      );
+      console.log("The RefreshToken after decoding🎃: ", decoded)
+    } else {
+      console.log("No RefreshToken found in cookies🎃");
+    }
 
     const accessToken = req?.cookies?.accessToken
 
-    console.log("The accessToken before decoding: ", accessToken);
+    console.log("The accessToken before decoding🎃: ", accessToken);
 
-    const decoded2 = jwt.verify(
-      accessToken,
-      process.env.ACCESS_TOKEN_SECRET
-    );
-
-    console.log("The accessToken after decoding: ", decoded2);
-  }catch(error){
-    console.log("The Error is: ",error)
-  }finally{next()}
-   
+    if (accessToken) {
+      const decoded2 = jwt.verify(
+        accessToken,
+        process.env.ACCESS_TOKEN_SECRET
+      );
+      console.log("The accessToken after decoding🎃: ", decoded2);
+    } else {
+      console.log("No accessToken found in cookies🎃");
+    }
+  } catch(error) {
+    console.log("The Error is: ", error)
+  } finally {
+    next()
+  }
 })
 
 
@@ -109,10 +118,8 @@ app.options(/.*/, cors(corsOptions));
 
 
 
-app.use(express.json());
 
 
-app.use(cookieParser());
 
 
 
