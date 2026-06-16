@@ -28,7 +28,7 @@ type AuthContextType = {
   user: User | null;
   setUser: Dispatch<SetStateAction<User | null>>;
   setLoggedIn: (v: boolean) => void;
-  loading: boolean;
+  authloading: boolean;
   refetchUser: () => void;
 };
 
@@ -41,6 +41,7 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
+
 
   // ---------------- QUERY ----------------
   const { data, isLoading, refetch, isError } = useQuery<User>({
@@ -62,14 +63,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // ---------------- SYNC STATE ----------------
   useEffect(() => {
+
     if (data) {
       setUser(data);
       setLoggedIn(true);
-    } else if (isError) {
+    }
+
+    if (isError) {
       setUser(null);
       setLoggedIn(false);
     }
-  }, [data, isError]);
+
+
+  }, [data, isError, isLoading]);
 
   return (
     <AuthContext.Provider
@@ -78,7 +84,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         loggedIn,
         setUser,
         setLoggedIn,
-        loading: isLoading,
+        authloading: isLoading,
         refetchUser: refetch,
       }}
     >

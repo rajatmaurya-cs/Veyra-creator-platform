@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import NavbarSkeleton from "./NavbarSkeleton";
 
 import {
   LayoutGrid,
@@ -9,7 +10,6 @@ import {
   IndianRupee,
    Trophy
 } from "lucide-react";
-
 import { AuthContext } from "../ContextProvider/AuthProvider";
 import { useContext, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
@@ -18,13 +18,9 @@ import toast from "react-hot-toast";
 import UserProfileModal from "./UserProfileModal";
 import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-
-
-
-
 const Navbar = () => {
 
-  const { user, loggedIn, setLoggedIn, setUser } = useContext(AuthContext);
+  const { user, loggedIn, setLoggedIn, setUser , authloading } = useContext(AuthContext) as any;
 
   const [showProfile, setShowProfile] = useState(false);
 
@@ -80,6 +76,8 @@ const Navbar = () => {
 
 
   }
+
+if(authloading) {return <NavbarSkeleton/>}
 
   return (
     <>

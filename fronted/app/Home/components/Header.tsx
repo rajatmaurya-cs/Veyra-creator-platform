@@ -8,8 +8,16 @@ import {
   FileText,
   Terminal,
 } from "lucide-react";
+import { useContext } from "react";
+import { AuthContext } from "@/app/ContextProvider/AuthProvider";
+import Router, { useRouter } from "next/navigation";
 
 const Hero = () => {
+
+  const router = useRouter()
+
+  const {loggedIn} = useContext(AuthContext) as any;
+
   return (
     <section className="relative overflow-hidden bg-zinc-950 text-zinc-50 selection:bg-zinc-800 selection:text-zinc-100">
       
@@ -46,13 +54,16 @@ const Hero = () => {
 
         {/* CALL TO ACTIONS */}
         <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row w-full sm:w-auto px-4">
-          <Link
-            href="/Home/create"
+          <button
+           onClick={()=>{
+            if(!loggedIn) router.push('/auth/login')
+            router.push('/admin/generateblog')
+           }}
             className="group inline-flex items-center justify-center gap-2 rounded-lg bg-zinc-50 px-6 py-3 text-sm font-medium text-zinc-950 transition-all duration-200 hover:bg-zinc-200 w-full sm:w-auto"
           >
             Start Writing
             <ArrowRight size={16} className="text-zinc-950 transition-transform duration-200 group-hover:translate-x-0.5" />
-          </Link>
+          </button>
           
           <Link
             href="/Home/blogs"
