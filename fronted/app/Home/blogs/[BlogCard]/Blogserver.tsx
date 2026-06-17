@@ -1,5 +1,5 @@
 import React from "react";
-import Blogclient from "./BlogClient";
+import Blogclient from "./Blogclient";
 import { apiFetch } from "@/lib/apiFetch";
 
 
