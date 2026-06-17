@@ -41,43 +41,75 @@ type BlogServerProps = {
 
 const Blogserver = async ({ Id }: BlogServerProps) => {
 
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  // 🔍 Debug log — visible in Vercel Function Logs
+  console.log("==== Blogserver Debug ====");
+  console.log("Blog Id:", Id);
+  console.log("NEXT_PUBLIC_BACKEND_URL:", backendUrl);
+  console.log("Full URL:", `${backendUrl}/blog/blogbyid/${Id}`);
+
+  // ✅ Guard: env variable missing entirely
+  if (!backendUrl) {
+    console.error("❌ NEXT_PUBLIC_BACKEND_URL is not set in environment variables!");
+    return (
+      <div className="min-h-screen bg-[#050816] flex flex-col items-center justify-center text-white gap-3">
+        <p className="text-red-400 text-lg font-semibold">Configuration error</p>
+        <p className="text-gray-400 text-sm">NEXT_PUBLIC_BACKEND_URL is not set. Check Vercel environment variables.</p>
+      </div>
+    );
+  }
+
   const start: number = Date.now();
 
-  // ✅ Server components bypass the Next.js rewrite proxy.
-  // We must call the backend URL directly (server-to-server).
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/blogbyid/${Id}?blogId=${Id}`,
-    {
-      next: {
-        revalidate: 300, // 5 minutes
-      },
-    }
-  );
+  let res: Response;
+
+  try {
+    // ✅ Server components must call the backend DIRECTLY (not through the Next.js proxy).
+    // Using NEXT_PUBLIC_API_URL here would cause an extra self-referential HTTP round-trip on Vercel.
+    res = await fetch(
+      `${backendUrl}/blog/blogbyid/${Id}?blogId=${Id}`,
+      {
+        next: {
+          revalidate: 300, // 5 minutes ISR cache
+        },
+      }
+    );
+  } catch (fetchError) {
+    // ✅ Guard: fetch() itself throws (network error, invalid URL, DNS failure, timeout)
+    console.error("❌ fetch() threw an exception:", fetchError);
+    console.error("Attempted URL:", `${backendUrl}/blog/blogbyid/${Id}`);
+    return (
+      <div className="min-h-screen bg-[#050816] flex flex-col items-center justify-center text-white gap-3">
+        <p className="text-red-400 text-lg font-semibold">Failed to reach the server</p>
+        <p className="text-gray-400 text-sm">Could not connect to the backend. Please try again.</p>
+      </div>
+    );
+  }
 
   const end: number = Date.now();
-  console.log("The Time taken to fetch blogs:", ((end - start) || 0) / 1000);
+  console.log("HTTP Status:", res.status);
+  console.log("Time taken to fetch blog:", ((end - start) || 0) / 1000, "s");
 
-  // ✅ Guard: handle non-2xx HTTP responses (404, 500, etc.)
-  // Without this check, a 404/500 response body still gets parsed and data.blog is undefined
+  // ✅ Guard: non-2xx HTTP responses (404, 500, etc.)
   if (!res.ok) {
-    console.error(`Blog fetch failed with HTTP status: ${res.status} for Id: ${Id}`);
+    console.error(`❌ Blog fetch failed — HTTP ${res.status} for Id: ${Id}`);
     return (
       <div className="min-h-screen bg-[#050816] flex items-center justify-center text-white">
-        <p className="text-gray-400 text-lg">Blog not found or failed to load.</p>
+        <p className="text-gray-400 text-lg">Blog not found or failed to load. (HTTP {res.status})</p>
       </div>
     );
   }
 
   const data: BlogResponse = await res.json();
 
-  console.log("The blog likes are:", data.blog?.likes);
-  console.log("Blog fetch success:", data.success, "| Has blog:", !!data.blog);
+  console.log("data.success:", data.success);
+  console.log("data.blog exists:", !!data.blog);
+  console.log("data.message:", data.message);
 
-  // ✅ Guard: handle 2xx responses that don't include blog data
-  // e.g. backend returns { success: false, message: "Blog not found" } with 200 status
-  // This was the direct crash cause: Blogclient received blog={undefined} → blog._id threw
+  // ✅ Guard: 2xx response but no blog field — e.g. { success: false, message: "Not found" }
   if (!data.blog) {
-    console.error(`API returned no blog. Backend message: ${data.message}`);
+    console.error(`❌ No blog in response. Backend says: ${data.message}`);
     return (
       <div className="min-h-screen bg-[#050816] flex items-center justify-center text-white">
         <p className="text-gray-400 text-lg">

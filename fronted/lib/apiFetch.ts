@@ -44,7 +44,7 @@ export async function apiFetch(
         });
 
         console.log(
-          "Generated New AccessTime at ✅ :",
+          "Generated New AccessToken at ✅ :",
           currentTime
         );
         
