@@ -8,7 +8,7 @@ import {
   User,
   ShieldCheck,
   IndianRupee,
-   Trophy
+  Trophy
 } from "lucide-react";
 import { AuthContext } from "../ContextProvider/AuthProvider";
 import { useContext, useState } from "react";
@@ -20,7 +20,7 @@ import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 const Navbar = () => {
 
-  const { user, loggedIn, setLoggedIn, setUser , authloading } = useContext(AuthContext) as any;
+  const { user, loggedIn, setLoggedIn, setUser, authloading } = useContext(AuthContext) as any;
 
   const [showProfile, setShowProfile] = useState(false);
 
@@ -59,25 +59,7 @@ const Navbar = () => {
   });
 
 
-  const handleAdmin  = ()=>{
-
-
-    if(!loggedIn){
-      toast.error("Login First")
-      setTimeout(()=>{
-        router.push('/auth/login')
-      },2000)
-      return ;
-    }
-
-    
-
-    router.push('/admin')
-
-
-  }
-
-if(authloading) {return <NavbarSkeleton/>}
+  if (authloading) { return <NavbarSkeleton /> }
 
   return (
     <>
@@ -98,7 +80,7 @@ if(authloading) {return <NavbarSkeleton/>}
             />
           </Link>
 
-         
+
 
           <div className="flex items-center gap-4">
             {!loggedIn && (
@@ -111,38 +93,44 @@ if(authloading) {return <NavbarSkeleton/>}
               </Link>
             )}
 
-      
-             
-                <button onClick={()=> handleAdmin()}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
-                  bg-zinc-900/60 border border-zinc-800 text-sm font-medium text-zinc-300
-                  hover:bg-zinc-900 hover:border-zinc-700 hover:text-zinc-100
-                  transition-all duration-200"
-                >
-                  <LayoutGrid
-                    size={22}
-                    className="text-indigo-400"
-                  />
-                  <span>Admin</span>
-                </button>
-            
-          
 
-          
-              <button
-                onClick={()=>router.push('/plans')}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
+
+              
+            <Link
+              href="/admin"
+              onClick={(e) => {
+                if (!loggedIn) {
+                  e.preventDefault()           // stop navigation
+                  toast.error("Login First")
+                  setTimeout(() => router.push('/auth/login'), 2000)
+                }
+                // if loggedIn → Link navigates normally to /admin (fast, prefetched)
+              }}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
+            bg-zinc-900/60 border border-zinc-800 text-sm font-medium text-zinc-300
+            hover:bg-zinc-900 hover:border-zinc-700 hover:text-zinc-100
+              transition-all duration-200"
+            >
+              <LayoutGrid size={22} className="text-indigo-400" />
+              <span>Admin</span>
+            </Link>
+
+
+
+
+            <Link href={"/plans"}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
                 bg-zinc-900/60 border border-zinc-800 text-sm font-medium text-zinc-300
                 hover:bg-zinc-900 hover:border-zinc-700 hover:text-zinc-100
                 transition-all duration-200"
-              >
-              
-                <IndianRupee size={22} className="text-indigo-400" />
-                <span>Price</span>
-              </button>
-           
+            >
 
-            {loggedIn &&  (
+              <IndianRupee size={22} className="text-indigo-400" />
+              <span>Price</span>
+            </Link>
+
+
+            {loggedIn && (
               <button
                 onClick={() => setShowProfile(true)}
                 className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
@@ -150,47 +138,46 @@ if(authloading) {return <NavbarSkeleton/>}
                 hover:bg-zinc-900 hover:border-zinc-700 hover:text-zinc-100
                 transition-all duration-200"
               >
-                <User size={22} 
-                className="text-indigo-400"
+                <User size={22}
+                  className="text-indigo-400"
                 />
                 <span>Profile</span>
               </button>
             )}
 
 
-             {loggedIn && (
-              <button
-                onClick={()=>router.push('/superadmin')}
+            {loggedIn && (
+              <Link href="/superadmin"
                 className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
                 bg-zinc-900/60 border border-zinc-800 text-sm font-medium text-zinc-300
                 hover:bg-zinc-900 hover:border-zinc-700 hover:text-zinc-100
                 transition-all duration-200"
               >
-              
-                <ShieldCheck size ={22}
-                className="text-green-400"
+
+                <ShieldCheck size={22}
+                  className="text-green-400"
                 />
                 <span>Superadmin</span>
 
-              </button>
+              </Link>
+
             )}
 
-         
-              <button
-                onClick={()=>router.push('/leaderboard')}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
+
+            <Link href="/leaderboard"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
                 bg-zinc-900/60 border border-zinc-800 text-sm font-medium text-zinc-300
                 hover:bg-zinc-900 hover:border-zinc-700 hover:text-zinc-100
                 transition-all duration-200"
-              >
-              
-                <Trophy size ={22}
-                className="text-indigo-400"
-                />
-                <span>LeaderBoard</span>
+            >
 
-              </button>
-            
+              <Trophy size={22}
+                className="text-indigo-400"
+              />
+              <span>LeaderBoard</span>
+
+            </Link>
+
 
 
 
