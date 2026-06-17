@@ -12,9 +12,11 @@ async function fetchBlogs({ category = "All", search = "", page = 1, limit = 3, 
   // const endpoint =
   //   "https://postifybackend-six.vercel.app/api/blog/allblog" ;
 
-    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/blog/allblog`
+    // ✅ Server components bypass the Next.js rewrite proxy.
+    // Must call the backend URL directly (server-to-server) to avoid infinite rewrite loop on Vercel.
+    const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/allblog`
 
-    console.log("⛳️ The Homepage blog fetched using : ", process.env.NEXT_PUBLIC_API_URL)
+    console.log("⛳️ The Homepage blog fetched using BACKEND_URL : ", process.env.NEXT_PUBLIC_BACKEND_URL)
 
   const url = `${endpoint}?page=${page}&limit=${limit}&category=${category}&search=${search}`;
 

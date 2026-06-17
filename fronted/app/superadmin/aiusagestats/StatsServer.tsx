@@ -14,9 +14,10 @@ async function getAIStats() {
 
   console.log("\n\nThe payload in cookieHeader is: ", cookieHeader);
 
-  // Use standard fetch instead of apiFetch
+  // ✅ Server components bypass the Next.js rewrite proxy.
+  // Must call the backend URL directly (server-to-server) to avoid infinite rewrite loop on Vercel.
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/ai/ai-dashboard`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/ai/ai-dashboard`,
     {
       method: "GET",
       headers: {

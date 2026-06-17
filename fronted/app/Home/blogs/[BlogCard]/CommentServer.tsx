@@ -34,8 +34,10 @@ type CommentResponse = {
 const Commentserver = async ({ Id }: BlogId) => {
   const start: number = Date.now();
 
+  // ✅ Server components bypass the Next.js rewrite proxy.
+  // Must call the backend URL directly (server-to-server).
   const res = await fetch(
-    `https://postifybackend-six.vercel.app/api/comment/allcomment/${Id}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/comment/allcomment/${Id}`,
     {
       method: "GET",
       cache: "no-store", // fresh data every request
