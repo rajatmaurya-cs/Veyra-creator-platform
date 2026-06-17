@@ -23,40 +23,49 @@ export async function apiFetch(
     return response;
   }
 
-  
+
   if (!refreshPromise) {
 
-  refreshPromise = (async () => {
+    refreshPromise = (async () => {
 
-    try {
+      try {
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/refreshtoken`,
-        {
-          method:"POST",
-          credentials:"include",
-        }
-      );
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/refreshtoken`,
+          {
+            method: "POST",
+            credentials: "include",
+          }
+        );
+
+        const currentTime = new Date().toLocaleTimeString("en-IN", {
+          timeZone: "Asia/Kolkata",
+          hour12: false,
+        });
+
+        console.log(
+          "Generated New AccessTime at ✅ :",
+          currentTime
+        );
+        
+        return res.ok;
 
 
-      return res.ok;
+      } catch (err) {
 
+        return false;
 
-    } catch(err) {
+      }
 
-      return false;
+      finally {
 
-    }
+        refreshPromise = null;
 
-    finally {
+      }
 
-      refreshPromise = null;
+    })();
 
-    }
-
-  })();
-
-}
+  }
 
   const refreshed = await refreshPromise;
 
