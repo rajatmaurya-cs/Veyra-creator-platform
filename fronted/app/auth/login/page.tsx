@@ -107,9 +107,9 @@ export default function LoginPage() {
 
   const handleGoogleLogin = () => {
     
-    console.log(`Login By Google: using: ${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`)
 
-    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`;
+
+     window.location.href = `/api/auth/google`;
   }
 
   // ---------------- UI ----------------

@@ -110,7 +110,7 @@ authRouter.get("/google", (req, res, next) => {
 
   console.log(`The google GOOGLE_CLIENT_ID: ${process.env.GOOGLE_CLIENT_ID}`)
 
-  console.log(`The Google client secret is: ${process.env.GOOGLE_REDIRECT_URI}`)
+  console.log(`The Google Redirect_URI is: ${process.env.GOOGLE_REDIRECT_URI}`)
 
   const url =
     `https://accounts.google.com/o/oauth2/v2/auth?` +
