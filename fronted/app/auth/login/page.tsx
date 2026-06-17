@@ -7,7 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { AuthContext } from "@/app/ContextProvider/AuthProvider";
-
+import EditorLoader from "@/app/Animations/EditorLoader";
 // ---------------- TYPES ----------------
 
 type User = {
@@ -72,15 +72,15 @@ export default function LoginPage() {
 
     onSuccess: (data) => {
 
-      
+
       setLoggedIn(true);
 
       setUser(data.user);
 
       toast.success("Login successful");
-      
+
       router.replace("/");
-      
+
     },
 
     onError: (err) => {
@@ -105,7 +105,7 @@ export default function LoginPage() {
   const isLoading = loginMutation.isPending;
 
 
-  const handleGoogleLogin = ()=>{
+  const handleGoogleLogin = () => {
     console.log("handleGoogleLogin from Fronted")
     window.location.href = "http://localhost:2000/api/auth/google";
   }
@@ -114,12 +114,12 @@ export default function LoginPage() {
 
   return (
 
-  <div className="min-h-screen bg-[#0b0d11] px-4 py-8 text-[#f3f4f6] antialiased selection:bg-[#1d2430] selection:text-white">
-  
-  <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
+    <div className="min-h-screen bg-[#0b0d11] px-4 py-8 text-[#f3f4f6] antialiased selection:bg-[#1d2430] selection:text-white">
 
-    <div
-      className="
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
+
+        <div
+          className="
         relative
         w-full
         max-w-md
@@ -133,21 +133,21 @@ export default function LoginPage() {
         shadow-[0_25px_80px_rgba(0,0,0,0.45)]
         backdrop-blur-xl
       "
-    >
+        >
 
-      {/* ambient glow */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.04),transparent_55%)]" />
+          {/* ambient glow */}
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.04),transparent_55%)]" />
 
-      <div className="relative">
+          <div className="relative">
 
-        {/* ---------- HEADER ---------- */}
+            {/* ---------- HEADER ---------- */}
 
-        <div className="mb-9">
+            <div className="mb-9">
 
-          <div className="flex items-center justify-center gap-4">
+              <div className="flex items-center justify-center gap-4">
 
-            <div
-              className="
+                <div
+                  className="
                 flex
                 h-14
                 w-14
@@ -159,45 +159,45 @@ export default function LoginPage() {
                 bg-[#171b22]
                 shadow-inner
               "
-            >
-              <span className="text-xl font-bold tracking-tight text-white">
-                P
-              </span>
+                >
+                  <span className="text-xl font-bold tracking-tight text-white">
+                    P
+                  </span>
+                </div>
+
+                <div>
+
+                  <h1 className="text-3xl font-semibold tracking-[-0.03em] text-white">
+                    Postify
+                  </h1>
+
+                  <p className="mt-1 text-sm text-[#8b90a0]">
+                    Welcome back
+                  </p>
+
+                </div>
+              </div>
             </div>
 
-            <div>
+            {/* ---------- FORM ---------- */}
 
-              <h1 className="text-3xl font-semibold tracking-[-0.03em] text-white">
-                Postify
-              </h1>
+            <form onSubmit={handleLogin} className="space-y-5">
 
-              <p className="mt-1 text-sm text-[#8b90a0]">
-                Welcome back
-              </p>
+              {/* EMAIL */}
 
-            </div>
-          </div>
-        </div>
+              <div className="space-y-2">
 
-        {/* ---------- FORM ---------- */}
+                <label className="block text-sm font-medium text-[#c2c8d3]">
+                  Email
+                </label>
 
-        <form onSubmit={handleLogin} className="space-y-5">
-
-          {/* EMAIL */}
-
-          <div className="space-y-2">
-
-            <label className="block text-sm font-medium text-[#c2c8d3]">
-              Email
-            </label>
-
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="
                 h-13
                 w-full
                 rounded-2xl
@@ -214,24 +214,24 @@ export default function LoginPage() {
                 focus:border-[#3a4252]
                 focus:bg-[#1b2028]
               "
-            />
-          </div>
+                />
+              </div>
 
-          {/* PASSWORD */}
+              {/* PASSWORD */}
 
-          <div className="space-y-2">
+              <div className="space-y-2">
 
-            <label className="block text-sm font-medium text-[#c2c8d3]">
-              Password
-            </label>
+                <label className="block text-sm font-medium text-[#c2c8d3]">
+                  Password
+                </label>
 
-            <input
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="
+                <input
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="
                 h-13
                 w-full
                 rounded-2xl
@@ -248,17 +248,17 @@ export default function LoginPage() {
                 focus:border-[#3a4252]
                 focus:bg-[#1b2028]
               "
-            />
-          </div>
+                />
+              </div>
 
-          {/* FORGOT PASSWORD */}
+              {/* FORGOT PASSWORD */}
 
-          <div className="flex justify-end pt-1">
+              <div className="flex justify-end pt-1">
 
-            <button
-              type="button"
-              onClick={() => router.push("/auth/forgotpassword")}
-              className="
+                <button
+                  type="button"
+                  onClick={() => router.push("/auth/forgotpassword")}
+                  className="
                 text-sm
                 font-medium
                 text-[#8b90a0]
@@ -266,55 +266,55 @@ export default function LoginPage() {
                 duration-200
                 hover:text-[#d1d5db]
               "
-            >
-              Forgot Password?
-            </button>
+                >
+                  Forgot Password?
+                </button>
 
-          </div>
+              </div>
 
-          {/* LOGIN BUTTON */}
+              {/* LOGIN BUTTON */}
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="
-              flex
-              h-13
-              w-full
-              items-center
-              justify-center
-              rounded-2xl
-              border
-              border-transparent
-              bg-[#f3f4f6]
-              text-sm
-              font-semibold
-              text-[#0f1115]
-              transition-all
-              duration-200
-              hover:bg-white
-              active:scale-[0.99]
-              disabled:cursor-not-allowed
-              disabled:opacity-60
-            "
-          >
-            {isLoading ? "Signing in..." : "Sign In"}
-          </button>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="
+                  flex
+                  h-13
+                  w-full
+                  items-center
+                  justify-center
+                  rounded-2xl
+                  border
+                  border-transparent
+                  bg-[#f3f4f6]
+                  text-sm
+                  font-semibold
+                  text-[#0f1115]
+                  transition-all
+                  duration-200
+                  hover:bg-white
+                  active:scale-[0.99]
+                  disabled:cursor-not-allowed
+                  disabled:opacity-60
+                "
+              >
+                {isLoading ? <EditorLoader size={40} border={2} /> : "Sign In"}
+              </button>
 
-        </form>
+            </form>
 
-        {/* ---------- DIVIDER ---------- */}
+            {/* ---------- DIVIDER ---------- */}
 
-        <div className="relative my-8">
+            <div className="relative my-8">
 
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-[#222733]" />
-          </div>
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-[#222733]" />
+              </div>
 
-          <div className="relative flex justify-center">
+              <div className="relative flex justify-center">
 
-            <span
-              className="
+                <span
+                  className="
                 rounded-full
                 border
                 border-[#222733]
@@ -326,19 +326,19 @@ export default function LoginPage() {
                 tracking-[0.22em]
                 text-[#7c8393]
               "
-            >
-              OR CONTINUE WITH
-            </span>
+                >
+                  OR CONTINUE WITH
+                </span>
 
-          </div>
-        </div>
+              </div>
+            </div>
 
-        {/* ---------- GOOGLE LOGIN ---------- */}
+            {/* ---------- GOOGLE LOGIN ---------- */}
 
-        <button
-          type="button"
-          onClick={() => handleGoogleLogin()}
-          className="
+            <button
+              type="button"
+              onClick={() => handleGoogleLogin()}
+              className="
             group
             relative
             w-full
@@ -355,10 +355,10 @@ export default function LoginPage() {
             hover:bg-[#1d2430]
             active:scale-[0.99]
           "
-        >
+            >
 
-          <div
-            className="
+              <div
+                className="
               absolute
               inset-0
               opacity-0
@@ -367,12 +367,12 @@ export default function LoginPage() {
               group-hover:opacity-100
               bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.03),transparent)]
             "
-          />
+              />
 
-          <div className="relative flex items-center justify-center gap-3">
+              <div className="relative flex items-center justify-center gap-3">
 
-            <div
-              className="
+                <div
+                  className="
                 flex
                 h-11
                 w-11
@@ -383,56 +383,56 @@ export default function LoginPage() {
                 border-[#2f3541]
                 bg-[#20252e]
               "
-            >
+                >
 
-              <Image
-                src="https://www.svgrepo.com/show/475656/google-color.svg"
-                alt="Google"
-                width={20}
-                height={20}
-              />
+                  <Image
+                    src="https://www.svgrepo.com/show/475656/google-color.svg"
+                    alt="Google"
+                    width={20}
+                    height={20}
+                  />
 
-            </div>
+                </div>
 
-            <div className="flex flex-col items-start">
+                <div className="flex flex-col items-start">
 
-              <span className="text-sm font-semibold text-[#e5e7eb]">
-                Continue with Google
-              </span>
+                  <span className="text-sm font-semibold text-[#e5e7eb]">
+                    Continue with Google
+                  </span>
 
-              <span className="text-xs text-[#7c8393]">
-                Fast & secure authentication
-              </span>
+                  <span className="text-xs text-[#7c8393]">
+                    Fast & secure authentication
+                  </span>
 
-            </div>
-          </div>
-        </button>
+                </div>
+              </div>
+            </button>
 
-        {/* ---------- SIGNUP ---------- */}
+            {/* ---------- SIGNUP ---------- */}
 
-        <p className="mt-8 text-center text-sm text-[#7c8393]">
+            <p className="mt-8 text-center text-sm text-[#7c8393]">
 
-          Don&apos;t have an account?{" "}
+              Don&apos;t have an account?{" "}
 
-          <Link
-            href={"/auth/createaccount"}
-            onClick={() => router.push("/auth/signup")}
-            className="
+              <Link
+                href={"/auth/createaccount"}
+                onClick={() => router.push("/auth/signup")}
+                className="
               font-semibold
               text-[#d1d5db]
               transition-colors
               duration-200
               hover:text-white
             "
-          >
-            Create account
-          </Link>
+              >
+                Create account
+              </Link>
 
-        </p>
+            </p>
 
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
   );
 }
