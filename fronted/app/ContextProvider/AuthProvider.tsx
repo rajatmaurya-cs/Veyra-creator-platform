@@ -39,9 +39,8 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 // ---------------- PROVIDER ----------------
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loggedIn, setLoggedIn] = useState(false);
-
+  const [manualUser, setManualUser] = useState<User | null>(null);
+  const [manualLoggedIn, setManualLoggedIn] = useState<boolean | null>(null);
 
   // ---------------- QUERY ----------------
   const { data, isLoading, refetch, isError } = useQuery<User>({
@@ -62,30 +61,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     refetchOnWindowFocus: false,
   });
 
-  // ---------------- SYNC STATE ----------------
+  // When the query resolves successfully, sync to manual state and clear overrides
   useEffect(() => {
-
     if (data) {
-      setUser(data);
-      setLoggedIn(true);
+      setManualUser(data);
+      setManualLoggedIn(true);
     }
-
     if (isError) {
-      setUser(null);
-      setLoggedIn(false);
+      if (manualLoggedIn === null) {
+        setManualUser(null);
+        setManualLoggedIn(false);
+      }
     }
-
-
-  }, [data, isError, isLoading]);
+  }, [data, isError, manualLoggedIn]);
 
   return (
     <AuthContext.Provider
       value={{
-        user,
-        loggedIn,
-        setUser,
-        setLoggedIn,
-        authloading: isLoading,
+        user: manualUser,
+        loggedIn: manualLoggedIn ?? false,
+        setUser: setManualUser as Dispatch<SetStateAction<User | null>>,
+        setLoggedIn: setManualLoggedIn as (v: boolean) => void,
+        authloading: isLoading && manualLoggedIn === null,
         refetchUser: refetch,
       }}
     >
