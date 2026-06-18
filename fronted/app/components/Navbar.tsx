@@ -149,12 +149,8 @@ const Navbar = () => {
             ))}
 
             {loggedIn && (
-              <Link
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setShowProfile(true);
-                }}
+              <button
+                onClick={() => setShowProfile(true)}
                 className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
                 bg-zinc-900/60 border border-zinc-800 text-sm font-medium text-zinc-300
                 hover:bg-zinc-900 hover:border-zinc-700 hover:text-zinc-100
@@ -162,7 +158,7 @@ const Navbar = () => {
               >
                 <User size={20} className="text-indigo-400" />
                 <span>Profile</span>
-              </Link>
+              </button>
             )}
 
             {loggedIn && (
@@ -182,28 +178,20 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <div className="flex md:hidden items-center gap-3">
             {loggedIn && (
-              <Link
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setShowProfile(true);
-                }}
+              <button
+                onClick={() => setShowProfile(true)}
                 className="p-2 rounded-lg bg-zinc-900/60 border border-zinc-800 text-zinc-300 hover:text-white"
               >
                 <User size={20} />
-              </Link>
+              </button>
             )}
-            <Link
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsOpen(!isOpen);
-              }}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
               className="p-2 rounded-lg bg-zinc-900/60 border border-zinc-800 text-zinc-300 hover:text-white focus:outline-none z-50"
               aria-label="Toggle Menu"
             >
               {isOpen ? <X size={20} /> : <Menu size={20} />}
-            </Link>
+            </button>
           </div>
 
         </div>
@@ -238,7 +226,8 @@ const Navbar = () => {
                   onClick={(e) => {
                     if (link.onClick) {
                       link.onClick(e);
-                    } else {
+                    }
+                    if (!e.defaultPrevented) {
                       setIsOpen(false);
                     }
                   }}
