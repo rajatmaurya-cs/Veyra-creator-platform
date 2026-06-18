@@ -69,15 +69,18 @@ const Navbar = () => {
           {/* Logo */}
           <Link
             href="/"
-            className="relative h-8 w-36 transition-opacity hover:opacity-90"
+            className="flex items-center transition-opacity hover:opacity-90"
           >
-            <Image
-              src="/LogoOfPostify.png"
-              alt="Postify Logo"
-              fill
-              className="object-contain object-left"
-              priority
-            />
+            <div className="relative w-36 h-12 overflow-visible flex items-center justify-start">
+              <Image
+                src="/pixel.png"
+                alt="Postify Logo"
+                width={180}
+                height={180}
+                className="max-w-none object-contain -ml-14"
+                priority
+              />
+            </div>
           </Link>
 
 

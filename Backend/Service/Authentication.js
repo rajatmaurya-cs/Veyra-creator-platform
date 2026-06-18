@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 
 
 /*------------------Access Token  Used for API authorization----------------------*/
@@ -26,7 +27,10 @@ function createAccessToken(user) {
 function createRefreshToken(user) {
   return jwt.sign(
 
-    { id: user._id },
+    { 
+      id: user._id,
+      jti: crypto.randomUUID() // Ensures every generated token has a unique signature
+    },
 
     process.env.REFRESH_TOKEN_SECRET,
     
