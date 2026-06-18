@@ -52,11 +52,21 @@ function extractCookieValue(setCookieHeaderStr: string, name: string): string | 
 }
 
 export async function proxy(request: NextRequest) {
+  // ---------------------------------------------------------------------------
+  // IMPORTANT BUGFIX: Skip auth checks for Next.js prefetch requests!
+  // Next.js strips cookies from prefetch requests for dynamic routes.
+  // If we redirect a prefetch, Next.js caches the redirect and breaks the link.
+  // ---------------------------------------------------------------------------
+  const isPrefetch = 
+    request.headers.get("next-router-prefetch") === "1" || 
+    request.headers.get("purpose") === "prefetch";
+
+  if (isPrefetch) {
+    return NextResponse.next();
+  }
 
   const accessToken = request.cookies.get("accessToken")?.value;
-
   const refreshToken = request.cookies.get("refreshToken")?.value;
-
   const isAccessExpired = isTokenExpired(accessToken);
 
    console.log("🔍 PROXY DEBUG:", {
