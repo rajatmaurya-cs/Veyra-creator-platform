@@ -59,6 +59,13 @@ export async function proxy(request: NextRequest) {
 
   const isAccessExpired = isTokenExpired(accessToken);
 
+   console.log("🔍 PROXY DEBUG:", {
+    hasAccessToken: !!accessToken,
+    hasRefreshToken: !!refreshToken,
+    isAccessExpired,
+    url: request.url,
+  });
+
 
   if (isAccessExpired && !refreshToken) {
     const response = NextResponse.redirect(new URL("/auth/login", request.url));
