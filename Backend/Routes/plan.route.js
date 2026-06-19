@@ -8,7 +8,7 @@ import {getPlans, updatePlan, getPlanHistory} from '../controller/plan.controlle
 const planrouter = express.Router()
 
 planrouter.get('/getplans',(req,res,next)=>{
-    console.log("REuest comes for getplan for routes")
+    console.log("REuest comes for getplan for routes✅")
     next();
 },getPlans)
 

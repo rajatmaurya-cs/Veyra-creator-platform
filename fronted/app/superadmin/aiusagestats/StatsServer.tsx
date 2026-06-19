@@ -2,7 +2,9 @@ import Client from "./StatsClient";
 import { cookies } from "next/headers";
 
 async function getAIStats() {
+  
   const cookieStore = await cookies();
+
   const allowedCookies = ["accessToken", "refreshToken"];
 
   // Construct cookie header from the fresh middleware cookies

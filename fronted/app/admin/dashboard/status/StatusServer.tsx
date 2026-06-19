@@ -5,8 +5,6 @@ import StatusClient from "./StatusClient";
 
 const StatusServer = async () => {
 
-  
-  
   return (
     <div>
       <StatusClient/>
