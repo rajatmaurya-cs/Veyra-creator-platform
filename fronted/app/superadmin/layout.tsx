@@ -78,7 +78,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           {/* Sidebar Header */}
           <div className="flex items-center justify-between px-1 py-2 mb-4">
             <Link href="/" className="flex items-center gap-3 transition-opacity hover:opacity-90 group">
-              <div className="relative w-[25px] h-[25px] shrink-0">
+              <div className="relative w-27 h-27 shrink-0">
                 <Image
                   src="/pixel.png"
                   alt="Veyra Logo"
@@ -89,12 +89,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               </div>
               <div className="flex flex-col justify-center">
                 <span
-                  className="text-lg font-bold tracking-widest uppercase bg-gradient-to-r from-zinc-900 via-indigo-950 to-violet-800 bg-clip-text text-transparent"
-                  style={{ fontFamily: "var(--font-orbitron)", letterSpacing: "0.12em" }}
+                  className="text-xl sm:text-2xl font-bold tracking-widest uppercase bg-gradient-to-r from-indigo-600 via-indigo-900 to-violet-750 bg-clip-text text-transparent"
+                  style={{ fontFamily: "var(--font-orbitron)", letterSpacing: "0.15em" }}
                 >
                   Veyra
                 </span>
-                <span className="text-[10px] tracking-wide text-zinc-500 font-bold">
+                <span className="text-[10px] tracking-wide text-zinc-500 font-bold mt-0.5">
                   Super Admin
                 </span>
               </div>

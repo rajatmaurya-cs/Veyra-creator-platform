@@ -117,7 +117,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-3 transition-opacity hover:opacity-90 group z-50"
+            className="flex items-center transition-opacity hover:opacity-90 group z-50"
             onClick={() => setIsOpen(false)}
           >
             <div className="relative w-27 h-27 shrink-0">
