@@ -7,26 +7,17 @@ import {
   login,
   signup,
   googleLogin,
-
-
   /*===== Logout & refreshAccessToken =====*/
   logout,
   refreshAccessToken,
-
-
   /*===== Logout OTP refreshAccessToken =====*/
   sendOtp,
   verifyOtp,
-
-
   /*===== Emails =====*/
   verifyEmails,
-
-
   /*===== Reset Password =====*/
   resetpassword,
   checkmailforreset,
-
    /*===== Follow =====*/
   toggleFollowAuthor,
   getLeaderboard
@@ -181,6 +172,9 @@ authRouter.post('/follow/:id', authMiddleware, (req,res,next)=>{
   next();
 },toggleFollowAuthor)
 
-authRouter.get('/topfollowers',getLeaderboard)
+authRouter.get('/topfollowers',(req,res,next)=>{
+  console.log("for Leaderboard ✅")
+  next();
+},getLeaderboard)
 
 export default authRouter;

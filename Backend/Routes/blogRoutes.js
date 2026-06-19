@@ -17,7 +17,10 @@ blogRouter.get('/allblog',getallblog)
 
 
 /* ================= GetAllBlogs for Admin ================= */
-blogRouter.get('/admin/blogs' , authMiddleware ,BlogAdmin)
+blogRouter.get('/admin/blogs' ,(req,res,next)=>{
+    console.log("The /admin/blogs of dashbaord for admin ✅")
+    next();
+}, authMiddleware ,BlogAdmin)
 
 
 /* ================= getBlogById=================  */

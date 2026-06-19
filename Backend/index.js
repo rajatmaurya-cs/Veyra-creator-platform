@@ -179,7 +179,7 @@ app.use('/api/payment', (req, res, next) => {
 }, authMiddleware, paymentroutes);
 
 app.use('/api/plan', (req, res, next) => {
-  console.log("index.js /api/plans");
+  console.log("index.js /api/plans✅");
   next();
 }, planrouter)
 
