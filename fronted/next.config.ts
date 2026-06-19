@@ -5,6 +5,12 @@ const nextConfig: NextConfig = {
     styledComponents: true,
   },
 
+  experimental: {
+    staleTimes: {
+      dynamic: 30, // Cache dynamic routes in the browser for 30 seconds to prevent loading flashes
+    },
+  },
+
   reactStrictMode: false,
 
   async rewrites() {
