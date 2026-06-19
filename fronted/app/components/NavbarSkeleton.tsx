@@ -85,8 +85,8 @@ const NavbarSkeleton = () => {
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
 
           {/* Logo */}
-          <Link
-            href="/"
+          <div
+            
             className="relative h-8 w-36 transition-opacity hover:opacity-90"
           >
             <Image
@@ -96,26 +96,26 @@ const NavbarSkeleton = () => {
               className="object-contain object-left"
               priority
             />
-          </Link>
+          </div>
 
 
 
               <div className="flex items-center gap-4">
    
-              <Link
-                href="/auth/login"
+              <div
+              
                 className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-400 hover:text-zinc-200 transition-colors"
               >
                 <User size={22} className="text-zinc-500" />
                 <span>Sign In</span>
-              </Link>
+              </div>
             
 
 
 
               
-            <Link
-              href="/admin"
+            <div
+          
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
             bg-zinc-900/60 border border-zinc-800 text-sm font-medium text-zinc-300
             hover:bg-zinc-900 hover:border-zinc-700 hover:text-zinc-100
@@ -123,12 +123,12 @@ const NavbarSkeleton = () => {
             >
               <LayoutGrid size={22} className="text-indigo-400" />
               <span>Admin</span>
-            </Link>
+            </div>
 
 
 
 
-            <Link href={"/plans"}
+            <div
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
                 bg-zinc-900/60 border border-zinc-800 text-sm font-medium text-zinc-300
                 hover:bg-zinc-900 hover:border-zinc-700 hover:text-zinc-100
@@ -137,7 +137,7 @@ const NavbarSkeleton = () => {
 
               <IndianRupee size={22} className="text-indigo-400" />
               <span>Price</span>
-            </Link>
+            </div>
 
 
    
@@ -156,7 +156,7 @@ const NavbarSkeleton = () => {
 
 
        
-              <Link href="/superadmin"
+              <div
                 className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
                 bg-zinc-900/60 border border-zinc-800 text-sm font-medium text-zinc-300
                 hover:bg-zinc-900 hover:border-zinc-700 hover:text-zinc-100
@@ -168,12 +168,12 @@ const NavbarSkeleton = () => {
                 />
                 <span>Superadmin</span>
 
-              </Link>
+              </div>
 
             
 
 
-            <Link href="/leaderboard"
+            <div
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
                 bg-zinc-900/60 border border-zinc-800 text-sm font-medium text-zinc-300
                 hover:bg-zinc-900 hover:border-zinc-700 hover:text-zinc-100
@@ -185,7 +185,7 @@ const NavbarSkeleton = () => {
               />
               <span>LeaderBoard</span>
 
-            </Link>
+            </div>
 
 
 
