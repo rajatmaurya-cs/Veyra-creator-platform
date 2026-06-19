@@ -64,9 +64,9 @@ const Sidebar = () => {
         <div className="flex items-center gap-3">
           <Link
             href="/"
-            className="flex items-center  transition-opacity hover:opacity-90 group"
+            className="flex items-center gap-3 transition-opacity hover:opacity-90 group"
           >
-            <div className="relative w-25 h-25 shrink-0">
+            <div className="relative w-[25px] h-[25px] shrink-0">
               <Image
                 src="/pixel.png"
                 alt="Veyra Logo"

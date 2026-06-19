@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useContext, useState } from "react";
-import { Shield, BarChart3, Sliders, ArrowLeft, Menu, X, ChevronDown, CreditCard } from "lucide-react";
+import { Shield, BarChart3, Sliders, ArrowLeft, Menu, X, CreditCard } from "lucide-react";
 import { AuthContext } from "../ContextProvider/AuthProvider";
 import Image from "next/image";
 
@@ -77,8 +77,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         >
           {/* Sidebar Header */}
           <div className="flex items-center justify-between px-1 py-2 mb-4">
-            <Link href="/" className="flex items-center transition-opacity hover:opacity-90 group">
-              <div className="relative w-25 h-25 shrink-0">
+            <Link href="/" className="flex items-center gap-3 transition-opacity hover:opacity-90 group">
+              <div className="relative w-[25px] h-[25px] shrink-0">
                 <Image
                   src="/pixel.png"
                   alt="Veyra Logo"
@@ -194,7 +194,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 </div>
               </div>
 
-              <ChevronDown size={14} className="text-zinc-600 shrink-0" />
+          
             </div>
           </div>
         </aside>
