@@ -89,12 +89,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               </div>
               <div className="flex flex-col justify-center">
                 <span
-                  className="text-xl sm:text-2xl font-bold tracking-widest uppercase bg-gradient-to-r from-indigo-600 via-indigo-900 to-violet-750 bg-clip-text text-transparent"
+                  className="text-2xl font-bold tracking-widest uppercase bg-gradient-to-r from-indigo-800 via-purple-700 to-fuchsia-700 bg-clip-text text-transparent"
                   style={{ fontFamily: "var(--font-orbitron)", letterSpacing: "0.15em" }}
                 >
                   Veyra
                 </span>
-                <span className="text-[10px] tracking-wide text-zinc-500 font-bold mt-0.5">
+                <span className="text-[10px] tracking-wide text-zinc-500 font-bold mt-0.5 ml-6">
                   Super Admin
                 </span>
               </div>
