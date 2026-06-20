@@ -23,6 +23,9 @@ const orbitron = Orbitron({
 export const metadata: Metadata = {
   title: "Veyra — AI-Powered Blogging Platform",
   description: "Empowering your digital brand with next-generation AI content creation, automated scheduling, and smart analytics.",
+  verification: {
+    google: "fZwwMWhwGsUvvcpgczOgKTvWYYzDRZoynIAZ-TTJi8E",
+  },
 };
 
 export default function RootLayout({
