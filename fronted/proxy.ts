@@ -99,6 +99,19 @@ export async function proxy(request: NextRequest) {
   const isAuthRoute = request.nextUrl.pathname.startsWith("/api/auth/");
 
   if (isAccessExpired && refreshToken && !isAuthRoute) {
+
+
+    console.log("The AccessToken Expired & RefreshToken is presetn")
+
+     const currentTime = new Date().toLocaleTimeString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      hour12: false,
+    });
+
+
+    console.log("The request goes for refreshAccessToken from fornted proxy.ts at: ",currentTime)
+
+
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/refreshtoken`, {
         method: "POST",
@@ -117,9 +130,9 @@ export async function proxy(request: NextRequest) {
 
         console.log("\n\nTokens refreshed in middleware:");
         
-        console.log("\n\nNew Access Token 🎃 :", newAccessToken ? "Found" : "Not Found");
+        console.log("\n\nNew Access Token proxy.ts 🎃 :", newAccessToken ? "Found" : "Not Found");
 
-        console.log("\n\nNew Refresh Token 🎃 :", newRefreshToken ? "Found" : "Not Found");
+        console.log("\n\nNew Refresh Token  proxy.ts 🎃 :", newRefreshToken ? "Found" : "Not Found");
 
 
         const requestHeaders = new Headers(request.headers);
@@ -165,7 +178,7 @@ export async function proxy(request: NextRequest) {
             maxAge: 7 * 24 * 60 * 60, 
           });
         }
-
+        console.log("Token Generated proxy.ts ✅")
         return response;
       } else {
   

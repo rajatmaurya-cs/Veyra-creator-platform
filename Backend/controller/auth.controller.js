@@ -481,20 +481,22 @@ export const logout = async (req, res) => {
 
 export const refreshAccessToken = async (req, res) => {
   try {
-
+    
     const currentTime = new Date().toLocaleTimeString("en-IN", {
       timeZone: "Asia/Kolkata",
       hour12: false,
     });
 
     console.log(
-      "Request comes for Generate New AccessTime at ✅ :",
+      "Request comes for Generate New AccessToken at ✅ :",
       currentTime
     );
-
+    console.log("The refreshtoken is: ",req?.cookies.refreshToken)
+    console.log("1")
 
     const refreshToken = req.cookies.refreshToken;
 
+    console.log("2")
 
     if (!refreshToken) {
       return res.status(401).json({
@@ -502,18 +504,17 @@ export const refreshAccessToken = async (req, res) => {
       });
     }
 
+      console.log("3")
 
     const hashedToken = hashToken(refreshToken);
 
-
-
-
+    console.log("4")
     
     const storedToken = await RefreshToken.findOne({
       token: hashedToken,
     });
 
-
+    console.log("5")
 
     if (!storedToken) {
       return res.status(403).json({
@@ -521,40 +522,33 @@ export const refreshAccessToken = async (req, res) => {
       });
     }
 
-
-
-
-
-    
-    
-    
+    console.log("6")
 
     if (storedToken.used) {
-
-
+      console.log("7")
       const timeDifference =
         Date.now() - storedToken.usedAt.getTime();
 
-
-
+        console.log("7")
 
       if (timeDifference < 30000) {
 
-
+        console.log("8")
         console.log(
           "♻️ Refresh token reused within grace period"
         );
 
+        console.log("9")
 
         const decoded = jwt.verify(
           refreshToken,
           process.env.REFRESH_TOKEN_SECRET
         );
-
+          console.log("9")
 
         const user = await User.findById(decoded.id);
 
-
+          console.log("10")
 
         if (!user) {
           return res.status(403).json({
@@ -562,17 +556,17 @@ export const refreshAccessToken = async (req, res) => {
           });
         }
 
-
+        console.log("11")
 
         const newAccessToken =
           createAccessToken(user);
 
-
+          console.log("12")
 
         const newRefreshToken =
           createRefreshToken(user);
 
-
+          console.log("13")
 
 
         await RefreshToken.create({
@@ -580,7 +574,7 @@ export const refreshAccessToken = async (req, res) => {
           token: hashToken(newRefreshToken),
         });
 
-
+          console.log("14")
 
 
 
@@ -599,7 +593,7 @@ export const refreshAccessToken = async (req, res) => {
           }
         );
 
-
+        console.log("15")
 
         res.cookie(
           "accessToken",
@@ -617,7 +611,7 @@ export const refreshAccessToken = async (req, res) => {
         );
 
 
-
+        console.log("16")
 
         return res.status(200).json({
           success: true,
@@ -626,7 +620,7 @@ export const refreshAccessToken = async (req, res) => {
 
       }
 
-      
+      console.log("17")
       
       
 
@@ -640,7 +634,7 @@ export const refreshAccessToken = async (req, res) => {
         userId: storedToken.userId
       });
 
-
+console.log("18")
 
       return res.status(403).json({
         message: "Refresh token reuse detected"
@@ -649,21 +643,15 @@ export const refreshAccessToken = async (req, res) => {
     }
 
 
-
-
-
-    
-    
-    
-
+console.log("19")
 
     storedToken.used = true;
-    
+
     storedToken.usedAt = new Date();
 
     await storedToken.save();
 
-
+console.log("19")
 
 
 
@@ -672,11 +660,11 @@ export const refreshAccessToken = async (req, res) => {
       process.env.REFRESH_TOKEN_SECRET
     );
 
-
+    console.log("20")
 
     const user = await User.findById(decoded.id);
 
-
+console.log("21")
 
     if (!user) {
       return res.status(403).json({
@@ -684,19 +672,19 @@ export const refreshAccessToken = async (req, res) => {
       });
     }
 
-
+console.log("22")
 
 
     const newAccessToken =
       createAccessToken(user);
 
-
+console.log("23")
 
     const newrefreshToken =
       createRefreshToken(user);
 
 
-
+console.log("24")
 
 
     await RefreshToken.create({
@@ -708,7 +696,7 @@ export const refreshAccessToken = async (req, res) => {
     });
 
 
-
+console.log("25")
 
 
 
@@ -727,7 +715,7 @@ export const refreshAccessToken = async (req, res) => {
       }
     );
 
-
+console.log("26")
 
     res.cookie(
       "accessToken",
@@ -745,6 +733,7 @@ export const refreshAccessToken = async (req, res) => {
     );
 
 
+console.log("27")
 
     const currentTimeIST = new Date().toLocaleTimeString(
       "en-IN",

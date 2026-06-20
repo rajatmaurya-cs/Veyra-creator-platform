@@ -149,10 +149,10 @@ export default function BlogClient({ initialData }: Props) {
           <BlogGridSkeleton />
         ) : (
           <div className="grid gap-7 sm:grid-cols-2 xl:grid-cols-3">
-            {filteredBlogs.map((blog) => (
+            {filteredBlogs.map((blog, idx) => (
               <Link
                 href={`/Home/blogs/${blog._id}`}
-                key={blog._id}
+                key={`${blog._id}-${idx}`}
                 className="group overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:border-white/20 hover:bg-white/[0.05] hover:shadow-2xl hover:shadow-black/40"
               >
                 {}

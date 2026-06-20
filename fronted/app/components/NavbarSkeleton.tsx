@@ -10,7 +10,7 @@ const NavbarSkeleton = () => {
         {}
         <Link
           href="/"
-          className="flex items-center transition-opacity hover:opacity-90 group z-50"
+          className="flex items-center transition-opacity hover:opacity-90 group z-50 mt-1.5"
         >
           <div className="relative w-27 h-27 shrink-0">
             <Image

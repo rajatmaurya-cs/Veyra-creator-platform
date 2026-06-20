@@ -5,12 +5,17 @@ export const assets = {
 }
 
 export const blogCategories = [
-    'All',
-    'Technology',
-    'Science',
-    'Startup',
-    'Lifestyle',
-    'Finance',
-    'Health & Wellness',
-    'Personal Growth'
+    "All",
+    "Mysteries & Unsolved Cases",
+    "World Stories",
+    "The Curiosity Lab",
+    "Entertainment & Pop Culture",
+    "Space & Universe",
+    "Science Explained",
+    "History's Darkest Events",
+    "Conspiracies & Theories",
+    "Weird & Unbelievable Facts",
+    "Crime Files",
+    "Rise & Fall",
+    "Paranormal Files",
 ];
