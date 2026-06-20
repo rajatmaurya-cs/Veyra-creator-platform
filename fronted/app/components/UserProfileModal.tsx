@@ -93,7 +93,7 @@ const UserProfileModal = ({
                 </div>
 
                 {}
-                <div className="relative z-10 w-full rounded-[23px] bg-zinc-950 p-8 overflow-hidden">
+                <div className="relative z-10 w-full rounded-[23px] bg-zinc-950 p-6 sm:p-7 overflow-hidden">
                     {}
                     <div className="absolute -top-20 -left-20 w-48 h-48 bg-indigo-500/10 rounded-full blur-[80px] pointer-events-none" />
                     <div className="absolute -bottom-20 -right-20 w-48 h-48 bg-rose-500/10 rounded-full blur-[80px] pointer-events-none" />
@@ -137,103 +137,92 @@ const UserProfileModal = ({
                     </div>
 
                     {}
-                    <div className="space-y-3.5 my-6">
-                        {}
-                        <div className="group flex items-center justify-between p-3.5 rounded-2xl bg-zinc-900/40 border border-zinc-900 hover:border-zinc-850 hover:bg-zinc-900/60 transition-all duration-300">
-                            <div className="flex items-center gap-3 w-full">
-                                <div className="p-2 rounded-xl bg-zinc-950 border border-zinc-800/60 text-zinc-400 group-hover:text-indigo-400 transition-colors">
-                                    <Mail size={16} />
+                    <div className="grid grid-cols-2 gap-3 my-5">
+                        {/* Email */}
+                        <div className="col-span-2 group flex items-center gap-3 p-3 rounded-2xl bg-zinc-900/40 border border-zinc-900 hover:border-zinc-850 hover:bg-zinc-900/60 transition-all duration-300">
+                            <div className="p-2 rounded-xl bg-zinc-950 border border-zinc-800/60 text-zinc-400 group-hover:text-indigo-400 transition-colors shrink-0">
+                                <Mail size={16} />
+                            </div>
+                            <div className="flex flex-col min-w-0 flex-1">
+                                <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">Email Address</span>
+                                <span className="text-sm text-zinc-300 font-medium truncate">{user?.email}</span>
+                            </div>
+                        </div>
+
+                        {/* Joined On */}
+                        <div className="col-span-1 group flex items-center gap-3 p-3 rounded-2xl bg-zinc-900/40 border border-zinc-900 hover:border-zinc-850 hover:bg-zinc-900/60 transition-all duration-300">
+                            <div className="p-2 rounded-xl bg-zinc-950 border border-zinc-800/60 text-zinc-400 group-hover:text-indigo-400 transition-colors shrink-0">
+                                <Calendar size={16} />
+                            </div>
+                            <div className="flex flex-col min-w-0 flex-1">
+                                <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">Joined On</span>
+                                <span className="text-xs text-zinc-300 font-medium truncate">
+                                    {user?.createdAt
+                                        ? new Date(user.createdAt).toLocaleDateString("en-US", {
+                                            year: "numeric",
+                                            month: "short",
+                                            day: "numeric",
+                                        })
+                                        : "-"}
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Followers */}
+                        <div className="col-span-1 group flex items-center gap-3 p-3 rounded-2xl bg-zinc-900/40 border border-zinc-900 hover:border-zinc-850 hover:bg-zinc-900/60 transition-all duration-300">
+                            <div className="p-2 rounded-xl bg-zinc-950 border border-zinc-800/60 text-zinc-400 group-hover:text-indigo-400 transition-colors shrink-0">
+                                <Users size={16} />
+                            </div>
+                            <div className="flex flex-col min-w-0 flex-1">
+                                <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">Followers</span>
+                                <span className="text-xs text-zinc-300 font-medium truncate">
+                                    {user?.followers?.length || 0} followers
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Current Plan */}
+                        <div className="col-span-1 group flex items-center gap-3 p-3 rounded-2xl bg-zinc-900/40 border border-zinc-900 hover:border-zinc-850 hover:bg-zinc-900/60 transition-all duration-300">
+                            <div className="p-2 rounded-xl bg-zinc-950 border border-zinc-800/60 text-zinc-400 group-hover:text-indigo-400 transition-colors shrink-0">
+                                <CreditCard size={16} />
+                            </div>
+                            <div className="flex flex-col min-w-0 flex-1">
+                                <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">Current Plan</span>
+                                <span className="text-xs text-zinc-300 font-medium capitalize truncate">
+                                    {user?.plan?.name || "Free"}
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Status */}
+                        <div className="col-span-1 group flex items-center gap-3 p-3 rounded-2xl bg-zinc-900/40 border border-zinc-900 hover:border-zinc-850 hover:bg-zinc-900/60 transition-all duration-300">
+                            <div className="p-2 rounded-xl bg-zinc-950 border border-zinc-800/60 text-emerald-500 shrink-0">
+                                <CheckCircle2 size={16} />
+                            </div>
+                            <div className="flex flex-col min-w-0 flex-1">
+                                <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">Status</span>
+                                <span className="text-xs text-zinc-300 font-medium truncate">Active</span>
+                            </div>
+                        </div>
+
+                        {/* Plan Expires At */}
+                        {user?.planExpiresAt && user.planExpiresAt !== "Null" && (
+                            <div className="col-span-2 group flex items-center gap-3 p-3 rounded-2xl bg-zinc-900/40 border border-zinc-900 hover:border-zinc-850 hover:bg-zinc-900/60 transition-all duration-300">
+                                <div className="p-2 rounded-xl bg-zinc-950 border border-zinc-800/60 text-zinc-400 group-hover:text-indigo-400 transition-colors shrink-0">
+                                    <Calendar size={16} />
                                 </div>
                                 <div className="flex flex-col min-w-0 flex-1">
-                                    <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">Email Address</span>
-                                    <span className="text-sm text-zinc-300 font-medium truncate">{user?.email}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {}
-                        <div className="group flex items-center justify-between p-3.5 rounded-2xl bg-zinc-900/40 border border-zinc-900 hover:border-zinc-850 hover:bg-zinc-900/60 transition-all duration-300">
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 rounded-xl bg-zinc-950 border border-zinc-800/60 text-zinc-400 group-hover:text-indigo-400 transition-colors">
-                                    <Calendar size={16} />
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">Joined On</span>
-                                    <span className="text-sm text-zinc-300 font-medium">
-                                        {user?.createdAt
-                                            ? new Date(user.createdAt).toLocaleDateString("en-US", {
-                                                year: "numeric",
-                                                month: "long",
-                                                day: "numeric",
-                                            })
-                                            : "-"}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        {}
-                        <div className="group flex items-center justify-between p-3.5 rounded-2xl bg-zinc-900/40 border border-zinc-900 hover:border-zinc-850 hover:bg-zinc-900/60 transition-all duration-300">
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 rounded-xl bg-zinc-950 border border-zinc-800/60 text-zinc-400 group-hover:text-indigo-400 transition-colors">
-                                    <Users size={16} />
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">Followers</span>
-                                    <span className="text-sm text-zinc-300 font-medium">
-                                        {user?.followers?.length || 10} followers
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {}
-                        <div className="group flex items-center justify-between p-3.5 rounded-2xl bg-zinc-900/40 border border-zinc-900 hover:border-zinc-850 hover:bg-zinc-900/60 transition-all duration-300">
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 rounded-xl bg-zinc-950 border border-zinc-800/60 text-emerald-500">
-                                    <CheckCircle2 size={16} />
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">Status</span>
-                                    <span className="text-sm text-zinc-300 font-medium">Active Account</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {}
-                        <div className="group flex items-center justify-between p-3.5 rounded-2xl bg-zinc-900/40 border border-zinc-900 hover:border-zinc-850 hover:bg-zinc-900/60 transition-all duration-300">
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 rounded-xl bg-zinc-950 border border-zinc-800/60 text-zinc-400 group-hover:text-indigo-400 transition-colors">
-                                    <CreditCard size={16} />
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">Current Plan</span>
-                                    <span className="text-sm text-zinc-300 font-medium capitalize">
-                                        {user?.plan?.name || "Free"}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {}
-                        <div className="group flex items-center justify-between p-3.5 rounded-2xl bg-zinc-900/40 border border-zinc-900 hover:border-zinc-850 hover:bg-zinc-900/60 transition-all duration-300">
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 rounded-xl bg-zinc-950 border border-zinc-800/60 text-zinc-400 group-hover:text-indigo-400 transition-colors">
-                                    <Calendar size={16} />
-                                </div>
-                                <div className="flex flex-col">
                                     <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">Plan Expires At</span>
-                                    <span className="text-sm text-zinc-300 font-medium">
-                                        {user?.planExpiresAt
-                                            ? new Date(user.planExpiresAt).toLocaleDateString("en-US", {
-                                                year: "numeric",
-                                                month: "long",
-                                                day: "numeric",
-                                            })
-                                            : "Null"}
+                                    <span className="text-sm text-zinc-300 font-medium truncate">
+                                        {new Date(user.planExpiresAt).toLocaleDateString("en-US", {
+                                            year: "numeric",
+                                            month: "long",
+                                            day: "numeric",
+                                        })}
                                     </span>
                                 </div>
                             </div>
-                        </div>
+                        )}
                     </div>
 
                     {}
@@ -248,8 +237,8 @@ const UserProfileModal = ({
                             whileTap={{ scale: 0.99 }}
                             className="
       w-full
-      mt-6
-      py-3.5
+      mt-4
+      py-3
       px-4
       rounded-2xl
       border
