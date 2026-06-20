@@ -10,7 +10,7 @@ const NavbarSkeleton = () => {
         {}
         <Link
           href="/"
-          className="flex items-center gap-3 transition-opacity hover:opacity-90 group z-50"
+          className="flex items-center transition-opacity hover:opacity-90 group z-50"
         >
           <div className="relative w-27 h-27 shrink-0">
             <Image
@@ -37,51 +37,51 @@ const NavbarSkeleton = () => {
             className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-650 animate-pulse mr-2 animate-pulse"
             disabled
           >
-            <div className="w-5 h-5 rounded-full bg-zinc-800 animate-pulse" />
-            <div className="h-4 bg-zinc-800 rounded animate-pulse w-12" />
+            <div className="w-5 h-5 rounded-full bg-zinc-500 animate-pulse" />
+            <div className="h-4 bg-zinc-500 rounded animate-pulse w-12" />
           </button>
 
           {}
           <button
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
-              bg-zinc-900/60 border border-zinc-800 text-sm font-medium text-zinc-650
+              bg-zinc-900/60 border border-zinc-500 text-sm font-medium text-zinc-650
               animate-pulse"
             disabled
           >
-            <div className="w-5 h-5 rounded bg-zinc-800 animate-pulse" />
-            <div className="h-4 bg-zinc-800 rounded animate-pulse w-12" />
+            <div className="w-5 h-5 rounded bg-zinc-500 animate-pulse" />
+            <div className="h-4 bg-zinc-500 rounded animate-pulse w-12" />
           </button>
 
           {}
           <button
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
-              bg-zinc-900/60 border border-zinc-800 text-sm font-medium text-zinc-650
+              bg-zinc-900/60 border border-zinc-500 text-sm font-medium text-zinc-650
               animate-pulse"
             disabled
           >
-            <div className="w-5 h-5 rounded bg-zinc-800 animate-pulse" />
-            <div className="h-4 bg-zinc-800 rounded animate-pulse w-10" />
+            <div className="w-5 h-5 rounded bg-zinc-500 animate-pulse" />
+            <div className="h-4 bg-zinc-500 rounded animate-pulse w-10" />
           </button>
 
           {}
           <button
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
-              bg-zinc-900/60 border border-zinc-800 text-sm font-medium text-zinc-650
+              bg-zinc-900/60 border border-zinc-500 text-sm font-medium text-zinc-650
               animate-pulse"
             disabled
           >
-            <div className="w-5 h-5 rounded bg-zinc-800 animate-pulse" />
-            <div className="h-4 bg-zinc-800 rounded animate-pulse w-20" />
+            <div className="w-5 h-5 rounded bg-zinc-500 animate-pulse" />
+            <div className="h-4 bg-zinc-500 rounded animate-pulse w-20" />
           </button>
         </div>
 
         {}
         <div className="flex md:hidden items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-zinc-900/60 border border-zinc-800 flex items-center justify-center animate-pulse">
-            <div className="w-5 h-5 rounded-full bg-zinc-800 animate-pulse" />
+          <div className="w-9 h-9 rounded-lg bg-zinc-900/60 border border-zinc-500 flex items-center justify-center animate-pulse">
+            <div className="w-5 h-5 rounded-full bg-zinc-500 animate-pulse" />
           </div>
-          <div className="w-9 h-9 rounded-lg bg-zinc-900/60 border border-zinc-800 flex items-center justify-center animate-pulse">
-            <div className="w-5 h-5 rounded bg-zinc-800 animate-pulse" />
+          <div className="w-9 h-9 rounded-lg bg-zinc-900/60 border border-zinc-500 flex items-center justify-center animate-pulse">
+            <div className="w-5 h-5 rounded bg-zinc-500 animate-pulse" />
           </div>
         </div>
 

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-
 import OtpInput from "react-otp-input";
 
 import toast from "react-hot-toast";
@@ -11,7 +10,6 @@ import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 
 import Image from "next/image";
-
 
 import useSendOtp from '@/app/hooks/useSendOtp'
 
