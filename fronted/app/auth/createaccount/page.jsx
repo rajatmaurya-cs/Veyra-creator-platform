@@ -596,21 +596,6 @@ return (
         </span>
       </p>
 
-      {}
-      <div className="mt-8 pt-6 border-t border-[#1b1f27] text-center">
-        <p
-          className="
-            text-[11px]
-            uppercase
-            tracking-[0.25em]
-            text-[#6b7280]
-            font-medium
-          "
-        >
-          Powered by Groq ✨
-        </p>
-      </div>
-
     </div>
   </div>
 );
