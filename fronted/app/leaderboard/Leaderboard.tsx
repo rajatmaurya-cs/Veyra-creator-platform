@@ -137,7 +137,7 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
                   {topThree[1].followersCount ? (
                     topThree[1].followersCount + ( topThree[1].followersCount )*19379
                   ).toLocaleString() : ((Math.floor(Math.random() * 9) + 1)*43)}
-                   followers
+                    <span className="ml-2">followers</span>
 
                 </p>
 
@@ -200,7 +200,7 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
                   {topThree[0].followersCount ? (
                     topThree[0].followersCount + ( topThree[0].followersCount )*19379
                   ).toLocaleString() : ((Math.floor(Math.random() * 9) + 1)*439)}
-                   followers
+                    <span className="ml-2">followers</span>
                 </p>
 
 
@@ -262,7 +262,7 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
                 {topThree[2].followersCount ? (
                     topThree[2].followersCount + ( topThree[2].followersCount )*19379
                   ).toLocaleString() : ((Math.floor(Math.random() * 9) + 1)*43)}
-                   followers
+                   <span className="ml-2">followers</span>
                 </p>
 
 
