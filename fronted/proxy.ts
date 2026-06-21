@@ -52,6 +52,12 @@ function extractCookieValue(setCookieHeaderStr: string, name: string): string | 
 export async function proxy(request: NextRequest) {
 
 
+  const isPrefetch =
+    request.headers.get("next-router-prefetch") === "1" ||
+    request.headers.get("purpose") === "prefetch" ||
+    request.headers.get("sec-purpose") === "prefetch" ||
+    request.headers.get("sec-purpose") === "prefetch;prerender";
+
   const isDocumentRequest = request.headers.get("sec-fetch-dest") === "document";
 
   const accessToken = request.cookies.get("accessToken")?.value;
@@ -63,6 +69,7 @@ export async function proxy(request: NextRequest) {
     hasRefreshToken: !!refreshToken,
     isAccessExpired,
     isDocumentRequest,
+    isPrefetch,
     secFetchDest: request.headers.get("sec-fetch-dest"),
     url: request.url,
   });
@@ -77,7 +84,7 @@ export async function proxy(request: NextRequest) {
 
     console.log("In Porxyt.ts Both AccessToken & RefreshToken are not found at 🚫: ", currentTime)
 
-    if (!isDocumentRequest) {
+    if (!isDocumentRequest || isPrefetch) {
       return NextResponse.next();
     }
     const response = NextResponse.redirect(new URL("/auth/login", request.url));
