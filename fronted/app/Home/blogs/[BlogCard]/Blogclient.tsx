@@ -396,7 +396,7 @@ const Blogclient = ({ blog }: BlogClientProps) => {
         </div>
 
         {}
-        <div className="relative mb-16 group">
+        <div className="relative mb-16 group w-[80vw] max-w-[80vw] left-1/2 -translate-x-1/2">
 
           {}
           <div className="absolute -inset-2 rounded-[36px] bg-gradient-to-r from-violet-600/40 via-cyan-500/30 to-fuchsia-600/40 blur-2xl opacity-60 group-hover:opacity-90 transition duration-700" />
@@ -404,16 +404,17 @@ const Blogclient = ({ blog }: BlogClientProps) => {
           {}
           <div className="relative rounded-[36px] p-[2px] bg-white/20 shadow-[0_0_50px_rgba(255,255,255,0.08)]">
 
-            <div className="relative h-[300px] md:h-[700px] overflow-hidden rounded-[34px] border border-white/10 bg-black">
+            <div className="relative w-full overflow-hidden rounded-[34px] border border-white/10 bg-black">
 
               {}
               <Image
                 src={blog.image}
                 alt={blog.title}
-                fill
+                width={0}
+                height={0}
                 priority
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover group-hover:scale-[1.03] transition-transform duration-700"
+                className="w-full h-auto group-hover:scale-[1.03] transition-transform duration-700"
               />
 
               {}

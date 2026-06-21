@@ -253,6 +253,7 @@ INTRODUCTION
 BODY
 
 • Create 6-8 H2 sections
+• Do Not use consecutives H1 or H2.
 • Each section should feel like a documentary episode
 • Each section should contain 3-5 rich paragraphs
 • Use H3 only when absolutely necessary

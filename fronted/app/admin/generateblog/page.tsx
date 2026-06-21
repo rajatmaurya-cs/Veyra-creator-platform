@@ -138,7 +138,7 @@ const AddBlog = () => {
   const [image, setImage] = useState<File | null>(null);
   const [title, setTitle] = useState<string>("");
   const [subTitle, setSubTitle] = useState<string>("");
-  const [category, setCategory] = useState<string>("startup");
+  const [category, setCategory] = useState<string>("All");
   const [isPublished, setIsPublished] = useState<boolean>(false);
   const [contentType, setContentType] = useState<ContentType>("human");
 
