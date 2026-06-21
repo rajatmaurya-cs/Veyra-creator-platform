@@ -236,7 +236,7 @@ const Blogclient = ({ blog }: BlogClientProps) => {
       if (!data?.success) {
         throw new Error(data?.message || "Summarise failed");
       }
-
+      console.log("\n\n The Result of AI Summariser: ",data.content)
       return data.content;
     },
 
@@ -252,7 +252,7 @@ const Blogclient = ({ blog }: BlogClientProps) => {
       if (msg.toLowerCase().includes("limit")) {
         Report.failure(
           "Daily AI Limit Reached",
-          "Try again tomorrow",
+          "Try again tomorrow Or Upgrade Your Plan",
           "Okay"
         );
       } else {
@@ -457,6 +457,13 @@ const Blogclient = ({ blog }: BlogClientProps) => {
 
               {showContent === "blog" ?
                 (<div ref={contentRef}
+                  onMouseMove={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+                    e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+                  }}
                   className="
                   rich-text
                   prose prose-invert
@@ -472,6 +479,13 @@ const Blogclient = ({ blog }: BlogClientProps) => {
                 :
                 (<div
                   ref={contentRef}
+                  onMouseMove={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+                    e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+                  }}
                   className="ai-summary max-w-none"
                   dangerouslySetInnerHTML={{ __html: Aicontent }}
                 />)

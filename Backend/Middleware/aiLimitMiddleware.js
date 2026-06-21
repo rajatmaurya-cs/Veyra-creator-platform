@@ -51,9 +51,6 @@ const checkAiLimit = (type) => {
         });
       }
 
-      
-      
-      
 
       const dailyAppLimit = Number(
         config.dailyappLimit
@@ -97,21 +94,13 @@ const checkAiLimit = (type) => {
         return res.status(429).json({
           success: false,
           message:
-            "Daily AI app limit reached.",
+            "Today's App Global Quota has been exhausted. Please try again later.",
         });
       }
-
-      
-      
-      
 
       if (role === "ADMIN") {
         return next();
       }
-
-      
-      
-      
 
       const user = await User.findById(userId)
         .populate("plan");

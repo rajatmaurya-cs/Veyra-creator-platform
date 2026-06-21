@@ -155,7 +155,8 @@ export async function proxy(request: NextRequest) {
           timeZone: "Asia/Kolkata",
           hour12: false,
         });
-        console.log("Token Generated & Redirecting proxy.ts at: ✅", now)
+
+        console.log("Token Generated & Proceesing Further from proxy.ts at: ✅", now)
 
         return response;
 
