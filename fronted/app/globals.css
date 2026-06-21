@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@100..900&display=swap');
 @import "tailwindcss";
 
+:root {
+  --rt-mono: var(--font-geist-mono), monospace;
+  --rt-serif: "Cormorant Garamond", Georgia, serif;
+}
+
 @theme {
   --color-primary: #181818;
   --font-sans: "Outfit", var(--font-geist-sans), sans-serif;
