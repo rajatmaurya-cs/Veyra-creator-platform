@@ -18,7 +18,27 @@ type LeaderboardProps = {
 
 const Leaderboard = ({ data }: LeaderboardProps) => {
 
-  const users = data?.users || [];
+  const getFakedFollowersCount = (count: number, userId: string) => {
+    if (count > 0) {
+      return count * 7192;
+    }
+    // Stable pseudo-random seed using character codes of userId
+    let seed = 0;
+    if (userId) {
+      for (let i = 0; i < userId.length; i++) {
+        seed += userId.charCodeAt(i);
+      }
+    } else {
+      seed = 5;
+    }
+    const val = Math.floor((seed % 19) + 1); // Generates a stable number between 1 and 19
+    return val;
+  };
+
+  const users = (data?.users || []).map(u => ({
+    ...u,
+    followersCount: getFakedFollowersCount(u.followersCount, u._id)
+  }));
 
   const topThree = users.slice(0, 3);
   const remaining = users.slice(3);
