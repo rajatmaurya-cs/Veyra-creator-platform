@@ -30,17 +30,33 @@ const Page = () => {
 
   const [avatarPreview, setAvatarPreview] = useState("");
 
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    if (file.size > file.size > 5 * 1024 * 1024) {
-          toast.error("Image size must be less than 5MB");
-          return;
-        }
-    if (file) {
-      setAvatarFile(file);
-      setAvatarPreview(URL.createObjectURL(file));
-    }
-  };
+const handleAvatarChange = (e) => {
+  const file = e.target.files?.[0];
+
+  if (!file) return;
+
+  const allowedTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+     "image/jpg",
+  ];
+
+  if (!allowedTypes.includes(file.type)) {
+    toast.error(
+      "Only JPG, PNG, WEBP images are allowed"
+    );
+    return;
+  }
+
+  if (file.size > 5 * 1024 * 1024) {
+    toast.error("Image size must be less than 5MB");
+    return;
+  }
+
+  setAvatarFile(file);
+  setAvatarPreview(URL.createObjectURL(file));
+};
 
   useEffect(() => {
     return () => {

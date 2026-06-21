@@ -329,21 +329,34 @@ const AddBlog = () => {
   }, []);
 
   const handleImageChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = e.target.files?.[0];
+  e: React.ChangeEvent<HTMLInputElement>
+) => {
+  const file = e.target.files?.[0];
 
-    if (!file) return;
+  if (!file) return;
 
-    
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Image size must be less than 5MB");
-      return;
-    }
+  const allowedTypes = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/webp",
 
-    setImage(file);
-  };
+  ];
 
+  if (!allowedTypes.includes(file.type)) {
+    toast.error(
+      "Only JPG, PNG, WEBP and AVIF images are allowed"
+    );
+    return;
+  }
+
+  if (file.size > 5 * 1024 * 1024) {
+    toast.error("Image size must be less than 5MB");
+    return;
+  }
+
+  setImage(file);
+};
   
   return (
     <div className="min-h-screen bg-[#0b0d11] text-[#f3f4f6]">
