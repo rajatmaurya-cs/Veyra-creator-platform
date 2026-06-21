@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@100..900&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -10,464 +10,439 @@ body, html {
   font-family: "Outfit", var(--font-geist-sans), sans-serif;
 }
 
-
 .rich-text {
+  --rich-font: "Cormorant Garamond", Georgia, serif;
+  --story-paper: #f4eee4;
+  --story-ink: rgba(236, 233, 228, 0.82);
+  --story-muted: rgba(236, 233, 228, 0.56);
+  --story-red: #c4433c;
+  --story-amber: #d4a85f;
   width: 100%;
+  max-width: 860px;
+  margin-inline: auto;
   position: relative;
-
-  font-family:
-    "Inter",
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-
-  font-size: clamp(16px, 1.05vw, 18px);
-  line-height: 1.95;
-
-  color: rgba(255, 255, 255, 0.78);
-
+  counter-reset: story-chapter;
+  font-family: var(--rich-font);
+  font-size: clamp(1rem, 0.96rem + 0.18vw, 1.125rem);
+  line-height: 1.92;
+  color: var(--story-ink);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-
   overflow-wrap: break-word;
 }
 
-/* =========================
-   HEADINGS
-========================= */
+.rich-text::selection,
+.rich-text *::selection {
+  color: #fff;
+  background: rgba(196, 67, 60, 0.72);
+}
+
 
 .rich-text h1,
-.rich-text h2,
+.rich-text h2:first-of-type {
+  font-family: var(--rich-font);
+  color: var(--story-paper);
+  text-wrap: balance;
+}
+
+.rich-text h2:not(:first-of-type),
 .rich-text h3,
 .rich-text h4 {
-  color: white;
-  line-height: 1.2;
-  letter-spacing: -0.03em;
-  font-weight: 200;
+  font-family: var(--rt-mono) !important;
+  color: var(--story-paper);
+  text-wrap: balance;
 }
 
 .rich-text h1 {
-  font-size: clamp(34px, 4vw, 54px);
-  margin: 20px 0 28px;
+  position: relative;
+  margin: 0.25rem 0 clamp(3rem, 7vw, 5rem);
+  padding-bottom: 1.8rem;
+  font-size: clamp(2.75rem, 6vw, 5.25rem);
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: -0.045em;
+  text-shadow: 0 12px 50px rgba(0, 0, 0, 0.48);
+}
+
+.rich-text h1::before {
+  content: "VEYRA  /  UNTOLD STORIES";
+  display: block;
+  margin-bottom: 1rem;
+  font-family: var(--rich-font);
+  color: var(--story-red);
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.24em;
+}
+
+.rich-text h1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: min(14rem, 42%);
+  height: 1px;
+  background: linear-gradient(90deg, var(--story-red), rgba(212, 168, 95, 0.28), transparent);
+  box-shadow: 0 0 20px rgba(196, 67, 60, 0.28);
 }
 
 .rich-text h2 {
-  font-size: clamp(28px, 3vw, 38px);
-  margin: 64px 0 18px;
-
   position: relative;
-  padding-left: 18px;
+  counter-increment: story-chapter;
+  margin: clamp(4.75rem, 10vw, 7.5rem) 0 2rem;
+  padding: 0 0 1.15rem;
+  font-size: clamp(2.1rem, 4.5vw, 3.65rem);
+  font-weight: 600;
+  line-height: 1.03;
+  letter-spacing: -0.035em;
+}
+
+.rich-text h2:first-of-type {
+  width: 100% !important;
+  flex-shrink: 0 !important;
+  text-wrap: wrap !important;
 }
 
 .rich-text h2::before {
+  content: "CHAPTER " counter(story-chapter, decimal-leading-zero) "  /  CASE NOTES";
+  display: block;
+  margin-bottom: 0.75rem;
+  font-family: var(--rich-font);
+  color: var(--story-amber);
+  font-size: 0.66rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.22em;
+}
+
+.rich-text h2::after {
   content: "";
-
   position: absolute;
-
-  left: 0;
-  top: 0.18em;
-  bottom: 0.18em;
-
-  width: 5px;
-
-  border-radius: 999px;
-
-  background: linear-gradient(
-    to bottom,
-    #06b6d4,
-    #8b5cf6
-  );
+  inset: auto 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(196, 67, 60, 0.88), rgba(212, 168, 95, 0.22) 36%, rgba(255, 255, 255, 0.05) 72%, transparent);
 }
 
 .rich-text h3 {
-  font-size: clamp(22px, 2vw, 30px);
-  margin: 40px 0 16px;
+  position: relative;
+  margin: 3.25rem 0 1.15rem;
+  padding-left: 1.35rem;
+  font-size: clamp(1.65rem, 3vw, 2.35rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.rich-text h3::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.38rem;
+  height: 0.38rem;
+  rotate: 45deg;
+  background: var(--story-red);
+  box-shadow: 0 0 14px rgba(196, 67, 60, 0.5);
 }
 
 .rich-text h4 {
-  font-size: clamp(18px, 1.6vw, 24px);
-  margin: 30px 0 14px;
+  margin: 2.25rem 0 0.75rem;
+  color: var(--story-amber);
+  font-size: clamp(1.3rem, 2vw, 1.65rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.015em;
 }
 
-/* =========================
-   PARAGRAPHS
-========================= */
-
+/* Reading rhythm: prose, not a stack of UI cards */
 .rich-text p {
-  margin: 22px 0;
-
-  color: rgba(255,255,255,0.78);
-
-  font-size: 1.02rem;
-  line-height: 1.95;
-
-  background: rgba(255,255,255,0.03);
-
-  border: 1px solid rgba(255,255,255,0.06);
-
-  padding: 22px 24px;
-
-  border-radius: 22px;
-
-  backdrop-filter: blur(18px);
-
-  transition: all .25s ease;
+  font-family: var(--rt-mono) !important;
+  margin: 1.35rem 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--story-ink);
+  font-size: 1em;
+  font-weight: 350;
+  line-height: 1.92;
 }
 
-.rich-text p:hover {
-  border-color: rgba(139,92,246,0.22);
-
-  background: rgba(255,255,255,0.045);
-
-  transform: translateY(-2px);
+.rich-text :is(h1, h2) + p {
+  margin-top: 0;
+  padding: 0.25rem 0 0.35rem clamp(1rem, 3vw, 1.75rem);
+  border-left: 2px solid rgba(196, 67, 60, 0.72);
+  color: rgba(247, 242, 234, 0.93);
+  font-size: clamp(1.06rem, 1rem + 0.22vw, 1.22rem);
+  line-height: 1.85;
 }
 
-/* =========================
-   LINKS
-========================= */
+.rich-text :is(h1, h2) + p::first-letter {
+  float: left;
+  margin: 0.08em 0.12em 0 0;
+  font-family: var(--rich-font);
+  color: var(--story-red);
+  font-size: 4.1em;
+  font-weight: 600;
+  line-height: 0.72;
+  text-shadow: 0 0 24px rgba(196, 67, 60, 0.25);
+}
 
 .rich-text a {
-  color: #67e8f9;
-
+  color: #e3bb77;
   text-decoration: none;
-
-  border-bottom: 1px solid rgba(103,232,249,.35);
-
-  transition: all .2s ease;
+  background-image: linear-gradient(var(--story-red), var(--story-red));
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 1px;
+  transition: color 180ms ease, background-size 180ms ease;
 }
 
 .rich-text a:hover {
-  color: white;
-
-  border-color: #67e8f9;
+  color: #fff5e6;
+  background-size: 100% 2px;
 }
 
-/* =========================
-   STRONG + EMPHASIS
-========================= */
-
 .rich-text strong {
-  color: white;
-  font-weight: 700;
+  color: #fff7eb;
+  font-weight: 650;
 }
 
 .rich-text em {
-  color: #c4b5fd;
+  color: #e5bd7b;
+  font-family: var(--rich-font);
+  font-size: 1.08em;
 }
 
-/* =========================
-   LISTS
-========================= */
-
+/* Evidence-style lists */
 .rich-text ul,
 .rich-text ol {
-  margin: 32px 0;
-
-  padding-left: 0;
-
+  margin: 2.15rem 0;
+  padding: 0 0 0 1.25rem;
+  border-left: 1px solid rgba(212, 168, 95, 0.24);
   list-style: none;
+  font-family: var(--rt-mono) !important;
 }
 
-/* LIST ITEM CARD */
+.rich-text ol {
+  counter-reset: story-item;
+}
 
 .rich-text li {
   position: relative;
-
-  margin: 16px 0;
-
-  padding: 18px 20px 18px 58px;
-
-  background: rgba(255,255,255,0.03);
-
-  border: 1px solid rgba(255,255,255,0.06);
-
-  border-radius: 20px;
-
-  color: rgba(255,255,255,.82);
-
-  line-height: 1.9;
-
-  transition: all .25s ease;
-
-  backdrop-filter: blur(16px);
+  margin: 1.1rem 0;
+  padding: 0.1rem 0 0.1rem 1.65rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(236, 233, 228, 0.8);
+  line-height: 1.82;
 }
 
-.rich-text li:hover {
-  transform: translateY(-2px);
-
-  border-color: rgba(139,92,246,.25);
-
-  background: rgba(255,255,255,0.05);
-}
-
-/* UL BULLET */
-
-.rich-text ul li::before {
+.rich-text ul > li::before {
   content: "";
-
   position: absolute;
-
-  left: 24px;
-  top: 28px;
-
-  width: 10px;
-  height: 10px;
-
-  border-radius: 999px;
-
-  background: linear-gradient(
-    135deg,
-    #8b5cf6,
-    #06b6d4
-  );
-
-  box-shadow:
-    0 0 16px rgba(139,92,246,.6);
+  left: -0.3rem;
+  top: 0.82em;
+  width: 0.55rem;
+  height: 0.55rem;
+  border: 1px solid var(--story-red);
+  rotate: 45deg;
+  background: #0d0e14;
+  box-shadow: 0 0 12px rgba(196, 67, 60, 0.28);
 }
 
-/* OL NUMBER */
-
-.rich-text ol {
-  counter-reset: item;
+.rich-text ol > li {
+  counter-increment: story-item;
 }
 
-.rich-text ol li::before {
-  counter-increment: item;
-
-  content: counter(item);
-
+.rich-text ol > li::before {
+  content: counter(story-item, decimal-leading-zero);
   position: absolute;
-
-  left: 18px;
-  top: 16px;
-
-  width: 28px;
-  height: 28px;
-
-  border-radius: 999px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: .85rem;
+  left: -0.4rem;
+  top: 0.1rem;
+  translate: -100% 0;
+  color: var(--story-red);
+  font-family: var(--rt-mono) !important;
+  font-size: 1.05rem;
   font-weight: 700;
-
-  color: white;
-
-  background: linear-gradient(
-    135deg,
-    #06b6d4,
-    #8b5cf6
-  );
+  letter-spacing: 0.04em;
 }
 
-/* Nested List */
-
-.rich-text li ul,
-.rich-text li ol {
-  margin-top: 16px;
+.rich-text li :is(ul, ol) {
+  margin-top: 1rem;
 }
 
-/* =========================
-   BLOCKQUOTE
-========================= */
-
+/* Pull quotes should feel like a reveal */
 .rich-text blockquote {
-  margin: 40px 0;
-
-  padding: 26px;
-
-  border-radius: 24px;
-
+  position: relative;
+  margin: clamp(3rem, 7vw, 5rem) 0;
+  padding: clamp(2rem, 5vw, 3.25rem) clamp(1.5rem, 5vw, 3.5rem);
+  overflow: hidden;
+  border: 1px solid rgba(212, 168, 95, 0.2);
+  border-left: 3px solid var(--story-red);
+  border-radius: 2px;
   background:
-    linear-gradient(
-      135deg,
-      rgba(139,92,246,.12),
-      rgba(6,182,212,.08)
-    );
-
-  border: 1px solid rgba(255,255,255,.08);
-
-  border-left: 5px solid #8b5cf6;
-
-  color: rgba(255,255,255,.88);
-
-  font-size: 1.08rem;
-
-  line-height: 1.9;
+    linear-gradient(115deg, rgba(196, 67, 60, 0.1), transparent 42%),
+    rgba(255, 255, 255, 0.018);
+  color: #f0e8dc;
+  font-family: var(--rich-font);
+  font-size: clamp(1.35rem, 2.8vw, 2rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.45;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
 }
 
-/* =========================
-   IMAGES
-========================= */
+.rich-text blockquote::before {
+  content: "\201C";
+  position: absolute;
+  right: 1rem;
+  top: -1.9rem;
+  color: rgba(196, 67, 60, 0.12);
+  font-family: var(--rich-font);
+  font-size: 10rem;
+  font-style: normal;
+  line-height: 1;
+}
+
+.rich-text blockquote p {
+  position: relative;
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  
+}
 
 .rich-text img {
   width: 100%;
   display: block;
-
-  margin: 46px 0;
-
-  border-radius: 28px;
-
-  border: 1px solid rgba(255,255,255,0.08);
-
-  box-shadow:
-    0 20px 80px rgba(0,0,0,.45);
+  margin: clamp(3rem, 7vw, 5.5rem) 0;
+  border: 1px solid rgba(212, 168, 95, 0.24);
+  border-radius: 4px;
+  filter: saturate(0.86) contrast(1.04);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55), 0 0 0 8px rgba(255, 255, 255, 0.018);
 }
 
-/* =========================
-   CODE
-========================= */
-
 .rich-text pre {
-  margin: 36px 0;
-
-  padding: 22px;
-
+  margin: 2.5rem 0;
+  padding: 1.4rem;
   overflow-x: auto;
-
-  border-radius: 22px;
-
-  background:
-    linear-gradient(
-      180deg,
-      #0f172a,
-      #020617
-    );
-
-  border: 1px solid rgba(255,255,255,0.08);
-
-  color: #e2e8f0;
-
-  box-shadow:
-    0 20px 70px rgba(0,0,0,.45);
+  border: 1px solid rgba(212, 168, 95, 0.18);
+  border-radius: 3px;
+  background: #090a0f;
+  color: #e8dfd3;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
 }
 
 .rich-text code {
-  background: rgba(139,92,246,.14);
-
-  color: #e9d5ff;
-
-  padding: 4px 8px;
-
-  border-radius: 8px;
-
-  font-size: .92em;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  background: rgba(196, 67, 60, 0.12);
+  color: #efc98d;
+  font-family: var(--rich-font);
+  font-size: 0.9em;
 }
 
-/* =========================
-   TABLE
-========================= */
+.rich-text pre code {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+}
 
 .rich-text table {
   width: 100%;
-
-  margin: 40px 0;
-
+  display: block;
+  margin: 2.5rem 0;
+  overflow-x: auto;
+  border: 1px solid rgba(212, 168, 95, 0.2);
   border-collapse: collapse;
-
-  overflow: hidden;
-
-  border-radius: 22px;
-
-  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255, 255, 255, 0.012);
 }
 
-.rich-text th {
-  background: rgba(255,255,255,.06);
-
-  color: white;
-
-  padding: 18px;
-
+.rich-text th,
+.rich-text td {
+  min-width: 9rem;
+  padding: 1rem;
   text-align: left;
 }
 
-.rich-text td {
-  padding: 18px;
-
-  border-top: 1px solid rgba(255,255,255,.06);
-
-  color: rgba(255,255,255,.76);
+.rich-text th {
+  border-bottom: 1px solid rgba(196, 67, 60, 0.5);
+  background: rgba(196, 67, 60, 0.08);
+  color: var(--story-paper);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-/* =========================
-   HR
-========================= */
+.rich-text td {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--story-ink);
+}
 
 .rich-text hr {
-  border: none;
-
+  width: min(22rem, 70%);
   height: 1px;
-
-  margin: 60px 0;
-
-  background:
-    linear-gradient(
-      to right,
-      transparent,
-      rgba(255,255,255,.12),
-      transparent
-    );
+  margin: clamp(4rem, 9vw, 7rem) auto;
+  border: 0;
+  background: linear-gradient(90deg, transparent, rgba(212, 168, 95, 0.55), var(--story-red), rgba(212, 168, 95, 0.55), transparent);
+  box-shadow: 0 0 18px rgba(196, 67, 60, 0.2);
 }
 
-/* =========================
-   SCROLLBAR
-========================= */
-
 .rich-text pre::-webkit-scrollbar {
-  height: 8px;
+  height: 7px;
 }
 
 .rich-text pre::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,.15);
-
-  border-radius: 999px;
+  border-radius: 99px;
+  background: rgba(212, 168, 95, 0.28);
 }
 
-/* =========================
-   MOBILE
-========================= */
-
 @media (max-width: 768px) {
-
   .rich-text {
-    font-size: 15px;
+    font-size: 0.98rem;
+    line-height: 1.82;
   }
 
-  .rich-text p {
-    padding: 18px;
-    border-radius: 18px;
+  .rich-text h1 {
+    margin-bottom: 3.5rem;
+    font-size: clamp(2.6rem, 13vw, 4rem);
   }
 
   .rich-text h2 {
-    padding-left: 14px;
+    margin-top: 4.75rem;
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .rich-text h1::before,
+  .rich-text h2::before {
+    letter-spacing: 0.16em;
+  }
+
+  .rich-text :is(h1, h2) + p {
+    padding-left: 1rem;
+    font-size: 1.02rem;
+  }
+
+  .rich-text :is(h1, h2) + p::first-letter {
+    font-size: 3.45em;
   }
 
   .rich-text blockquote {
-    padding: 22px;
+    padding: 1.75rem 1.35rem;
+  }
+
+  .rich-text ul,
+  .rich-text ol {
+    padding-left: 0.9rem;
   }
 
   .rich-text li {
-    padding:
-      16px
-      16px
-      16px
-      52px;
+    padding-left: 1.25rem;
   }
-
-  .rich-text ul li::before {
-    left: 20px;
-  }
-
 }
-
-
-
 
 
 
