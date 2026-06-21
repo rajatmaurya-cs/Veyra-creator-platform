@@ -120,16 +120,23 @@ const Blogclient = ({ blog }: BlogClientProps) => {
       return data;
     },
     onMutate: async () => {
-      setLocalHasLiked((prev) => !prev);
-      setLocalLikesCount((prev) => (localHasLiked ? prev - 1 : prev + 1));
+      const wasLiked = localHasLiked;
+      setLocalHasLiked(!wasLiked);
+      setLocalLikesCount((prev) => Math.max(0, wasLiked ? prev - 1 : prev + 1));
+      return { wasLiked };
     },
-    onError: (err) => {
-      setLocalHasLiked((prev) => !prev);
-      setLocalLikesCount((prev) => (localHasLiked ? prev + 1 : prev - 1));
+    onError: (err, variables, context) => {
+      if (context !== undefined) {
+        setLocalHasLiked(context.wasLiked);
+        setLocalLikesCount((prev) => Math.max(0, !context.wasLiked ? prev - 1 : prev + 1));
+      }
       toast.error(err.message || "Error liking blog");
     },
     onSuccess: (data) => {
       setLocalHasLiked(data.liked);
+      if (typeof data.likesCount === 'number') {
+        setLocalLikesCount(data.likesCount);
+      }
       queryClient.invalidateQueries({ queryKey: ["blog", blogId] });
     },
   });
@@ -366,10 +373,11 @@ const Blogclient = ({ blog }: BlogClientProps) => {
               <div className="flex items-center gap-3">
                 <button
                   onClick={handleLike}
+                  disabled={likeMutation.isPending}
                   className={`group flex items-center gap-2 px-4 py-2.5 rounded-full border transition-all duration-200 ${localHasLiked
                     ? "bg-rose-500 text-white border-rose-500 shadow-lg shadow-rose-500/20"
                     : "bg-white/5 border-white/10 text-gray-300 hover:border-rose-500/40 hover:bg-rose-500/10"
-                    }`}
+                    } ${likeMutation.isPending ? "opacity-70 cursor-not-allowed" : ""}`}
                 >
                   <Heart
                     size={16}

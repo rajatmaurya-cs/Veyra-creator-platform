@@ -47,9 +47,7 @@ const Blogserver = async ({ Id }: BlogServerProps) => {
  const res = await apiFetch(
   `${process.env.NEXT_PUBLIC_API_URL}/blog/blogbyid/${Id}?blogId=${Id}`,
   {
-    next: {
-      revalidate: 300, 
-    },
+    cache: "no-store", 
   }
 );
 

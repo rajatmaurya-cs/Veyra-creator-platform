@@ -58,7 +58,13 @@ blogRouter.get('/BlogDashBoard',authMiddleware,(req,res,next)=>{
 
 
 
-blogRouter.post('/like/:id', authMiddleware, toggleLikeBlog);
+blogRouter.post('/like/:id', authMiddleware,(req,res,next)=>{
+
+console.log("The request proceed from blog.routes after passing from authmiddleware")
+
+next();
+
+} ,toggleLikeBlog);
 
 
 
