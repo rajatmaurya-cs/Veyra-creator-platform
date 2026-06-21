@@ -10,7 +10,7 @@ export const spamFilter = (text) => {
    if(repeatedChars.test(text))
       return "REVIEW";
 
-   if(text.length > 400)
+   if(text.length > 200)
       return "REVIEW";
 
    if(vowels / text.length < 0.2)
