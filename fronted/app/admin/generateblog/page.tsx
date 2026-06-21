@@ -852,7 +852,7 @@ const AddBlog = () => {
                   : "bg-[#1d2430] hover:bg-[#252d3a]"
                   }`}
               >
-                {!addBlogMutation.isPending ? (
+                {addBlogMutation.isPending ? (
                   <EditorLoader size={40} border={3} />
                 ) : (
                   "Submit Blog"
