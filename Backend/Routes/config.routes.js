@@ -3,7 +3,7 @@ import superAdminMiddleware from "../Middleware/superAdminMiddleware.js";
 
 import {getConfig , updateConfig , getConfigHistory}    from '../controller/configController.js'
 
-import adminMiddleware from "../Middleware/adminMiddleware.js"
+
 
 
 

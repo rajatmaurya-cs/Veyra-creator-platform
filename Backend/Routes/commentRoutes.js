@@ -1,7 +1,7 @@
 import express from 'express'
 import {addComment , getAllComments , getCommentsByBlogId , toggleComment , removecomment} from '../controller/CommentController.js'
 import authMiddleware from '../Middleware/authMiddleware.js';
-import adminMiddleware from '../Middleware/adminMiddleware.js';
+
 
 const commentRouter = express.Router();
 

@@ -10,7 +10,6 @@ import blogRouter from "./Routes/blogRoutes.js";
 import commentRouter from "./Routes/commentRoutes.js";
 import AiRouter from "./Routes/ai.routes.js";
 import configRoutes from "./Routes/config.routes.js";
-import adminMiddleware from "./Middleware/adminMiddleware.js";
 import paymentroutes from "./Routes/payment.routes.js";
 import { Plan } from "./Models/plans.js"
 import planrouter from "./Routes/plan.route.js";
