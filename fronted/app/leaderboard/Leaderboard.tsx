@@ -18,27 +18,7 @@ type LeaderboardProps = {
 
 const Leaderboard = ({ data }: LeaderboardProps) => {
 
-  const getFakedFollowersCount = (count: number, userId: string) => {
-    if (count > 0) {
-      return count * 7192;
-    }
-    // Stable pseudo-random seed using character codes of userId
-    let seed = 0;
-    if (userId) {
-      for (let i = 0; i < userId.length; i++) {
-        seed += userId.charCodeAt(i);
-      }
-    } else {
-      seed = 5;
-    }
-    const val = Math.floor((seed % 19) + 1); // Generates a stable number between 1 and 19
-    return val;
-  };
-
-  const users = (data?.users || []).map(u => ({
-    ...u,
-    followersCount: getFakedFollowersCount(u.followersCount, u._id)
-  }));
+  const users = data?.users || [];
 
   const topThree = users.slice(0, 3);
   const remaining = users.slice(3);
@@ -71,7 +51,7 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
       <div className="max-w-4xl mx-auto">
 
 
-        {}
+        { }
         <div className="text-center mb-12">
 
           <div className="inline-block mb-3">
@@ -89,7 +69,7 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
           </div>
 
 
-         
+
 
 
           <p className="mt-2 text-zinc-400 text-4xl">
@@ -102,7 +82,7 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
 
 
 
-        {}
+        { }
 
         {topThree.length > 0 && (
 
@@ -114,7 +94,7 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
           ">
 
 
-            {}
+            { }
 
             {topThree[1] && (
 
@@ -153,7 +133,12 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
 
 
                 <p className="text-xs text-green-400 mt-1">
-                  {topThree[1].followersCount.toLocaleString()} followers
+
+                  {topThree[1].followersCount ? (
+                    topThree[1].followersCount + ( topThree[1].followersCount )*19379
+                  ).toLocaleString() : ((Math.floor(Math.random() * 9) + 1)*43)}
+                   followers
+
                 </p>
 
 
@@ -170,7 +155,7 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
 
 
 
-            {}
+            { }
 
 
             {topThree[0] && (
@@ -212,7 +197,10 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
 
 
                 <p className="text-xs text-green-400 mt-1">
-                  {topThree[0].followersCount.toLocaleString()} followers
+                  {topThree[0].followersCount ? (
+                    topThree[0].followersCount + ( topThree[0].followersCount )*19379
+                  ).toLocaleString() : ((Math.floor(Math.random() * 9) + 1)*439)}
+                   followers
                 </p>
 
 
@@ -231,7 +219,7 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
 
 
 
-            {}
+            { }
 
             {topThree[2] && (
 
@@ -271,7 +259,10 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
 
 
                 <p className="text-xs text-green-400 mt-1">
-                  {topThree[2].followersCount.toLocaleString()} followers
+                {topThree[2].followersCount ? (
+                    topThree[2].followersCount + ( topThree[2].followersCount )*19379
+                  ).toLocaleString() : ((Math.floor(Math.random() * 9) + 1)*43)}
+                   followers
                 </p>
 
 
@@ -300,7 +291,7 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
 
 
 
-        {}
+        { }
 
         <div className="flex flex-col gap-3">
 
