@@ -95,9 +95,11 @@ const Blogclient = ({ blog }: BlogClientProps) => {
       setLocalLikesCount(blog.likes?.length || 0);
       if (user && blog.likes) {
         setLocalHasLiked(blog.likes.includes(user.id || user._id));
+      } else {
+        setLocalHasLiked(false);
       }
     }
-  }, [blog, user]);
+  }, [blog?._id, user?._id || user?.id]);
 
   useEffect(() => {
     if (user && blog.createdBy?._id) {
