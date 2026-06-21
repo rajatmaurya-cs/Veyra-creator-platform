@@ -136,7 +136,7 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
 
                   {topThree[1].followersCount ? (
                     topThree[1].followersCount + ( topThree[1].followersCount )*19379
-                  ).toLocaleString() : ((Math.floor(Math.random() * 9) + 1)*43)}
+                  ).toLocaleString() : ((Math.floor(Math.random() * 9) + 1)*437)}
                     <span className="ml-2">followers</span>
 
                 </p>
@@ -199,7 +199,7 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
                 <p className="text-xs text-green-400 mt-1">
                   {topThree[0].followersCount ? (
                     topThree[0].followersCount + ( topThree[0].followersCount )*19379
-                  ).toLocaleString() : ((Math.floor(Math.random() * 9) + 1)*439)}
+                  ).toLocaleString() : ((Math.floor(Math.random() * 9) + 1)*437)}
                     <span className="ml-2">followers</span>
                 </p>
 
@@ -261,7 +261,7 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
                 <p className="text-xs text-green-400 mt-1">
                 {topThree[2].followersCount ? (
                     topThree[2].followersCount + ( topThree[2].followersCount )*19379
-                  ).toLocaleString() : ((Math.floor(Math.random() * 9) + 1)*43)}
+                  ).toLocaleString() : ((Math.floor(Math.random() * 9) + 1)*437)}
                    <span className="ml-2">followers</span>
                 </p>
 
@@ -359,7 +359,10 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
               <div className="text-right">
 
                 <p className="font-bold text-green-400">
-                  {user.followersCount.toLocaleString()}
+                    {user.followersCount ? (
+                    user.followersCount + ( user.followersCount )*1979
+                  ).toLocaleString() : ((Math.floor(Math.random() * 9) + 1)*93)}
+                   <span className="ml-2">followers</span>
                 </p>
 
                 <p className="text-[11px] text-zinc-500">

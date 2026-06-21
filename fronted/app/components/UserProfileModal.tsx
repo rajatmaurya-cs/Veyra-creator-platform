@@ -138,7 +138,7 @@ const UserProfileModal = ({
                                     <span className="text-xs text-zinc-400 font-medium">Followers</span>
                                 </div>
                                 <span className="text-sm font-semibold text-emerald-400">
-                                    {user?.followers?.length || 10}
+                                    {user?.followers?.length || 0}
                                 </span>
                             </div>
                             <div className="bg-zinc-900/40 border border-zinc-800/50 rounded-2xl p-4 flex items-center justify-between transition-colors hover:bg-zinc-900/80">
