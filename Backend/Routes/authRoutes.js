@@ -127,7 +127,7 @@ next();
 
 
 
-authRouter.post("/logout", authMiddleware, logout);
+authRouter.post("/logout", logout);
 
 
 authRouter.post("/refreshtoken",(req,res , next)=>{
