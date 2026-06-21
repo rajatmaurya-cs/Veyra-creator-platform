@@ -99,9 +99,15 @@ const Footer = () => {
               <Link href="/plans" className="text-zinc-400 hover:text-indigo-400 transition-colors">
                 Pricing Plans
               </Link>
+
               <Link href="/leaderboard" className="text-zinc-400 hover:text-indigo-400 transition-colors">
                 Leaderboard
               </Link>
+
+                {/* <Link href="/Test" className="text-zinc-400 hover:text-indigo-400 transition-colors">
+                3D Model
+               </Link> */}
+
             </div>
           </div>
 

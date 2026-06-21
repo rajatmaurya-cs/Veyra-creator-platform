@@ -42,17 +42,18 @@ const Hero = () => {
         </div>
 
         {}
-        <h1 className="mt-8 max-w-4xl text-4xl  tracking-tighter sm:text-6xl lg:text-7xl xl:text-8xl bg-gradient-to-b from-zinc-50 via-zinc-200 to-zinc-500 bg-clip-text text-transparent leading-[1.05]">
-          Create. Summarize.
+        <h1 className="mt-8 max-w-6xl text-4xl sm:text-5xl lg:text-6xl xl:text-7xl tracking-tighter bg-gradient-to-b from-zinc-50 via-zinc-200 to-zinc-500 bg-clip-text text-transparent leading-[1.1]">
+          Create. Publish. Build Your Audience
+          {/* <span className="ml-1.5">Audience.</span> */}
           <br />
           <span className="bg-gradient-to-r from-indigo-200 via-white to-violet-400 bg-clip-text text-transparent">
-            Publish with Veyra
+            The home for modern creators.
           </span>
         </h1>
 
         {}
         <p className="mt-8 max-w-2xl text-base tracking-tight text-zinc-400 sm:text-lg lg:text-xl leading-relaxed">
-          An intelligent ecosystem built for modern creators. Generate high-fidelity blogs, condense complex articles instantly, and distribute content seamlessly.
+          Write powerful stories, grow your followers, and turn your ideas into content people discover. Veyra gives creators AI-powered tools, publishing, and a community built around their voice.
         </p>
 
         {}
