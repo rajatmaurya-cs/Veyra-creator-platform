@@ -14,7 +14,7 @@ import Image from "next/image";
 import useSendOtp from '@/app/hooks/useSendOtp'
 
 import useVerifyOtp from "@/app/hooks/useVeriyOtp";
-
+import EditorLoader from "@/app/Animations/EditorLoader";
 
 const Page = () => {
 
@@ -450,21 +450,29 @@ return (
           <button
             type="submit"
             disabled={isCreating}
-            className="
-              h-14
-              rounded-2xl
-              bg-[#f3f4f6]
-              text-[#0f1115]
-              font-semibold
-              transition-all
-              hover:bg-white
-              hover:-translate-y-0.5
-              disabled:opacity-50
-              disabled:hover:translate-y-0
-              mt-2
-            "
+            className={
+              isCreating
+                ? "flex h-14 w-full items-center justify-center bg-transparent border-none pointer-events-none mt-2"
+                : `
+                  flex
+                  h-14
+                  w-full
+                  items-center
+                  justify-center
+                  rounded-2xl
+                  bg-[#f3f4f6]
+                  text-[#0f1115]
+                  font-semibold
+                  transition-all
+                  hover:bg-white
+                  hover:-translate-y-0.5
+                  disabled:opacity-50
+                  disabled:hover:translate-y-0
+                  mt-2
+                `
+            }
           >
-            {isCreating ? "Creating Account..." : "Create Account"}
+            {isCreating ? <EditorLoader size={40} border={2}/> : "Create Account"}
           </button>
         )}
       </form>
