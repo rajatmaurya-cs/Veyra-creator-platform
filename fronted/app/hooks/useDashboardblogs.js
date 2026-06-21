@@ -26,8 +26,6 @@ export function useDashboardblogs({ limit = 5, isAdmin = true, category = "All" 
 
       const json = await res.json();
 
-      console.log("The react-querry of blogsdashboard:", json)
-
       if (!json.success) {
         throw new Error(
           json.message || "Failed to fetch latest blogs"

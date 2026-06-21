@@ -30,11 +30,7 @@ const Navbar = () => {
 
 
 
-  console.log("The data on Navbar is✅ :",{
-  user,
-  loggedIn,
-  authloading
-});
+ 
 
   const [showProfile, setShowProfile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
