@@ -336,8 +336,8 @@ const AddBlog = () => {
     if (!file) return;
 
     
-    if (file.size > 10 * 1024 * 1024) {
-      toast.error("Image size must be less than 10MB");
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image size must be less than 5MB");
       return;
     }
 
@@ -620,7 +620,7 @@ const AddBlog = () => {
                             </p>
 
                             <p className="mt-1 text-xs text-[#7c8393]">
-                              PNG, JPG, WEBP up to 10MB
+                              PNG, JPG, WEBP up to 5MB
                             </p>
                           </div>
                         )}

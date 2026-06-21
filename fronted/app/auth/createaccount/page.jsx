@@ -32,6 +32,10 @@ const Page = () => {
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
+    if (file.size > file.size > 5 * 1024 * 1024) {
+          toast.error("Image size must be less than 5MB");
+          return;
+        }
     if (file) {
       setAvatarFile(file);
       setAvatarPreview(URL.createObjectURL(file));
