@@ -52,16 +52,12 @@ function extractCookieValue(setCookieHeaderStr: string, name: string): string | 
 export async function proxy(request: NextRequest) {
 
 
-  const isPrefetch =
-    request.headers.get("next-router-prefetch") === "1" ||
-    request.headers.get("purpose") === "prefetch" ||
-    request.headers.get("sec-purpose") === "prefetch" ||
-    request.headers.get("sec-purpose") === "prefetch;prerender";
-
   const isDocumentRequest = request.headers.get("sec-fetch-dest") === "document";
 
   const accessToken = request.cookies.get("accessToken")?.value;
+
   const refreshToken = request.cookies.get("refreshToken")?.value;
+
   const isAccessExpired = isTokenExpired(accessToken);
 
   console.log("🔍 PROXY DEBUG:", {
@@ -69,7 +65,6 @@ export async function proxy(request: NextRequest) {
     hasRefreshToken: !!refreshToken,
     isAccessExpired,
     isDocumentRequest,
-    isPrefetch,
     secFetchDest: request.headers.get("sec-fetch-dest"),
     url: request.url,
   });
@@ -84,7 +79,7 @@ export async function proxy(request: NextRequest) {
 
     console.log("In Porxyt.ts Both AccessToken & RefreshToken are not found at 🚫: ", currentTime)
 
-    if (!isDocumentRequest || isPrefetch) {
+    if (!isDocumentRequest) {
       return NextResponse.next();
     }
     const response = NextResponse.redirect(new URL("/auth/login", request.url));
@@ -123,6 +118,8 @@ export async function proxy(request: NextRequest) {
 
 
         const newAccessToken = extractCookieValue(setCookieHeader, "accessToken");
+
+        
         const newRefreshToken = extractCookieValue(setCookieHeader, "refreshToken");
 
         console.log("\n\nTokens refreshed in middleware:");
@@ -163,6 +160,12 @@ export async function proxy(request: NextRequest) {
         return response;
 
       } else {
+        if (!isDocumentRequest) {
+          const response = NextResponse.next();
+          response.cookies.delete("accessToken");
+          response.cookies.delete("refreshToken");
+          return response;
+        }
 
         const response = NextResponse.redirect(new URL("/auth/login", request.url));
         response.cookies.delete("accessToken");
@@ -171,6 +174,9 @@ export async function proxy(request: NextRequest) {
       }
     } catch (err) {
       console.error("Middleware token refresh error:", err);
+      if (!isDocumentRequest) {
+        return NextResponse.next();
+      }
       const response = NextResponse.redirect(new URL("/auth/login", request.url));
       return response;
     }
