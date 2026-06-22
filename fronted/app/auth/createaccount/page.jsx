@@ -32,7 +32,9 @@ const Page = () => {
   const [avatarPreview, setAvatarPreview] = useState("");
 
   const [tempImage, setTempImage] = useState(null);
+
   const [scale, setScale] = useState(1.2);
+
   const editorRef = useRef(null);
 
 const handleAvatarChange = (e) => {
@@ -61,19 +63,23 @@ const handleAvatarChange = (e) => {
   }
 
   setTempImage(file);
+
   e.target.value = "";
+
 };
 
   const handleSaveCrop = () => {
     if (!editorRef.current) return;
 
     const canvas = editorRef.current.getImageScaledToCanvas();
+
     canvas.toBlob((blob) => {
       if (!blob) {
         toast.error("Failed to crop image");
         return;
       }
       const croppedFile = new File([blob], "avatar.jpg", { type: "image/jpeg" });
+      
       setAvatarFile(croppedFile);
 
       if (avatarPreview) {
@@ -157,7 +163,6 @@ const handleAvatarChange = (e) => {
   };
 
 
-  // We trigger verifyOtp in the OtpInput onChange instead of a useEffect to prevent infinite loops
 
 
   useEffect(() => {
