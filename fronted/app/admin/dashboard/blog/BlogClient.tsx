@@ -228,7 +228,7 @@ const BlogClient = () => {
 
                 {}
                 <div className="space-y-1">
-                  <h2 className="break-words text-lg font-medium tracking-tight text-white transition-colors duration-200">
+                  <h2 className="line-clamp-1 break-all text-lg font-medium tracking-tight text-white transition-colors duration-200">
                     {blog.title}
                   </h2>
 

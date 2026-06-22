@@ -302,7 +302,7 @@ const Page = () => {
 
                   {}
                   <td className="min-w-0 px-5 py-4.5">
-                    <p className="max-w-xl break-words text-sm leading-relaxed text-[#8b90a0]">
+                    <p className="max-w-xl line-clamp-1 break-all text-sm leading-relaxed text-[#8b90a0]">
                       {comment.content}
                     </p>
                   </td>

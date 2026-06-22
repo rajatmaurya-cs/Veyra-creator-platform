@@ -120,9 +120,7 @@ const Page = () => {
   });
 
   const handledelete = (blogId: string) => {
-    if (confirm("Are you sure you want to delete this publication?")) {
-      deleteMutation.mutate(blogId);
-    }
+    deleteMutation.mutate(blogId);
   }
 
   if (isLoading) {
@@ -239,7 +237,7 @@ const Page = () => {
 
                 {}
                 <div className="space-y-1">
-                  <h2 className="break-words text-lg font-medium tracking-tight text-white transition-colors duration-200 group-hover:text-white">
+                  <h2 className="line-clamp-1 break-all text-lg font-medium tracking-tight text-white transition-colors duration-200 group-hover:text-white">
                     {blog.title}
                   </h2>
 
