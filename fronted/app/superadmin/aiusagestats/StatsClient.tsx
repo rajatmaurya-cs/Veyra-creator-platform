@@ -80,7 +80,7 @@ const Client = ({ data }: ClientProps) => {
           AI Usage Dashboard
         </div>
         <p className="mt-1.5 text-xs text-zinc-650 font-bold tracking-wide">
-          Track AI generation, user activity and platform usage insights across Postify.
+          Track AI generation, user activity and platform usage insights across VEYRA.
         </p>
       </div>
 

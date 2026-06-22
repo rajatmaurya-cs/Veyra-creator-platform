@@ -91,7 +91,7 @@ const Plans = ({ dbPlans = [] }: PlansProps) => {
         amount: data.amount,
         currency: data.currency,
         order_id: data.orderId,
-        name: "Postify",
+        name: "VEYRA",
         description: `${plan.toUpperCase()} Plan Subscription`,
         handler: async function (response: any) {
           try {
@@ -149,7 +149,7 @@ const Plans = ({ dbPlans = [] }: PlansProps) => {
       id: "free",
       name: "Free",
       price: dbPlans.find((p) => p.name.toLowerCase() === "free")?.price ?? 0,
-      subtitle: "Ideal for trying out Postify",
+      subtitle: "Ideal for trying out VEYRA",
       buttonText: "Get Started",
       everythingText: "Everything you need:",
       popular: false,

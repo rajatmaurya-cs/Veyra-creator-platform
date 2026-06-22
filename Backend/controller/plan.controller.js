@@ -8,7 +8,7 @@ export const getPlans = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "The Plans of Postify",
+      message: "The Plans of Veyra",
       data: plans,
     });
 

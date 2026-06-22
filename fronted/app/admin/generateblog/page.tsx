@@ -612,7 +612,7 @@ const AddBlog = () => {
                             alt="Preview"
                             width={1200}
                             height={500}
-                            className="h-full w-full object-cover"
+                            className="h-full w-full object-contain"
                           />
                         ) : (
                           <div className="flex flex-col items-center justify-center text-center">

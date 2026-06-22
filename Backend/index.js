@@ -196,7 +196,7 @@ if (process.env.NODE_ENV !== "production") {
 app.get("/", (req, res) => {
   res.json({
     success: true,
-    message: "Postify Backend API is running 🚀",
+    message: "Veyra Backend API is running 🚀",
     endpoints: {
       health: "/api/health",
       docs: "API only backend"
