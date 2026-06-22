@@ -18,4 +18,5 @@ export const blogCategories = [
     "Crime Files",
     "Rise & Fall",
     "Paranormal Files",
+    "Inside Tech"
 ];

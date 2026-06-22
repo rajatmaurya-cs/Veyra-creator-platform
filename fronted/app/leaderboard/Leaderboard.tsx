@@ -341,13 +341,6 @@ const Leaderboard = ({ data }: LeaderboardProps) => {
                   <h4 className="font-semibold text-sm">
                     {user.fullName}
                   </h4>
-
-
-                  <p className="text-xs text-zinc-500">
-                    {user.role}
-                  </p>
-
-
                 </div>
 
 
