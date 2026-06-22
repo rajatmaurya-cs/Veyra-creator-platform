@@ -178,6 +178,8 @@ export const getAllComments = async (req, res) => {
       createdBy: userId
     }).select("_id");
 
+    
+
 
     const blogIds = blogs.map(blog => blog._id);
 

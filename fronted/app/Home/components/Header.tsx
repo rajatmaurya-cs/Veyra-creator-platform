@@ -53,7 +53,7 @@ const Hero = () => {
 
         {}
         <p className="mt-8 max-w-2xl text-base tracking-tight text-zinc-400 sm:text-lg lg:text-xl leading-relaxed">
-          Write powerful stories, grow your followers, and turn your ideas into content people discover. Veyra gives creators AI-powered tools, publishing, and a community built around their voice.
+          Write powerful stories, grow your followers, and turn your ideas into content that people discover. Veyra gives creators AI-powered tools, publishing, and a community built around their voice.
         </p>
 
         {}
