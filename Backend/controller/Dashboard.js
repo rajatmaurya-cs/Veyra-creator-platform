@@ -47,11 +47,6 @@ export const getDashboardStats = async (req, res) => {
 export const AidashboardStats = async (req, res) => {
   try {
 
-    const delay = (ms) =>
-      new Promise((resolve) => setTimeout(resolve, ms));
-
-
-    await delay(8000);
 
     console.log("Entered in aidashbaord stats in controller");
 
@@ -103,11 +98,7 @@ export const AidashboardStats = async (req, res) => {
 export const AidashboardLogs = async (req, res) => {
   try {
 
-    const delay = (ms) =>
-      new Promise((resolve) => setTimeout(resolve, ms));
-
-
-    await delay(4000);
+    
 
     console.log("Request goesout from aidashboardLogs")
     
