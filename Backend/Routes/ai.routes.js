@@ -1,7 +1,7 @@
 import express from 'express'
 
 import { generateContent, summariseArticle } from '../controller/Aicontroller.js'
-import { Aidashboard } from '../controller/Dashboard.js'
+import { AidashboardStats, AidashboardLogs } from '../controller/Dashboard.js'
 
 import checkAiLimit from '../Middleware/aiLimitMiddleware.js'
 import adminMiddleware from '../Middleware/adminMiddleware.js'
@@ -35,7 +35,12 @@ AiRouter.post('/summarise', (req, res, next) => {
 AiRouter.get('/ai-dashboard',authMiddleware,(req,res,next)=>{
     console.log("request comes in /ai-dashboard in airoutes")
     next();
-}, Aidashboard)
+}, AidashboardStats)
+
+AiRouter.get('/ai-dashboard-logs',authMiddleware,(req,res,next)=>{
+    console.log("request comes in /ai-dashboard-logs in airoutes")
+    next();
+}, AidashboardLogs)
 
 
 

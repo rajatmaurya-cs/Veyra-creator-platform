@@ -1,23 +1,18 @@
-import Client from "./StatsClient";
+import LogClient from "./LogClient";
 import { cookies } from "next/headers";
 
-async function getAIStats() {
-  
+async function getAILogs() {
   const cookieStore = await cookies();
-
   const allowedCookies = ["accessToken", "refreshToken"];
 
-  
   const cookieHeader = cookieStore
     .getAll()
     .filter((c) => allowedCookies.includes(c.name))
     .map((c) => `${c.name}=${c.value}`)
     .join("; ");
 
-  // console.log("\n\nThe payload in cookieHeader is: ", cookieHeader);
-
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/ai/ai-dashboard`,
+    `${process.env.NEXT_PUBLIC_API_URL}/ai/ai-dashboard-logs`,
     {
       method: "GET",
       headers: {
@@ -35,16 +30,15 @@ async function getAIStats() {
     throw new Error(data.message || "Request failed");
   }
 
-  console.log("The ai dashboard data is:", data);
   return data;
 }
 
-export default async function Page() {
-  const data = await getAIStats();
+export default async function LogServer() {
+  const data = await getAILogs();
 
   return (
     <div className="min-h-full w-full">
-      <Client data={data} />
+      <LogClient data={data} />
     </div>
   );
 }
