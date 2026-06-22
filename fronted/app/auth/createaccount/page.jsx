@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import { useRouter } from "next/navigation";
 
@@ -15,6 +15,7 @@ import useSendOtp from '@/app/hooks/useSendOtp'
 
 import useVerifyOtp from "@/app/hooks/useVeriyOtp";
 import EditorLoader from "@/app/Animations/EditorLoader";
+import AvatarEditor from "react-avatar-editor";
 
 const Page = () => {
 
@@ -30,7 +31,12 @@ const Page = () => {
 
   const [avatarPreview, setAvatarPreview] = useState("");
 
+  const [tempImage, setTempImage] = useState(null);
+  const [scale, setScale] = useState(1.2);
+  const editorRef = useRef(null);
+
 const handleAvatarChange = (e) => {
+  
   const file = e.target.files?.[0];
 
   if (!file) return;
@@ -54,9 +60,31 @@ const handleAvatarChange = (e) => {
     return;
   }
 
-  setAvatarFile(file);
-  setAvatarPreview(URL.createObjectURL(file));
+  setTempImage(file);
+  e.target.value = "";
 };
+
+  const handleSaveCrop = () => {
+    if (!editorRef.current) return;
+
+    const canvas = editorRef.current.getImageScaledToCanvas();
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        toast.error("Failed to crop image");
+        return;
+      }
+      const croppedFile = new File([blob], "avatar.jpg", { type: "image/jpeg" });
+      setAvatarFile(croppedFile);
+
+      if (avatarPreview) {
+        URL.revokeObjectURL(avatarPreview);
+      }
+
+      setAvatarPreview(URL.createObjectURL(croppedFile));
+      setTempImage(null);
+      setScale(1.2);
+    }, "image/jpeg");
+  };
 
   useEffect(() => {
     return () => {
@@ -624,6 +652,66 @@ return (
       </p>
 
     </div>
+
+    {tempImage && (
+      <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0b0d11]/80 backdrop-blur-md p-4">
+        <div className="bg-[#11141a] border border-[#1b1f27] rounded-[2rem] p-6 max-w-sm w-full flex flex-col items-center gap-5 shadow-[0_20px_80px_-20px_rgba(0,0,0,0.8)]">
+          <div className="text-center space-y-1">
+            <h3 className="text-xl font-semibold text-white">Adjust Avatar</h3>
+            <p className="text-xs text-[#8b90a0]">Zoom and drag to fit the circle</p>
+          </div>
+          
+          <div className="overflow-hidden rounded-2xl bg-[#171b22] border border-[#222733] p-1 flex items-center justify-center relative w-[240px] h-[240px]">
+            <AvatarEditor
+              ref={editorRef}
+              image={tempImage}
+              width={200}
+              height={200}
+              border={10}
+              borderRadius={100}
+              color={[17, 20, 26, 0.6]}
+              scale={scale}
+            />
+          </div>
+
+          <div className="w-full space-y-2">
+            <div className="flex justify-between text-xs text-[#8b90a0]">
+              <span>Zoom</span>
+              <span>{scale.toFixed(1)}x</span>
+            </div>
+            <input
+              type="range"
+              min="1"
+              max="3"
+              step="0.1"
+              value={scale}
+              onChange={(e) => setScale(Number(e.target.value))}
+              className="w-full accent-indigo-500 cursor-pointer h-1.5 bg-[#171b22] rounded-lg appearance-none"
+            />
+          </div>
+
+          <div className="flex gap-3 w-full mt-2">
+            <button
+              type="button"
+              onClick={() => {
+                setTempImage(null);
+                setScale(1.2);
+              }}
+              className="flex-1 h-12 rounded-2xl border border-[#222733] bg-[#171b22] text-[#d1d5db] font-medium hover:bg-[#1d2129] transition-all"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={handleSaveCrop}
+              className="flex-1 h-12 rounded-2xl bg-[#f3f4f6] text-[#0f1115] font-semibold hover:bg-white transition-all flex items-center justify-center shadow-lg shadow-white/5"
+            >
+              Save Avatar
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
   </div>
 );
 };
