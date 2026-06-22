@@ -167,6 +167,15 @@ const Page = () => {
       </div>
     </div>
 
+    {!isLoading && !isError && isFetching && (
+      <div className="mb-4">
+        <div className="inline-flex items-center gap-2 rounded-xl border border-[#383f51] bg-[#171b22]/90 px-4 py-2 text-xs font-medium tracking-tight text-[#c2c8d3] backdrop-blur-sm shadow-lg">
+          <Loader2 className="h-3 w-3 animate-spin text-[#c2c8d3]" />
+          <span>Refreshing blogs...</span>
+        </div>
+      </div>
+    )}
+
     {}
     <div className="space-y-4">
       {blogs.length === 0 ? (
@@ -237,7 +246,7 @@ const Page = () => {
 
                 {}
                 <div className="space-y-1">
-                  <h2 className="line-clamp-1 break-all text-lg font-medium tracking-tight text-white transition-colors duration-200 group-hover:text-white">
+                  <h2 className="break-words text-lg font-medium tracking-tight text-white transition-colors duration-200 group-hover:text-white">
                     {blog.title}
                   </h2>
 
@@ -356,7 +365,7 @@ const Page = () => {
                   {isDeleting ? (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
                   ) : (
-                    <Trash2 className="h-3.5 w-3.5 stroke-[2]" />
+                    <Trash2 className="h-4.5 w-4.5 stroke-[2]" />
                   )}
                 </button>
 

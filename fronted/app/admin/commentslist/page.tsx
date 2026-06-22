@@ -222,8 +222,8 @@ const Page = () => {
     )}
 
     {!isLoading && !isError && isFetching && (
-      <div className="inline-flex items-center gap-2 rounded-xl border border-[#222733] bg-[#171b22] px-4 py-2 text-xs font-medium tracking-tight text-[#8b90a0]">
-        <Loader2 className="h-3 w-3 animate-spin text-[#8b90a0]" />
+      <div className="inline-flex items-center gap-2 rounded-xl border border-[#383f51] bg-[#171b22]/90 px-4 py-2 text-xs font-medium tracking-tight text-[#c2c8d3] backdrop-blur-sm shadow-lg">
+        <Loader2 className="h-3 w-3 animate-spin text-[#c2c8d3]" />
         <span>Refreshing transactional registry...</span>
       </div>
     )}
@@ -382,30 +382,31 @@ const Page = () => {
                       onClick={() => handleRemove(comment._id)}
                       disabled={disableAll}
                       className="
-                        inline-flex
-                        h-7
-                        w-7
-                        items-center
-                        justify-center
-                        rounded-md
-                        border
-                        border-transparent
-                        bg-transparent
-                        text-[#6b7280]
-                        transition-all
-                        duration-200
-                        hover:border-red-500/20
-                        hover:bg-red-500/10
-                        hover:text-red-400
-                        disabled:cursor-not-allowed
-                        disabled:opacity-40
+                         h-9
+                    w-9
+                    inline-flex
+                    items-center
+                    justify-center
+                    rounded-lg
+                    border
+                    border-[#222733]
+                    bg-[#171b22]
+                    text-[#7c8393]
+                    transition-all
+                    duration-200
+                    hover:border-red-500/20
+                    hover:bg-red-500/10
+                    hover:text-red-400
+                    disabled:cursor-not-allowed
+                    disabled:opacity-40
+                  
                       "
                       title="Purge record sequence"
                     >
                       {removeMutation.isPending && isProcessing ? (
                         <Loader2 className="h-3 w-3 animate-spin" />
                       ) : (
-                        <Trash2 className="h-3.5 w-3.5 stroke-[1.8]" />
+                        <Trash2 className="h-4.5 w-4.5 stroke-[1.8]" />
                       )}
                     </button>
 

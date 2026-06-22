@@ -164,6 +164,8 @@ export const getCommentsByBlogId = async (req, res) => {
 export const getAllComments = async (req, res) => {
 
   try {
+
+    
     console.log("Entered in getAllComments")
 
 
@@ -211,38 +213,6 @@ export const getAllComments = async (req, res) => {
   }
 
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -302,12 +272,7 @@ export const removecomment = async (req, res) => {
   try {
     const { commentId } = req.body;
 
-    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-    await delay(5000);
-    return res.status(200).json({
-      success:true,
-      message:"Comment deleted successfully"
-    })
+    
 
     const comment = await Comment.findByIdAndDelete(commentId)
 

@@ -160,6 +160,15 @@ const BlogClient = () => {
       </div>
     </div>
 
+    {!isLoading && !isError && isFetching && (
+      <div className="mb-4">
+        <div className="inline-flex items-center gap-2 rounded-xl border border-[#383f51] bg-[#171b22]/90 px-4 py-2 text-xs font-medium tracking-tight text-[#c2c8d3] backdrop-blur-sm shadow-lg">
+          <Loader2 className="h-3 w-3 animate-spin text-[#c2c8d3]" />
+          <span>Refreshing document index...</span>
+        </div>
+      </div>
+    )}
+
     {}
     <div className="space-y-4">
       {latestBlogs.length === 0 ? (
@@ -340,21 +349,6 @@ const BlogClient = () => {
         })
       )}
     </div>
-
-    {}
-    {isFetching && !isLoading && (
-      <div className="mt-8 flex justify-center">
-
-        <div className="inline-flex items-center gap-2 rounded-full border border-[#222733] bg-[#11141a] px-4 py-2 shadow-lg">
-          <Loader2 className="h-3.5 w-3.5 animate-spin text-[#8b90a0]" />
-
-          <span className="text-xs font-medium tracking-tight text-[#8b90a0]">
-            Refreshing document index...
-          </span>
-        </div>
-
-      </div>
-    )}
 
   </div>
 </div>
