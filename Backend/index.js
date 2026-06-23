@@ -41,7 +41,7 @@ app.set("trust proxy", 1);
 
 app.get("/api/health", (req, res) => {
 
-  res.json({ status: "ok", service: "Postify Backend" });
+  res.json({ status: "ok", service: "VEYRA Backend" });
 
 });
 

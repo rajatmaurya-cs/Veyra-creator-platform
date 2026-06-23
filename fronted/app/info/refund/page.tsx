@@ -20,7 +20,7 @@ export default function RefundPolicyPage() {
       content: (
         <>
           <p>
-            We offer refunds for subscription purchases made on Postify within 14 calendar days of your original payment date. To be eligible for a refund, you must satisfy the following conditions:
+            We offer refunds for subscription purchases made on VEYRA within 14 calendar days of your original payment date. To be eligible for a refund, you must satisfy the following conditions:
           </p>
           <ul className="list-disc pl-5 space-y-1 mt-2">
             <li>Your refund request is submitted within 14 days of the transaction date.</li>
@@ -40,7 +40,7 @@ export default function RefundPolicyPage() {
             To request a refund, please contact our support team. Please include the following details in your email or support ticket:
           </p>
           <ul className="list-disc pl-5 space-y-1 mt-2">
-            <li>The email address associated with your Postify account.</li>
+            <li>The email address associated with your VEYRA account.</li>
             <li>The transaction ID, invoice number, or payment date.</li>
             <li>A brief explanation of why you are requesting a refund (this helps us improve our platform).</li>
           </ul>
@@ -64,7 +64,7 @@ export default function RefundPolicyPage() {
             <li>UPI & Netbanking: Often takes 1-3 business days.</li>
           </ul>
           <p className="mt-2">
-            You will receive a automated email notification from Postify with details of the transaction as soon as it is processed by our gateway.
+            You will receive a automated email notification from VEYRA with details of the transaction as soon as it is processed by our gateway.
           </p>
         </>
       ),
@@ -92,7 +92,7 @@ export default function RefundPolicyPage() {
       tag="Billing"
       titleNormal="Refund"
       titleHighlight="Policy"
-      description="We want you to be fully satisfied with Postify. Read our refund policies to understand under what circumstances you are eligible for subscription refunds."
+      description="We want you to be fully satisfied with VEYRA. Read our refund policies to understand under what circumstances you are eligible for subscription refunds."
       metaBadges={metaBadges}
       sections={sections}
     />

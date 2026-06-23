@@ -293,7 +293,7 @@ display:inline-block;
                           style="background-color:#2c1b1d;border-left:4px solid #f85149;border-radius:0 8px 8px 0;padding:12px 16px;">
                           <p
                             style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#ff7b72;font-weight:600;">
-                            &#128274;&nbsp;&nbsp;Never share this OTP with anyone — including Postify support.
+                            &#128274;&nbsp;&nbsp;Never share this OTP with anyone — including VEYRA support.
                           </p>
                         </td>
                       </tr>

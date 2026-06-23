@@ -6,7 +6,7 @@ import React, { lazy, useState, useRef, useEffect, Suspense, useContext } from "
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { Report } from 'notiflix/build/notiflix-report-aio';
+
 
 import Image from "next/image";
 

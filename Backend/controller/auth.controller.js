@@ -79,7 +79,7 @@ export const signup = async (req, res) => {
         const uploadResponse = await imageKit.upload({
           file: fileBuffer,
           fileName: `${Date.now()}-${req.file.originalname}`,
-          folder: "/Postify-Users",
+          folder: "/VEYRA-Users",
         });
 
         if (uploadResponse?.url) {

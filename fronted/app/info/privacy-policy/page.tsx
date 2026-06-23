@@ -9,7 +9,7 @@ export default function PrivacyPolicyPage() {
     { icon: Calendar, label: "Effective: January 1, 2026" },
     { icon: Clock, label: "Last Updated: June 2026" },
     { icon: Globe, label: "Jurisdiction: India" },
-    { icon: Shield, label: "Applies to all Postify platforms" },
+    { icon: Shield, label: "Applies to all VEYRA platforms" },
   ];
 
   const sections: InfoSection[] = [
@@ -20,10 +20,10 @@ export default function PrivacyPolicyPage() {
       content: (
         <>
           <p>
-            Postify (“we”, “our”, or “us”), a platform designed for content generation and social media scheduling, operates under the laws of India. Postify is dedicated to protecting your personal data and privacy. This policy explains what personal data we collect, why we collect it, how we protect it, and the choices you have.
+            VEYRA (“we”, “our”, or “us”), a platform designed for content generation and social media scheduling, operates under the laws of India. VEYRA is dedicated to protecting your personal data and privacy. This policy explains what personal data we collect, why we collect it, how we protect it, and the choices you have.
           </p>
           <p>
-            This Privacy Policy applies to all services, websites, and applications offered by Postify. By accessing our platform, you consent to the data practices described in this policy.
+            This Privacy Policy applies to all services, websites, and applications offered by VEYRA. By accessing our platform, you consent to the data practices described in this policy.
           </p>
         </>
       ),
@@ -40,7 +40,7 @@ export default function PrivacyPolicyPage() {
           <ul className="list-disc pl-5 space-y-1 mt-2">
             <li>Account Information: Name, email address, password, and avatar.</li>
             <li>Payment Details: Transactions, subscription status, and limited billing data (handled securely via third-party processors).</li>
-            <li>Content Data: Prompts, drafts, schedules, and generated social posts created on Postify.</li>
+            <li>Content Data: Prompts, drafts, schedules, and generated social posts created on VEYRA.</li>
           </ul>
         </>
       ),
@@ -55,7 +55,7 @@ export default function PrivacyPolicyPage() {
             We use the collected information for various purposes to provide and improve our services, including:
           </p>
           <ul className="list-disc pl-5 space-y-1 mt-2">
-            <li>To manage and authenticate your account on Postify.</li>
+            <li>To manage and authenticate your account on VEYRA.</li>
             <li>To process transactions and manage your billing subscriptions.</li>
             <li>To run our AI content generation engines based on your prompts.</li>
             <li>To monitor usage trends and optimize our platform layout and performance.</li>
@@ -117,7 +117,7 @@ export default function PrivacyPolicyPage() {
       tag="Legal"
       titleNormal="Privacy"
       titleHighlight="Policy"
-      description="At Postify, your privacy is a fundamental priority. This policy explains what personal data we collect, why we collect it, how we protect it, and the choices you have."
+      description="At VEYRA, your privacy is a fundamental priority. This policy explains what personal data we collect, why we collect it, how we protect it, and the choices you have."
       metaBadges={metaBadges}
       sections={sections}
     />

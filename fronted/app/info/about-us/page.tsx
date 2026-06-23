@@ -20,10 +20,10 @@ export default function AboutUsPage() {
       content: (
         <>
           <p>
-            Postify began with a simple idea: social media management shouldn't require complex workflows, endless manual scheduling, or expensive enterprise tooling. Founded by a team of passionate developers and creators, we set out to build a platform that leverages the power of next-generation AI to make social media scheduling, creation, and optimization seamless and affordable for everyone.
+            VEYRA began with a simple idea: social media management shouldn't require complex workflows, endless manual scheduling, or expensive enterprise tooling. Founded by a team of passionate developers and creators, we set out to build a platform that leverages the power of next-generation AI to make social media scheduling, creation, and optimization seamless and affordable for everyone.
           </p>
           <p>
-            Today, Postify helps hundreds of creators, influencers, and businesses coordinate their digital brand presence, save hours of manual design time, and focus on what truly matters: building meaningful connections.
+            Today, VEYRA helps hundreds of creators, influencers, and businesses coordinate their digital brand presence, save hours of manual design time, and focus on what truly matters: building meaningful connections.
           </p>
         </>
       ),
@@ -50,7 +50,7 @@ export default function AboutUsPage() {
       content: (
         <>
           <p>
-            Postify provides a robust all-in-one workspace for content creators. Our main product capabilities include:
+            VEYRA provides a robust all-in-one workspace for content creators. Our main product capabilities include:
           </p>
           <ul className="list-disc pl-5 space-y-1 mt-2">
             <li>AI-Driven Content Generation: Generate relevant captions, tags, and posts tailored to your brand voice.</li>
@@ -67,7 +67,7 @@ export default function AboutUsPage() {
       content: (
         <>
           <p>
-            At Postify, our operations and engineering decisions are guided by four core values:
+            At VEYRA, our operations and engineering decisions are guided by four core values:
           </p>
           <ul className="list-disc pl-5 space-y-2 mt-2">
             <li><strong>User First:</strong> We build features based directly on creator feedback and practical day-to-day requirements.</li>
@@ -85,7 +85,7 @@ export default function AboutUsPage() {
       tag="Company"
       titleNormal="About"
       titleHighlight="Us"
-      description="Postify is a modern AI-powered scheduling and content creation platform built to help creators and brands expand their digital footprints."
+      description="VEYRA is a modern AI-powered scheduling and content creation platform built to help creators and brands expand their digital footprints."
       metaBadges={metaBadges}
       sections={sections}
     />
