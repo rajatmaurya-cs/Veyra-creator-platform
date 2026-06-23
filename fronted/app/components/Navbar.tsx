@@ -141,10 +141,13 @@ const Navbar = () => {
             {!loggedIn && (
               <Link
                 href="/auth/login"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-400 hover:text-zinc-200 transition-colors mr-2"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
+                  bg-zinc-900/60 border border-zinc-800 text-sm font-medium text-zinc-300
+                  hover:bg-zinc-900 hover:border-zinc-700 hover:text-zinc-100
+                  transition-all duration-200"
               >
-                <User size={20} className="text-zinc-500" />
-                <span>Sign In</span>
+                <User size={20} className="text-indigo-400" />
+                <span className="text-zinc-100">Sign In</span>
               </Link>
             )}
 

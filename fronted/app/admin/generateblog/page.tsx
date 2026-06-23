@@ -333,20 +333,19 @@ const AddBlog = () => {
   const allowedTypes = [
     "image/jpeg",
     "image/jpg",
-    "image/png",
     "image/webp",
 
   ];
 
   if (!allowedTypes.includes(file.type)) {
     toast.error(
-      "Only JPG, PNG, WEBP and AVIF images are allowed"
+      "Only JPG, JPEG, WEBP images are allowed"
     );
     return;
   }
 
-  if (file.size > 5 * 1024 * 1024) {
-    toast.error("Image size must be less than 5MB");
+  if (file.size > 2 * 1024 * 1024) {
+    toast.error("Image size must be less than 2MB");
     return;
   }
 

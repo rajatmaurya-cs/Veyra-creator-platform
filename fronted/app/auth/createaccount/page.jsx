@@ -45,20 +45,19 @@ const handleAvatarChange = (e) => {
 
   const allowedTypes = [
     "image/jpeg",
-    "image/png",
     "image/webp",
      "image/jpg",
   ];
 
   if (!allowedTypes.includes(file.type)) {
     toast.error(
-      "Only JPG, PNG, WEBP images are allowed"
+      "Only JPG, WEBP images are allowed"
     );
     return;
   }
 
-  if (file.size > 5 * 1024 * 1024) {
-    toast.error("Image size must be less than 5MB");
+  if (file.size > 2 * 1024 * 1024) {
+    toast.error("Image size must be less than 2MB");
     return;
   }
 
@@ -303,9 +302,13 @@ return (
                 />
               </div>
             </div>
-            <span className="text-xs text-[#7c8393]">
-              Upload profile picture (optional)
+            
+            {avatarPreview?"":(
+              <span className="text-xs text-[#7c8393]">
+              Upload profile picture
             </span>
+            )}
+            
           </div>
         )}
 

@@ -72,8 +72,11 @@ EXTREMELY IMPORTANT.
 
 Write in very simple English.
 
-Assume the reader is:
+Because the reader is from India:
 
+• Do not use heavy english.
+• Do not use hard words & sentences.
+• Use very simple words that can very easily Understand.
 • An Indian college student
 • A YouTube documentary viewer
 • A casual internet user
@@ -340,7 +343,7 @@ The reader should immediately want to read another article.
 LENGTH
 ======
 
-1800–2500 words.
+STRICT RULE: The Number of Words Always  1000 – 1500 words.
 
 ==================================================
 FINAL CHECK

@@ -5,7 +5,7 @@ import { apiFetch } from "@/lib/apiFetch";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 
-import toast from "react-hot-toast";
+import {toast } from "sonner";
 
 export default function useVerifyOtp(purpose) {
   const [isVerified, setIsVerified] = useState(false);

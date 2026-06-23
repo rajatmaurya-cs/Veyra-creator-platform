@@ -85,6 +85,8 @@ const BlogClient = () => {
       queryClient.invalidateQueries({
         queryKey: ["dashboard-data"],
       });
+      
+      queryClient.invalidateQueries({ queryKey: ["blogs"] });
 
       toast.success(data.message || "Status updated", {
         id: "toggle",

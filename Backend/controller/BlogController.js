@@ -55,7 +55,7 @@ export const addBlog = async (req, res) => {
     const uploadResponse = await imageKit.upload({
       file: fileBuffer,
       fileName: `${Date.now()}-${req.file.originalname}`,
-      folder: "/blogs",
+      folder: "/VEYRA-Blogs",
     });
 
     if (!uploadResponse?.url) {

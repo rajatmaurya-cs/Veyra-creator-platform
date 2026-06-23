@@ -6,7 +6,7 @@ const initConfig = async () => {
     await Config.create({});
     console.log("✅ Config created for the first time");
   } else {
-    console.log("ℹ️ Config already exists");
+    console.log("✅ Config already exists");
   }
 };
 
