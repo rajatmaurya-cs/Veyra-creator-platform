@@ -140,7 +140,7 @@ const Navbar = () => {
           <div className="hidden md:flex items-center gap-4">
             {!loggedIn && (
               <Link
-                href="Test"
+                href="/auth/login"
                 className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg
                   bg-zinc-900/60 border border-zinc-800 text-sm font-medium text-zinc-300
                   hover:bg-zinc-900 hover:border-zinc-700 hover:text-zinc-100
