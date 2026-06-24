@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useContext } from "react";
 
 import Image from "next/image";
@@ -15,8 +14,6 @@ import Link from "next/link";
 import { AuthContext } from "@/app/ContextProvider/AuthProvider";
 
 import EditorLoader from "@/app/Animations/EditorLoader";
-
-import CyberMannequin from "@/components/ui/splineone";
 
 
 type User = {
@@ -125,19 +122,12 @@ export default function LoginPage() {
 
   return (
 
-    <div className="relative min-h-screen w-full bg-[#0b0d11] text-[#f3f4f6] antialiased selection:bg-[#1d2430] selection:text-white overflow-hidden">
+    <div className="min-h-screen bg-[#0b0d11] px-4 py-8 text-[#f3f4f6] antialiased selection:bg-[#1d2430] selection:text-white">
 
-      {/* Spline 3D background */}
-      <div className="absolute inset-0 z-0 -translate-x-[10%] md:-translate-x-[15%] lg:-translate-x-[20%]">
-        <CyberMannequin />
-      </div>
-
-      {/* Right side login card */}
-      <div className="absolute inset-y-0 right-0 z-10 w-full md:w-1/2 lg:w-[600px] flex items-center justify-center p-4 sm:p-8 pointer-events-none">
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
 
         <div
           className="
-        pointer-events-auto
         relative
         w-full
         max-w-md
