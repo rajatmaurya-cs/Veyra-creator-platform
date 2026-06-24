@@ -25,10 +25,6 @@ const checkAiLimit = (type) => {
         });
       }
 
-      
-      
-      
-
       const perMinute = Number(
         config.aiPerMinuteLimit
       );

@@ -71,6 +71,8 @@ const Page = () => {
     onSuccess: (data) => {
       toast.success(data.message || "Status updated", { id: "toggle" });
       queryClient.invalidateQueries({ queryKey: ["blogs"] });
+      queryClient.invalidateQueries({ queryKey: ["latest-blogs"] });
+
     },
     onError: (err: any) => {
       toast.error(err?.message || "Failed to update status", { id: "toggle" });
@@ -109,12 +111,15 @@ const Page = () => {
     },
     onSuccess: (data) => {
       toast.success(data.message || "Deleted successfully", { id: "delete" });
+
+
+      queryClient.invalidateQueries({ queryKey: ["blogs"] });
       
       queryClient.invalidateQueries({
         queryKey: ["comments"],
       });
 
-      queryClient.invalidateQueries({ queryKey: ["blogs"] });
+      
 
       queryClient.invalidateQueries({
         queryKey: ["dashboard-data"],
@@ -234,14 +239,14 @@ const Page = () => {
                     <div className="flex items-center gap-2">
                       <span
                         className={`inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] ${blog.isPublished
-                            ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-400"
-                            : "border-[#2a313d] bg-[#171b22] text-[#8b90a0]"
+                          ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-400"
+                          : "border-[#2a313d] bg-[#171b22] text-[#8b90a0]"
                           }`}
                       >
                         <span
                           className={`h-1 w-1 rounded-full ${blog.isPublished
-                              ? "bg-emerald-400"
-                              : "bg-[#6b7280]"
+                            ? "bg-emerald-400"
+                            : "bg-[#6b7280]"
                             }`}
                         />
 
@@ -310,14 +315,14 @@ const Page = () => {
                       disabled={isDisabled}
                       onClick={() => handletoggle(blog._id)}
                       className={`h-9 inline-flex items-center justify-center gap-2 rounded-lg border px-4 text-xs font-medium tracking-tight transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-40 ${blog.isPublished
-                          ? `
+                        ? `
                         border-[#2a313d]
                         bg-[#171b22]
                         text-[#d1d5db]
                         hover:border-[#364152]
                         hover:bg-[#1d2430]
                       `
-                          : `
+                        : `
                         border-transparent
                         bg-[#f3f4f6]
                         text-[#0f1115]
