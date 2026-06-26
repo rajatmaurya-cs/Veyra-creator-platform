@@ -18,7 +18,7 @@ type LeaderboardProps = {
 
 const Leaderboard = ({ data }: LeaderboardProps) => {
 
-console.log("The data for leaderboard is✅ :",data)
+
 
   const users = data?.users || [];
 

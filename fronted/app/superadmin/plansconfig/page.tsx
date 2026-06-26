@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiFetch } from "@/lib/apiFetch";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import PlansConfigSkeleton from "./loading-skeleton";
 import { Sparkles, Sliders, ClipboardList, Settings, HelpCircle, Save } from "lucide-react";
 
