@@ -4,10 +4,11 @@ import { cookies } from "next/headers";
 async function getAIStats() {
   try {
     const cookieStore = await cookies();
-    const allowedCookies = ["accessToken", "refreshToken"];
+    const allCookies = cookieStore.getAll();
+    const rawCookies = allCookies.map((c) => `${c.name}=${c.value}`).join("; ");
 
-    const cookieHeader = cookieStore
-      .getAll()
+    const allowedCookies = ["accessToken", "refreshToken"];
+    const cookieHeader = allCookies
       .filter((c) => allowedCookies.includes(c.name))
       .map((c) => `${c.name}=${c.value}`)
       .join("; ");
@@ -25,7 +26,8 @@ async function getAIStats() {
       console.error(`API Error ${res.status}:`, data);
       return { 
         error: data?.message || `API Error ${res.status}`,
-        debugCookies: cookieHeader || "EMPTY"
+        debugCookies: cookieHeader || "EMPTY",
+        rawCookies: rawCookies || "EMPTY"
       };
     }
 
@@ -34,7 +36,8 @@ async function getAIStats() {
     console.error("Fetch Error:", err);
     return { 
       error: err?.message || "Network Error",
-      debugCookies: "Failed before reading cookies or fetching"
+      debugCookies: "Failed before reading cookies or fetching",
+      rawCookies: "Failed before reading cookies"
     };
   }
 }
@@ -53,9 +56,15 @@ export default async function Page() {
           {data.error}
         </code>
         <div className="mt-4">
-          <p className="text-sm font-semibold text-white">Debug - Cookies Sent to Backend:</p>
+          <p className="text-sm font-semibold text-white">Debug - Filtered Cookies Sent:</p>
           <code className="block mt-1 p-2 bg-black/50 rounded text-xs text-yellow-300 break-all">
             {data.debugCookies}
+          </code>
+        </div>
+        <div className="mt-4">
+          <p className="text-sm font-semibold text-white">Debug - ALL Raw Cookies Received by Server Component:</p>
+          <code className="block mt-1 p-2 bg-black/50 rounded text-xs text-blue-300 break-all">
+            {data.rawCookies}
           </code>
         </div>
       </div>
