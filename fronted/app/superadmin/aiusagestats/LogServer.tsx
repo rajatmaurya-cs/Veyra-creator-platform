@@ -2,39 +2,53 @@ import LogClient from "./LogClient";
 import { cookies } from "next/headers";
 
 async function getAILogs() {
-  const cookieStore = await cookies();
-  const allowedCookies = ["accessToken", "refreshToken"];
+  try {
+    const cookieStore = await cookies();
+    const allowedCookies = ["accessToken", "refreshToken"];
 
-  const cookieHeader = cookieStore
-    .getAll()
-    .filter((c) => allowedCookies.includes(c.name))
-    .map((c) => `${c.name}=${c.value}`)
-    .join("; ");
+    const cookieHeader = cookieStore
+      .getAll()
+      .filter((c) => allowedCookies.includes(c.name))
+      .map((c) => `${c.name}=${c.value}`)
+      .join("; ");
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/ai/ai-dashboard-logs`,
-    {
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/ai/ai-dashboard-logs`;
+    const res = await fetch(url, {
       method: "GET",
-      headers: {
-        Cookie: cookieHeader,
-      },
-      next: {
-        revalidate: 300, 
-      },
+      headers: { Cookie: cookieHeader },
+      cache: "no-store",
+    });
+
+    const data = await res.json().catch(() => null);
+
+    if (!res.ok) {
+      console.error(`API Error ${res.status}:`, data);
+      return { error: data?.message || `API Error ${res.status}` };
     }
-  );
 
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(data.message || "Request failed");
+    return data;
+  } catch (err: any) {
+    console.error("Fetch Error:", err);
+    return { error: err?.message || "Network Error" };
   }
-
-  return data;
 }
 
 export default async function LogServer() {
   const data = await getAILogs();
+
+  if (data?.error) {
+    return (
+      <div className="p-8 text-center border border-red-500 bg-red-500/10 rounded-xl mt-4">
+        <h2 className="text-xl font-semibold text-red-500 mb-2">Error Loading AI Logs</h2>
+        <p className="text-neutral-300">
+          The server component encountered an error while fetching logs from your backend:
+        </p>
+        <code className="block mt-4 p-4 bg-black/50 rounded-lg text-sm text-red-400">
+          {data.error}
+        </code>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-full w-full">
