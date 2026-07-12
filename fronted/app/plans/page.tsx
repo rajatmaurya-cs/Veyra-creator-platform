@@ -6,7 +6,7 @@ const Page = async () => {
   let plans = [];
   try {
     const res = await apiFetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/plan/getplans`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/plan/getplans`,
       {
         next: {
           revalidate: 300, 
@@ -19,6 +19,7 @@ const Page = async () => {
       plans = result.data || [];
     }
   } catch (err) {
+    
     console.error("Failed to fetch plans:", err);
   }
 
