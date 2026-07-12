@@ -2,78 +2,45 @@ import Client from "./StatsClient";
 import { cookies } from "next/headers";
 
 async function getAIStats() {
-  try {
-    const { headers } = await import("next/headers");
-    const headersList = await headers();
-    const rawCookieHeader = headersList.get("cookie") || "NO_COOKIE_HEADER";
+  
+  const cookieStore = await cookies();
 
-    const cookieStore = await cookies();
-    const allCookies = cookieStore.getAll();
-    const rawCookies = allCookies.map((c) => `${c.name}=${c.value}`).join("; ") + ` | Header: ${rawCookieHeader}`;
+  const allowedCookies = ["accessToken", "refreshToken"];
 
-    const allowedCookies = ["accessToken", "refreshToken"];
-    const cookieHeader = allCookies
-      .filter((c) => allowedCookies.includes(c.name))
-      .map((c) => `${c.name}=${c.value}`)
-      .join("; ");
+  
+  const cookieHeader = cookieStore
+    .getAll()
+    .filter((c) => allowedCookies.includes(c.name))
+    .map((c) => `${c.name}=${c.value}`)
+    .join("; ");
 
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/ai/ai-dashboard`;
-    const res = await fetch(url, {
+  // console.log("\n\nThe payload in cookieHeader is: ", cookieHeader);
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/ai/ai-dashboard`,
+    {
       method: "GET",
-      headers: { Cookie: cookieHeader },
-      cache: "no-store",
-    });
-
-    const data = await res.json().catch(() => null);
-
-    if (!res.ok) {
-      console.error(`API Error ${res.status}:`, data);
-      return { 
-        error: data?.message || `API Error ${res.status}`,
-        debugCookies: cookieHeader || "EMPTY",
-        rawCookies: rawCookies || "EMPTY"
-      };
+      headers: {
+        Cookie: cookieHeader,
+      },
+      next: {
+        revalidate: 300, 
+      },
     }
+  );
 
-    return data;
-  } catch (err: any) {
-    console.error("Fetch Error:", err);
-    return { 
-      error: err?.message || "Network Error",
-      debugCookies: "Failed before reading cookies or fetching",
-      rawCookies: "Failed before reading cookies"
-    };
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Request failed");
   }
+
+  console.log("The ai dashboard data is:", data);
+  return data;
 }
 
 export default async function Page() {
   const data = await getAIStats();
-
-  if (data?.error) {
-    return (
-      <div className="p-8 text-center border border-red-500 bg-red-500/10 rounded-xl mt-4">
-        <h2 className="text-xl font-semibold text-red-500 mb-2">Error Loading AI Stats</h2>
-        <p className="text-neutral-300">
-          The server component encountered an error while fetching from your backend:
-        </p>
-        <code className="block mt-4 p-4 bg-black/50 rounded-lg text-sm text-red-400">
-          {data.error}
-        </code>
-        <div className="mt-4">
-          <p className="text-sm font-semibold text-white">Debug - Filtered Cookies Sent:</p>
-          <code className="block mt-1 p-2 bg-black/50 rounded text-xs text-yellow-300 break-all">
-            {data.debugCookies}
-          </code>
-        </div>
-        <div className="mt-4">
-          <p className="text-sm font-semibold text-white">Debug - ALL Raw Cookies Received by Server Component:</p>
-          <code className="block mt-1 p-2 bg-black/50 rounded text-xs text-blue-300 break-all">
-            {data.rawCookies}
-          </code>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-full w-full">
