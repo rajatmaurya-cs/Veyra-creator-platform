@@ -23,13 +23,19 @@ async function getAIStats() {
 
     if (!res.ok) {
       console.error(`API Error ${res.status}:`, data);
-      return { error: data?.message || `API Error ${res.status}` };
+      return { 
+        error: data?.message || `API Error ${res.status}`,
+        debugCookies: cookieHeader || "EMPTY"
+      };
     }
 
     return data;
   } catch (err: any) {
     console.error("Fetch Error:", err);
-    return { error: err?.message || "Network Error" };
+    return { 
+      error: err?.message || "Network Error",
+      debugCookies: "Failed before reading cookies or fetching"
+    };
   }
 }
 
@@ -46,6 +52,12 @@ export default async function Page() {
         <code className="block mt-4 p-4 bg-black/50 rounded-lg text-sm text-red-400">
           {data.error}
         </code>
+        <div className="mt-4">
+          <p className="text-sm font-semibold text-white">Debug - Cookies Sent to Backend:</p>
+          <code className="block mt-1 p-2 bg-black/50 rounded text-xs text-yellow-300 break-all">
+            {data.debugCookies}
+          </code>
+        </div>
       </div>
     );
   }
