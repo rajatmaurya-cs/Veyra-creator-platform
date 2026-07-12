@@ -609,8 +609,7 @@ return (
       <button
         type="button"
         onClick={() => {
-          window.location.href =
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`;
+            window.location.href = `/api/auth/google`;;
         }}
         className="
           w-full

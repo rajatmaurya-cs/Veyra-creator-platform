@@ -14,6 +14,7 @@ const Page = async () => {
       }
     );
     if (res.ok) {
+      console.log("Plan data fetch on server ✅");
       const result = await res.json();
       plans = result.data || [];
     }
