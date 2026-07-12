@@ -3,9 +3,13 @@ import { cookies } from "next/headers";
 
 async function getAIStats() {
   try {
+    const { headers } = await import("next/headers");
+    const headersList = await headers();
+    const rawCookieHeader = headersList.get("cookie") || "NO_COOKIE_HEADER";
+
     const cookieStore = await cookies();
     const allCookies = cookieStore.getAll();
-    const rawCookies = allCookies.map((c) => `${c.name}=${c.value}`).join("; ");
+    const rawCookies = allCookies.map((c) => `${c.name}=${c.value}`).join("; ") + ` | Header: ${rawCookieHeader}`;
 
     const allowedCookies = ["accessToken", "refreshToken"];
     const cookieHeader = allCookies
