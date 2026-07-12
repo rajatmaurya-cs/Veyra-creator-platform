@@ -1,30 +1,24 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+
 function isTokenExpired(token: string | undefined) {
   if (!token) return true;
   try {
-    const parts = token.split(".");
-    if (parts.length !== 3) return true;
-
-    const base64Url = parts[1];
-    let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-
-    const pad = base64.length % 4;
-    if (pad) {
-      base64 += "=".repeat(4 - pad);
-    }
+    const payloadBase64 = token.split(".")[1];
+    if (!payloadBase64) return true;
+    // Handle base64url encoding
+    const base64 = payloadBase64.replace(/-/g, "+").replace(/_/g, "/");
     const jsonPayload = decodeURIComponent(
       atob(base64)
         .split("")
         .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
         .join("")
     );
-
-    const payload = JSON.parse(jsonPayload);
-    if (typeof payload.exp !== "number") return true;
-
-    return Date.now() / 1000 >= payload.exp - 5;
+    const decoded = JSON.parse(jsonPayload) as { exp?: number };
+    if (!decoded || !decoded.exp) return true;
+    return Date.now() >= decoded.exp * 1000;
   } catch (err) {
+    console.error("JWT Decode error in middleware:", err);
     return true;
   }
 }
