@@ -49,7 +49,7 @@ function extractCookieValue(setCookieHeaderStr: string, name: string): string | 
   return value;
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
 
 
   const isDocumentRequest = request.headers.get("sec-fetch-dest") === "document";
