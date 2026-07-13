@@ -209,7 +209,7 @@ const Footer = () => {
             © {new Date().getFullYear()} Veyra. All rights reserved.
           </p>
           <a
-            href="https://portfolio-site-kappa-lilac.vercel.app"
+            href="https://rajatmaurya-dev.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-xs font-bold text-zinc-400 hover:text-indigo-400 border border-zinc-800/80 bg-zinc-900/40 hover:bg-zinc-900/80 hover:border-zinc-700/60 px-3 py-1.5 rounded-lg transition-all duration-200"
