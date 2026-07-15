@@ -101,15 +101,20 @@ export const AidashboardStats = async (req, res) => {
 
 export const AidashboardLogs = async (req, res) => {
   try {
-
-    
-
-
-
-    const logs = await AILog.find()
-      .sort({ createdAt: -1 })
-      .limit(10)
-      .populate("userId", "fullName role");
+    const logs = await AILog.aggregate([
+      { $sort: { createdAt: -1 } },
+      { $limit: 10 },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "user",
+          pipeline: [{ $project: { fullName: 1, role: 1 } }],
+        },
+      },
+      { $unwind: { path: "$user", preserveNullAndEmptyArrays: true } },
+    ]);
 
     res.status(200).json({
       success: true,
