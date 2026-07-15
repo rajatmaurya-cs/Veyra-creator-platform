@@ -95,14 +95,16 @@ export const AidashboardStats = async (req, res) => {
   }
 };
 
+
+
+
+
 export const AidashboardLogs = async (req, res) => {
   try {
 
     
 
-    console.log("Request goesout from aidashboardLogs")
-    
-    console.log("Entered in aidashbaord logs in controller");
+
 
     const logs = await AILog.find()
       .sort({ createdAt: -1 })

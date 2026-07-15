@@ -14,6 +14,7 @@ const aiLogSchema = new mongoose.Schema({
     
 },{timestamps : true})
 
+aiLogSchema.index({ createdAt: -1 });
 
 const AILog =
   mongoose.models.AILog || mongoose.model("AILog", aiLogSchema);
