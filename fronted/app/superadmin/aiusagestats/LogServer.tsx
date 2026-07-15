@@ -12,7 +12,7 @@ async function getAILogs() {
     .join("; ");
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/ai/ai-dashboard-logs`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/ai/ai-dashboard-logs`,
     {
       method: "GET",
       headers: {
