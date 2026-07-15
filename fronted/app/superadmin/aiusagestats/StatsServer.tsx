@@ -17,7 +17,7 @@ async function getAIStats() {
   // console.log("\n\nThe payload in cookieHeader is: ", cookieHeader);
 
   const res = await fetch(
-    `$${process.env.NEXT_PUBLIC_BACKEND_URL}/ai/ai-dashboard`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/ai/ai-dashboard`,
     {
       method: "GET",
       headers: {
