@@ -59,7 +59,7 @@ const Hero = () => {
         {}
         <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row w-full sm:w-auto px-4">
           <Link
-            href="/admin/generateblog"
+            href="/dashboard"
             onClick={(e) => {
               if (!loggedIn) {
                 e.preventDefault();
@@ -76,7 +76,7 @@ const Hero = () => {
             href="/Home/blogs"
             className="inline-flex items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900/20 px-6 py-3 text-sm font-medium text-zinc-400 backdrop-blur-md transition-all duration-200 hover:border-zinc-700 hover:text-zinc-200 w-full sm:w-auto"
           >
-            See Blogs
+            See Posts
           </Link>
         </div>
 

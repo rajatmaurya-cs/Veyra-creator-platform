@@ -102,7 +102,7 @@ export default function BlogClient({ initialData }: Props) {
         <div className="mb-10 flex flex-col gap-6">
           <div className="space-y-3">
             <h1 className="text-4xl font-medium tracking-tight md:text-5xl">
-              Explore Blogs
+              Explore Posts
             </h1>
 
             <p className="max-w-2xl text-sm font-normal text-gray-400 md:text-base">

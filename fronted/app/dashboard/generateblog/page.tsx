@@ -849,7 +849,7 @@ const AddBlog = () => {
                 {addBlogMutation.isPending ? (
                   <EditorLoader size={40} border={3} />
                 ) : (
-                  "Submit Blog"
+                  "Upload Post"
                 )}
               </button>
 
